@@ -1,4 +1,4 @@
-# TrailTracker
+# Herbal History
 
 #### Contributors
 * Mark Drewry
