@@ -11,11 +11,11 @@
 
 #### Description
 
-Digital tracking tool for users taking various cannabis products
-: Provides useful information to patients
-: Records amount of cannabis used per session
-: Matches personal mood to the variety of cannabis
-: Tracks how different types of cannabis affects user's health needs
+##### Digital tracking tool for users taking various cannabis products
+* Provides useful information to patients
+* Records amount of cannabis used per session
+* Matches personal mood to the variety of cannabis
+* Tracks how different types of cannabis affects user's health needs
 
 # Installation Guide
 
