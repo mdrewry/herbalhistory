@@ -1,18 +1,12 @@
 import React from "react";
 import { StyleSheet, Text, View } from "react-native";
+import Page from "../components/Page";
 export default function Home() {
   return (
-    <View style={styles.container}>
+    <Page>
       <Text>Home</Text>
-    </View>
+    </Page>
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#fff",
-    alignItems: "center",
-    justifyContent: "center",
-  },
-});
+const styles = StyleSheet.create({});
