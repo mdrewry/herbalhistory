@@ -84,6 +84,7 @@ const styles = StyleSheet.create({
   },
   fill: {
     flexGrow: 1,
+    height: 50,
   },
 
   errorText: {
