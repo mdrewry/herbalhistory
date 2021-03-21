@@ -1,27 +1,56 @@
 import React, { useState, useEffect } from "react";
-import { StyleSheet, Text, View } from "react-native";
+import { LogBox } from "react-native";
+import AppLoading from "expo-app-loading";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { NavigationContainer } from "@react-navigation/native";
 import { DefaultTheme, Provider as PaperProvider } from "react-native-paper";
+import _ from "lodash";
 import { firestore, auth } from "./firebase";
+import Landing from "./pages/Landing";
 import Login from "./pages/Login";
+import Signup from "./pages/Signup";
+import ForgotPassword from "./pages/ForgotPassword";
 import Home from "./pages/Home";
 import History from "./pages/History";
 import AddSession from "./pages/AddSession";
 import Settings from "./pages/Settings";
+import {
+  useFonts,
+  Sansita_400Regular,
+  Sansita_400Regular_Italic,
+  Sansita_700Bold,
+  Sansita_700Bold_Italic,
+  Sansita_800ExtraBold,
+  Sansita_800ExtraBold_Italic,
+  Sansita_900Black,
+  Sansita_900Black_Italic,
+} from "@expo-google-fonts/sansita";
+import {
+  Karla_400Regular,
+  Karla_400Regular_Italic,
+  Karla_700Bold,
+  Karla_700Bold_Italic,
+} from "@expo-google-fonts/karla";
 
+LogBox.ignoreAllLogs(true);
+const _console = _.clone(console);
+console.warn = (message) => {
+  if (message.indexOf("Setting a timer") <= -1) {
+    _console.warn(message);
+  }
+};
 const Tab = createBottomTabNavigator();
 
 const theme = {
   ...DefaultTheme,
-  roundness: 15,
+  roundness: 50,
   colors: {
     ...DefaultTheme.colors,
-    primary: "#560bad",
-    secondary: "#3a0ca3",
-    accent: "#f72585",
-    background: "white",
-    text: "#FFF",
+    primary: "#183A1D",
+    secondary: "#F1B779",
+    accent: "#F6C453",
+    background: "#FEFBE9",
+    text: "#FEFBE9",
     surface: "#3f37c9",
   },
 };
@@ -29,6 +58,20 @@ const theme = {
 export default function App() {
   const [user, setUser] = useState(null);
   const [signedIn, setSignedIn] = useState(false);
+  let [fontsLoaded] = useFonts({
+    Karla_400Regular,
+    Karla_400Regular_Italic,
+    Karla_700Bold,
+    Karla_700Bold_Italic,
+    Sansita_400Regular,
+    Sansita_400Regular_Italic,
+    Sansita_700Bold,
+    Sansita_700Bold_Italic,
+    Sansita_800ExtraBold,
+    Sansita_800ExtraBold_Italic,
+    Sansita_900Black,
+    Sansita_900Black_Italic,
+  });
   useEffect(() => {
     auth.onAuthStateChanged((user) => {
       if (user) {
@@ -41,37 +84,49 @@ export default function App() {
         return () => unsubscribeUser();
       } else {
         setUser(null);
+        setSignedIn(false);
       }
     });
   }, []);
+
+  if (!fontsLoaded) {
+    return <AppLoading />;
+  }
+  const disableTabBar = () => ({
+    tabBarVisible: signedIn,
+  });
   return (
     <PaperProvider theme={theme}>
       <NavigationContainer>
         <Tab.Navigator>
           {!signedIn ? (
             <>
-              <Tab.Screen
-                name="Login"
-                options={({ route }) => ({
-                  tabBarVisible: signedIn,
-                })}
-              >
-                {(props) => <Login {...props} setSignedIn={setSignedIn} />}
+              <Tab.Screen name="Landing" options={disableTabBar}>
+                {(props) => <Landing {...props} />}
+              </Tab.Screen>
+              <Tab.Screen name="Login" options={disableTabBar}>
+                {(props) => <Login {...props} />}
+              </Tab.Screen>
+              <Tab.Screen name="Signup" options={disableTabBar}>
+                {(props) => <Signup {...props} />}
+              </Tab.Screen>
+              <Tab.Screen name="ForgotPassword" options={disableTabBar}>
+                {(props) => <ForgotPassword {...props} />}
               </Tab.Screen>
             </>
           ) : (
             <>
               <Tab.Screen name="Home">
-                {(props) => <Home {...props} />}
+                {(props) => <Home {...props} user={user} />}
               </Tab.Screen>
               <Tab.Screen name="History">
-                {(props) => <History {...props} />}
+                {(props) => <History {...props} user={user} />}
               </Tab.Screen>
               <Tab.Screen name="AddSession">
-                {(props) => <AddSession {...props} />}
+                {(props) => <AddSession {...props} user={user} />}
               </Tab.Screen>
               <Tab.Screen name="Settings">
-                {(props) => <Settings {...props} />}
+                {(props) => <Settings {...props} user={user} />}
               </Tab.Screen>
             </>
           )}
@@ -80,12 +135,3 @@ export default function App() {
     </PaperProvider>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#fff",
-    alignItems: "center",
-    justifyContent: "center",
-  },
-});

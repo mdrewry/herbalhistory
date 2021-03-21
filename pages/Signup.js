@@ -5,15 +5,31 @@ import { ContainedButton } from "../components/Buttons";
 import { TextField } from "../components/Fields";
 import Footer from "../components/Footer";
 import Header from "../components/Header";
-import { auth } from "../firebase";
-export default function Login({ navigation }) {
+import { auth, firestore } from "../firebase";
+export default function Signup({ navigation }) {
+  const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
   const [errorText, setErrorText] = useState("");
-  const handleLogin = async () => {
-    await auth.signInWithEmailAndPassword(email, password).catch((error) => {
-      setErrorText(error);
-    });
+  const handleSignup = async () => {
+    if (password !== confirmPassword) setErrorText("Passwords must match");
+    else if (name === "") setErrorText("Please enter a name");
+    else {
+      await auth
+        .createUserWithEmailAndPassword(email, password)
+        .then(async (response) => {
+          const { user } = response;
+          await firestore.collection("users").doc(user.uid).set({
+            name: name,
+            email: email,
+          });
+        })
+        .catch((error) => {
+          setErrorText(error.message);
+        });
+      await auth.signInWithEmailAndPassword(email, password);
+    }
   };
   const handleBack = () => {
     navigation.navigate("Landing");
@@ -21,8 +37,10 @@ export default function Login({ navigation }) {
   };
   return (
     <Page>
-      <Header text="Welcome    Back!" handleBack={handleBack} />
+      <Header text="Create an Account" handleBack={handleBack} />
       <View style={styles.content}>
+        <TextField label="Name" value={name} setValue={setName} />
+        <View style={styles.spacer} />
         <TextField label="Email" value={email} setValue={setEmail} />
         <View style={styles.spacer} />
         <TextField
@@ -32,16 +50,23 @@ export default function Login({ navigation }) {
           secureTextEntry={true}
         />
         <View style={styles.spacer} />
+        <TextField
+          label="Confirm Password"
+          value={confirmPassword}
+          setValue={setConfirmPassword}
+          secureTextEntry={true}
+        />
+        <View style={styles.spacer} />
         <View style={styles.spaceHolder}>
           <Text style={styles.errorText}>{errorText}</Text>
         </View>
-        <ContainedButton handlePress={handleLogin} text="Login" />
+        <ContainedButton handlePress={handleSignup} text="Signup" />
       </View>
       <View style={styles.fill} />
       <Footer
-        text="Forgot Password"
+        text="Log In Instead"
         type="link"
-        route="ForgotPassword"
+        route="Login"
         navigation={navigation}
       />
     </Page>
