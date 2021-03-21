@@ -1,13 +1,15 @@
 import React, { useState, useEffect } from "react";
-import { StyleSheet } from "react-native";
+import { LogBox } from "react-native";
 import AppLoading from "expo-app-loading";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { NavigationContainer } from "@react-navigation/native";
 import { DefaultTheme, Provider as PaperProvider } from "react-native-paper";
+import _ from "lodash";
 import { firestore, auth } from "./firebase";
 import Landing from "./pages/Landing";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
+import ForgotPassword from "./pages/ForgotPassword";
 import Home from "./pages/Home";
 import History from "./pages/History";
 import AddSession from "./pages/AddSession";
@@ -30,6 +32,13 @@ import {
   Karla_700Bold_Italic,
 } from "@expo-google-fonts/karla";
 
+LogBox.ignoreAllLogs(true);
+const _console = _.clone(console);
+console.warn = (message) => {
+  if (message.indexOf("Setting a timer") <= -1) {
+    _console.warn(message);
+  }
+};
 const Tab = createBottomTabNavigator();
 
 const theme = {
@@ -75,6 +84,7 @@ export default function App() {
         return () => unsubscribeUser();
       } else {
         setUser(null);
+        setSignedIn(false);
       }
     });
   }, []);
@@ -82,7 +92,7 @@ export default function App() {
   if (!fontsLoaded) {
     return <AppLoading />;
   }
-  const disableTabBar = ({ route }) => ({
+  const disableTabBar = () => ({
     tabBarVisible: signedIn,
   });
   return (
@@ -91,39 +101,32 @@ export default function App() {
         <Tab.Navigator>
           {!signedIn ? (
             <>
-              <Tab.Screen
-                name="Landing"
-                options={({ route }) => ({
-                  tabBarVisible: signedIn,
-                })}
-              >
-                {(props) => <Landing {...props} setSignedIn={setSignedIn} />}
+              <Tab.Screen name="Landing" options={disableTabBar}>
+                {(props) => <Landing {...props} />}
               </Tab.Screen>
               <Tab.Screen name="Login" options={disableTabBar}>
-                {(props) => <Login {...props} setSignedIn={setSignedIn} />}
+                {(props) => <Login {...props} />}
               </Tab.Screen>
-              <Tab.Screen
-                name="Signup"
-                options={({ route }) => ({
-                  tabBarVisible: signedIn,
-                })}
-              >
-                {(props) => <Signup {...props} setSignedIn={setSignedIn} />}
+              <Tab.Screen name="Signup" options={disableTabBar}>
+                {(props) => <Signup {...props} />}
+              </Tab.Screen>
+              <Tab.Screen name="ForgotPassword" options={disableTabBar}>
+                {(props) => <ForgotPassword {...props} />}
               </Tab.Screen>
             </>
           ) : (
             <>
               <Tab.Screen name="Home">
-                {(props) => <Home {...props} />}
+                {(props) => <Home {...props} user={user} />}
               </Tab.Screen>
               <Tab.Screen name="History">
-                {(props) => <History {...props} />}
+                {(props) => <History {...props} user={user} />}
               </Tab.Screen>
               <Tab.Screen name="AddSession">
-                {(props) => <AddSession {...props} />}
+                {(props) => <AddSession {...props} user={user} />}
               </Tab.Screen>
               <Tab.Screen name="Settings">
-                {(props) => <Settings {...props} />}
+                {(props) => <Settings {...props} user={user} />}
               </Tab.Screen>
             </>
           )}
@@ -132,13 +135,3 @@ export default function App() {
     </PaperProvider>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    display: "flex",
-    flexGrow: 1,
-    backgroundColor: "#FEFBE9",
-    justifyContent: "center",
-    alignItems: "center",
-  },
-});

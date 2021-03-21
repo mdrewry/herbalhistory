@@ -1,10 +1,15 @@
 import React from "react";
 import { StyleSheet, Text, View } from "react-native";
 import Page from "../components/Page";
-export default function Settings() {
+import { ContainedButton } from "../components/Buttons";
+import { auth } from "../firebase";
+export default function Settings({}) {
+  const handleSignOut = async () => {
+    auth.signOut();
+  };
   return (
     <Page>
-      <Text>Settings</Text>
+      <ContainedButton handlePress={handleSignOut} text="Sign Out" />
     </Page>
   );
 }

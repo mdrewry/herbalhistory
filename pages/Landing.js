@@ -1,10 +1,10 @@
 import React from "react";
-import { StyleSheet, View, Text, Image } from "react-native";
+import { StyleSheet, View, Text } from "react-native";
 import Page from "../components/Page";
 import { ContainedButton } from "../components/Buttons";
-import { Surface } from "react-native-paper";
-import Logo from "../res/logo.png";
-export default function Landing({ setSignedIn, navigation }) {
+import Logo from "../res/Logo";
+import Footer from "../components/Footer";
+export default function Landing({ navigation }) {
   const handleLogin = () => {
     navigation.navigate("Login");
   };
@@ -13,7 +13,9 @@ export default function Landing({ setSignedIn, navigation }) {
   };
   return (
     <Page>
-      <Image style={styles.logo} source={Logo} />
+      <View style={styles.logo}>
+        <Logo />
+      </View>
       <View style={styles.content}>
         <Text style={styles.headerText}>Herbal History</Text>
         <View style={styles.spacer} />
@@ -24,23 +26,31 @@ export default function Landing({ setSignedIn, navigation }) {
         </View>
       </View>
       <View style={styles.fill} />
-      <Surface style={styles.footer}>
-        <Text style={styles.footerText}>
-          An e-journal for the {"\n"}
-          wellness-minded, {"\n"}
-          goal-setting cannabis user.
-        </Text>
-      </Surface>
+      <Footer text="An e-journal for the wellness-minded, goal-setting cannabis user." />
     </Page>
   );
 }
 
 const styles = StyleSheet.create({
-  spacer: { height: 20 },
   logo: {
     marginTop: 100,
     width: 150,
     height: 150,
+    marginLeft: -20,
+  },
+  headerText: {
+    color: "#F6C453",
+    fontSize: 40,
+    fontFamily: "Sansita_700Bold",
+  },
+  content: {
+    marginTop: 30,
+    width: "80%",
+    alignItems: "center",
+  },
+  actionButtons: {
+    padding: 30,
+    width: "100%",
   },
   footer: {
     height: 200,
@@ -58,18 +68,5 @@ const styles = StyleSheet.create({
   fill: {
     flexGrow: 1,
   },
-  content: {
-    marginTop: 30,
-    width: "80%",
-    alignItems: "center",
-  },
-  actionButtons: {
-    padding: 30,
-    width: "100%",
-  },
-  headerText: {
-    color: "#F6C453",
-    fontSize: 40,
-    fontFamily: "Sansita_700Bold",
-  },
+  spacer: { height: 20 },
 });
