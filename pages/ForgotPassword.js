@@ -8,40 +8,34 @@ import Header from "../components/Header";
 import { auth } from "../firebase";
 export default function Login({ navigation }) {
   const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [errorText, setErrorText] = useState("");
-  const handleLogin = async () => {
-    await auth.signInWithEmailAndPassword(email, password).catch((error) => {
-      setErrorText(error);
-    });
+  const [responseText, setResponseText] = useState("");
+  const handlePasswordReset = async () => {
+    await auth.sendPasswordResetEmail(email);
+    setResponseText(
+      "If there is an account associated with this email, password reset instructions will be sent to your email."
+    );
   };
   const handleBack = () => {
-    navigation.navigate("Landing");
-    setErrorText("");
+    navigation.navigate("Login");
+    setResponseText("");
   };
   return (
     <Page>
-      <Header text="Welcome    Back!" handleBack={handleBack} />
+      <Header text="Forgot    Password?" handleBack={handleBack} />
       <View style={styles.content}>
         <TextField label="Email" value={email} setValue={setEmail} />
         <View style={styles.spacer} />
-        <TextField
-          label="Password"
-          value={password}
-          setValue={setPassword}
-          secureTextEntry={true}
-        />
+        <ContainedButton handlePress={handlePasswordReset} text="Send Email" />
         <View style={styles.spacer} />
         <View style={styles.spaceHolder}>
-          <Text style={styles.errorText}>{errorText}</Text>
+          <Text style={styles.responseText}>{responseText}</Text>
         </View>
-        <ContainedButton handlePress={handleLogin} text="Login" />
       </View>
       <View style={styles.fill} />
       <Footer
-        text="Forgot Password"
+        text="Log In Instead"
         type="link"
-        route="ForgotPassword"
+        route="Login"
         navigation={navigation}
       />
     </Page>
@@ -61,8 +55,8 @@ const styles = StyleSheet.create({
     flexGrow: 1,
   },
 
-  errorText: {
-    color: "#ff0033",
+  resposneText: {
+    color: "#183A1D",
     fontSize: 15,
     fontFamily: "Karla_400Regular",
   },
