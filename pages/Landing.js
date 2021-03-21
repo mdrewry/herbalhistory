@@ -26,7 +26,10 @@ export default function Landing({ navigation }) {
         </View>
       </View>
       <View style={styles.fill} />
-      <Footer text="An e-journal for the wellness-minded, goal-setting cannabis user." />
+      <Footer
+        text="An e-journal for the wellness-minded, goal-setting cannabis user."
+        isLanding={true}
+      />
     </Page>
   );
 }
@@ -47,23 +50,11 @@ const styles = StyleSheet.create({
     marginTop: 30,
     width: "80%",
     alignItems: "center",
+    height: "50%",
   },
   actionButtons: {
     padding: 30,
     width: "100%",
-  },
-  footer: {
-    height: 200,
-    width: "100%",
-    padding: 30,
-    backgroundColor: "#E1EEDD",
-    alignItems: "center",
-  },
-  footerText: {
-    color: "#183A1D",
-    fontSize: 25,
-    fontFamily: "Karla_400Regular",
-    textAlign: "center",
   },
   fill: {
     flexGrow: 1,
