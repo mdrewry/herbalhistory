@@ -9,6 +9,5 @@ const styles = StyleSheet.create({
     display: "flex",
     flexGrow: 1,
     backgroundColor: "#FEFBE9",
-    alignItems: "center",
   },
 });

@@ -2,85 +2,103 @@ import React from "react";
 import { StyleSheet, Text, View, ScrollView  } from "react-native";
 import ScrollPage from "../components/ScrollPage";
 import DashLogo from "../res/DashLogo";
-import { auth, firestore, firebase } from "../firebase";
-export default function Home() {
+import FunFactInfo from "../res/FunFactInfo";
+export default function Home({user}) {
+  const date = [1,2,3,4,5,6,7];
   return (
     <ScrollPage>
       <View style={styles.logo}>
         <DashLogo />
       </View>
-      <Text style={styles.headerText}>Welcome Back,          </Text>
-      {/* <Text style={styles.name}>Jane!                                  </Text> */}
-      <Text style={styles.name}>{auth.currentUser.name} </Text>
-      <Text style={styles.textStyle}>It has been</Text>
+      <Text style={styles.headerText}>Welcome Back,</Text>
+      <Text style={styles.name}>{user.name+"!"} </Text>
       
-      <View style={styles.timecontainer}>
-        <View style={styles.circleCaption}>
-          <View style={styles.circle}>
-            <Text style={styles.stat}>0</Text>
+      <View style={styles.timestat}> 
+        <Text style={styles.textStyle}>It has been</Text>
+        <View style={styles.timecontainer}>
+          <View style={styles.circleCaption}>
+            <View style={styles.circle}>
+              <Text style={styles.circleNum}>0</Text>
+            </View>
+            <Text style={styles.timeText}>days</Text>
           </View>
-          <Text style={styles.timeText}>days</Text>
+          <View style={styles.circleCaption}>
+            <View style={styles.circle}>
+              <Text style={styles.circleNum}>2</Text>
+            </View>
+            <Text style={styles.timeText}>hours</Text>
+          </View>
         </View>
-        <View style={styles.circleCaption}>
-          <View style={styles.circle}>
-            <Text style={styles.stat}>2</Text>
-          </View>
-          <Text style={styles.timeText}>hours</Text>
-          </View>
+        <Text style={styles.textStyle}>since your last session.</Text>
       </View>
       
-      {/* <Text style={styles.textStyle}>0 days 2 hours</Text> */}
-      <Text style={styles.textStyle}>since your last session.</Text>
-      
       <Text style={styles.textStyle1}>This week:</Text>
-      <ScrollView contentContainer={styles.calendar} 
+      <ScrollView contentContainerStyle={styles.calendar} 
         horizontal= {true}
         decelerationRate={0}
-        snapToInterval={78} //your element width
+        snapToInterval={102} //your element width
         snapToAlignment={"center"}>
-        <View style={styles.dateBox}>
-              <Text style={styles.textStyle}>SUN</Text>
-              <Text style={styles.textStyle}>FEB</Text>
-              <Text style={styles.textStyle}>21</Text>
-              <Text style={styles.textStyle}>2021</Text>
-        </View>
-        <View style={styles.dateBox}>
-              <Text style={styles.textStyle}>SUN</Text>
-              <Text style={styles.textStyle}>FEB</Text>
-              <Text style={styles.textStyle}>21</Text>
-              <Text style={styles.textStyle}>2021</Text>
-        </View>
-        <View style={styles.dateBox}>
-              <Text style={styles.textStyle}>SUN</Text>
-              <Text style={styles.textStyle}>FEB</Text>
-              <Text style={styles.textStyle}>21</Text>
-              <Text style={styles.textStyle}>2021</Text>
-        </View>
-        <View style={styles.dateBox}>
-              <Text style={styles.textStyle}>SUN</Text>
-              <Text style={styles.textStyle}>FEB</Text>
-              <Text style={styles.textStyle}>21</Text>
-              <Text style={styles.textStyle}>2021</Text>
-        </View>
-        <View style={styles.dateBox}>
-              <Text style={styles.textStyle}>SUN</Text>
-              <Text style={styles.textStyle}>FEB</Text>
-              <Text style={styles.textStyle}>21</Text>
-              <Text style={styles.textStyle}>2021</Text>
-        </View>
-        <View style={styles.dateBox}>
-              <Text style={styles.textStyle}>SUN</Text>
-              <Text style={styles.textStyle}>FEB</Text>
-              <Text style={styles.textStyle}>21</Text>
-              <Text style={styles.textStyle}>2021</Text>
-        </View>
-        <View style={styles.dateBox}>
-              <Text style={styles.textStyle}>SUN</Text>
-              <Text style={styles.textStyle}>FEB</Text>
-              <Text style={styles.textStyle}>21</Text>
-              <Text style={styles.textStyle}>2021</Text>
-        </View>
+          {
+            date.map(i => {
+              return  <View style={styles.dateBox}>
+                        <Text style={styles.textStyle}>SUN</Text>
+                        <Text style={styles.textStyle}>FEB</Text>
+                        <Text style={styles.textStyle}>{i}</Text>
+                        <Text style={styles.textStyle}>2021</Text>
+                      </View>;
+            })
+          }
       </ScrollView>
+
+      <Text style={styles.textStyle1}>Fun Fact of the Day:</Text>
+      <View style={{flexDirection: "row"}}>
+        <View style={styles.infologo}>
+          <FunFactInfo />
+        </View>
+        <Text style={styles.funFact}>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</Text>
+      </View>
+
+      <Text style={styles.name}>{user.name+"'s"} </Text>
+      <Text style={styles.headerText}>Statistics</Text>
+      <View style={styles.fill}></View>
+      <Text style={styles.smallText}>Favorite Strain (Highest Avg. Rating):</Text>   
+      <Text style={styles.textStyle1}>Wedding Cake</Text>
+
+      <View style={styles.favStrain}>
+        <View style={styles.circleCaption2}>
+          <View style={styles.circle}>
+            <Text style={styles.circleNum}>11</Text>
+          </View>
+          <Text style={styles.smallText}>times used</Text>
+        </View>
+        <View style={styles.circleCaption}>
+          <View style={styles.circle}>
+            <Text style={styles.circleNum}>4.75</Text>
+          </View>
+          <Text style={styles.smallText}>average rating</Text>
+        </View>
+        <View style={styles.circleCaption}>
+          <View style={styles.circle}>
+            <Text style={styles.circleNum}>:)</Text>
+          </View>
+          <Text style={styles.smallText}>average mood</Text>
+        </View>
+      </View>
+
+      <Text style={styles.smallText}>{user.name+"'s Common Reasons for Using Cannabis:"}</Text>   
+      <Text style={styles.textStyle1}>Anxiety, Back Pain, Sleep Aid</Text>
+      <Text style={styles.smallText}>{user.name+"'s Common Positive Effects:"}</Text>   
+      <Text style={styles.textStyle1}>Relaxation, Muscle Relief, Pain Relief</Text>
+      <Text style={styles.smallText}>{user.name+"'s Common Negative Effects:"}</Text>   
+      <Text style={styles.textStyle1}>Couch Lock, Dry Eyes, Dry Mouth</Text>
+
+      <View style={styles.circleCaption2}>
+          <View style={styles.circle}>
+            <Text style={styles.circleNum}>+</Text>
+          </View>
+          <Text style={styles.textStyle}>Add New Session</Text>
+        </View>
+
 
     </ScrollPage>
   );
@@ -90,18 +108,29 @@ const styles = StyleSheet.create({
   logo: {
     marginTop: 30,
     width: 110,
-    height: 110,
-    marginLeft: -290,
+    height: 106.16,
+  },
+  infologo: {
+    marginTop: 8,
+    width: 40,
+    height: 40,
+    marginLeft: 30,
   },
   headerText: {
     color: "#183A1D",
     fontSize: 40,
     fontFamily: "Sansita_700Bold",
+    marginLeft: 30,
   },
   name: {
     color: "#F6C453",
     fontSize: 40,
     fontFamily: "Sansita_700Bold",
+    marginLeft: 30,
+  },
+  timestat: {
+    alignItems: "center",
+    marginBottom: 10,
   },
   textStyle: {
     color: "#183A1D",
@@ -112,8 +141,23 @@ const styles = StyleSheet.create({
     color: "#183A1D",
     fontSize: 20,
     fontFamily: "Karla_700Bold",
-    // textAlign: "left",
-    alignItems: "flex-start", //not working
+    marginLeft: 30,
+  },
+  funFact: {
+    color: "#183A1D",
+    fontSize: 13,
+    fontFamily: "Karla_700Regular",
+    marginRight: 130,
+    marginBottom: 30,
+  },
+  fill: {
+    marginBottom: 10,
+  },
+  smallText: {
+    color: "#183A1D",
+    fontSize: 13,
+    fontFamily: "Karla_700Regular",
+    marginLeft: 30,
   },
   timeText: {
     color: "#183A1D",
@@ -121,7 +165,7 @@ const styles = StyleSheet.create({
     fontFamily: "Karla_700Regular",
     textAlign: "center",
   },
-  stat: {
+  circleNum: {
     color: "#183A1D",
     fontSize: 30,
     fontFamily: "Karla_700Bold",
@@ -143,21 +187,34 @@ const styles = StyleSheet.create({
     borderWidth: 3,
     alignItems: "center",
     justifyContent: "center",
+    marginLeft: 8,
+    marginRight: 8,
   },
   timecontainer: {
     flexDirection: "row",
-    justifyContent: "space-evenly",
+    marginBottom: 5,
+    marginTop: 5
   },
   circleCaption: {
     flexDirection: "column",
-    justifyContent: "space-evenly",
+    marginLeft: 30,
+    marginRight: 30,
+  },
+  circleCaption2: {
+    flexDirection: "column",
+    alignItems: "center",
+    // marginLeft: 10,
+    // marginRight: 10,
   },
   calendar: {
     flexDirection: "row",
-    // justifyContent: "space-around",
-    // justifyContent: "space-between",
-    // justifyContent: "space-evenly",
-    // flexGrow: 1,
-    // flex: 1,
-  }
+    marginTop: 5,
+    marginBottom: 25,
+    paddingLeft: 15,
+  },
+  favStrain: {
+    alignItems: "center",
+    flexDirection: "row",
+    marginTop: 10,
+  },
 });
