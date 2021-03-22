@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from "react";
-import { LogBox } from "react-native";
+import { LogBox, StyleSheet } from "react-native";
 import AppLoading from "expo-app-loading";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import { createMaterialBottomTabNavigator } from "@react-navigation/material-bottom-tabs";
 import { NavigationContainer } from "@react-navigation/native";
 import { DefaultTheme, Provider as PaperProvider } from "react-native-paper";
+import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import _ from "lodash";
 import { firestore, auth } from "./firebase";
 import Landing from "./pages/Landing";
@@ -39,8 +41,8 @@ console.warn = (message) => {
     _console.warn(message);
   }
 };
+const MaterialTab = createMaterialBottomTabNavigator();
 const Tab = createBottomTabNavigator();
-
 const theme = {
   ...DefaultTheme,
   roundness: 50,
@@ -98,40 +100,85 @@ export default function App() {
   return (
     <PaperProvider theme={theme}>
       <NavigationContainer>
-        <Tab.Navigator>
-          {!signedIn ? (
-            <>
-              <Tab.Screen name="Landing" options={disableTabBar}>
-                {(props) => <Landing {...props} />}
-              </Tab.Screen>
-              <Tab.Screen name="Login" options={disableTabBar}>
-                {(props) => <Login {...props} />}
-              </Tab.Screen>
-              <Tab.Screen name="Signup" options={disableTabBar}>
-                {(props) => <Signup {...props} />}
-              </Tab.Screen>
-              <Tab.Screen name="ForgotPassword" options={disableTabBar}>
-                {(props) => <ForgotPassword {...props} />}
-              </Tab.Screen>
-            </>
-          ) : (
-            <>
-              <Tab.Screen name="Home">
-                {(props) => <Home {...props} user={user} />}
-              </Tab.Screen>
-              <Tab.Screen name="History">
-                {(props) => <History {...props} user={user} />}
-              </Tab.Screen>
-              <Tab.Screen name="AddSession">
-                {(props) => <AddSession {...props} user={user} />}
-              </Tab.Screen>
-              <Tab.Screen name="Settings">
-                {(props) => <Settings {...props} user={user} />}
-              </Tab.Screen>
-            </>
-          )}
-        </Tab.Navigator>
+        {!signedIn ? (
+          <Tab.Navigator>
+            <Tab.Screen name="Landing" options={disableTabBar}>
+              {(props) => <Landing {...props} />}
+            </Tab.Screen>
+            <Tab.Screen name="Login" options={disableTabBar}>
+              {(props) => <Login {...props} />}
+            </Tab.Screen>
+            <Tab.Screen name="Signup" options={disableTabBar}>
+              {(props) => <Signup {...props} />}
+            </Tab.Screen>
+            <Tab.Screen name="ForgotPassword" options={disableTabBar}>
+              {(props) => <ForgotPassword {...props} />}
+            </Tab.Screen>
+          </Tab.Navigator>
+        ) : (
+          <MaterialTab.Navigator
+            activeColor="#F6C453"
+            inactiveColor="#183A1D"
+            barStyle={styles.bottomNavBar}
+          >
+            <MaterialTab.Screen
+              name="Home"
+              options={{
+                tabBarLabel: "Home",
+                tabBarIcon: ({ color }) => (
+                  <MaterialCommunityIcons name="home" color={color} size={26} />
+                ),
+              }}
+            >
+              {(props) => <Home {...props} user={user} />}
+            </MaterialTab.Screen>
+            <MaterialTab.Screen
+              name="History"
+              options={{
+                tabBarLabel: "History",
+                tabBarIcon: ({ color }) => (
+                  <MaterialCommunityIcons
+                    name="book-multiple"
+                    color={color}
+                    size={26}
+                  />
+                ),
+              }}
+            >
+              {(props) => <History {...props} user={user} />}
+            </MaterialTab.Screen>
+            <MaterialTab.Screen
+              name="New Session"
+              options={{
+                tabBarLabel: "New Session",
+                tabBarIcon: ({ color }) => (
+                  <MaterialCommunityIcons name="plus" color={color} size={26} />
+                ),
+              }}
+            >
+              {(props) => <AddSession {...props} user={user} />}
+            </MaterialTab.Screen>
+            <MaterialTab.Screen
+              name="Settings"
+              options={{
+                tabBarLabel: "Settings",
+                tabBarIcon: ({ color }) => (
+                  <MaterialCommunityIcons name="cog" color={color} size={26} />
+                ),
+              }}
+            >
+              {(props) => <Settings {...props} user={user} />}
+            </MaterialTab.Screen>
+          </MaterialTab.Navigator>
+        )}
       </NavigationContainer>
     </PaperProvider>
   );
 }
+
+const styles = StyleSheet.create({
+  bottomNavBar: {
+    backgroundColor: "#E1EEDD",
+  },
+  tab: {},
+});
