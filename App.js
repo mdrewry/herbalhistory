@@ -14,6 +14,10 @@ import Home from "./pages/Home";
 import History from "./pages/History";
 import AddSession from "./pages/AddSession";
 import Settings from "./pages/Settings";
+import HomeIcon from "./res/HomeIcon";
+import HistoryIcon from "./res/HistoryIcon";
+import AddSessionIcon from "./res/AddSessionIcon";
+import SettingsIcon from "./res/SettingsIcon";
 import {
   useFonts,
   Sansita_400Regular,
@@ -98,7 +102,40 @@ export default function App() {
   return (
     <PaperProvider theme={theme}>
       <NavigationContainer>
-        <Tab.Navigator>
+        <Tab.Navigator
+        screenOptions={({ route }) => ({
+          tabBarIcon: ({ color, size }) => {
+            if (route.name === 'Home') {
+              return (
+                // <Ionicons
+                //   name={'ios-information-circle'}
+                //   size={size}
+                //   color={color}
+                // />
+                <HomeIcon color={color}/>
+              );
+            } else if (route.name === 'History') {
+              return (
+                <HistoryIcon style={{color: "#F1B779"}}/>
+              );
+            }
+            else if (route.name === 'AddSession') {
+              return (
+                <AddSessionIcon color={color}/>
+              );
+            }
+            else if (route.name === 'Settings') {
+              return (
+                <SettingsIcon color={color}/>
+              );
+            }
+          },
+        })}
+        tabBarOptions={{
+          activeTintColor: '#F1B779',
+          inactiveTintColor: '#183A1D',
+        }}
+        >
           {!signedIn ? (
             <>
               <Tab.Screen name="Landing" options={disableTabBar}>
