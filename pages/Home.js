@@ -1,10 +1,18 @@
 import React from "react";
-import { StyleSheet, Text, View, ScrollView  } from "react-native";
+import { StyleSheet, Text, View, ScrollView, Button, TouchableOpacity  } from "react-native";
 import ScrollPage from "../components/ScrollPage";
 import DashLogo from "../res/DashLogo";
 import FunFactInfo from "../res/FunFactInfo";
-export default function Home({user}) {
+import LineLogo from "../res/LineLogo";
+import SmileLogo from "../res/SmileLogo";
+export default function Home({user, navigation}) {
+  
   const date = [1,2,3,4,5,6,7];
+
+  const handleNewSession = () => {
+    navigation.navigate("AddSession");
+  };
+  
   return (
     <ScrollPage>
       <View style={styles.logo}>
@@ -64,25 +72,33 @@ export default function Home({user}) {
       <Text style={styles.smallText}>Favorite Strain (Highest Avg. Rating):</Text>   
       <Text style={styles.textStyle1}>Wedding Cake</Text>
 
-      <View style={styles.favStrain}>
-        <View style={styles.circleCaption2}>
-          <View style={styles.circle}>
-            <Text style={styles.circleNum}>11</Text>
+      <View style={{alignItems: "center"}}>
+        <View style={styles.favStrain}>
+          <View style={styles.circleCaption2}>
+            <View style={styles.circle}>
+              <Text style={styles.circleNum}>11</Text>
+            </View>
+            <Text style={styles.smallText1}>times used</Text>
           </View>
-          <Text style={styles.smallText}>times used</Text>
-        </View>
-        <View style={styles.circleCaption}>
-          <View style={styles.circle}>
-            <Text style={styles.circleNum}>4.75</Text>
+          <View style={styles.circleCaption2}>
+            <View style={styles.circle}>
+              <Text style={styles.circleNum}>4.75</Text>
+            </View>
+            <Text style={styles.smallText1}>average rating</Text>
+            {/* <Text style={styles.smallText1}>rating (out</Text>
+            <Text style={styles.smallText1}>of 5)</Text> */}
           </View>
-          <Text style={styles.smallText}>average rating</Text>
-        </View>
-        <View style={styles.circleCaption}>
-          <View style={styles.circle}>
-            <Text style={styles.circleNum}>:)</Text>
+          <View style={styles.circleCaption2}>
+            <View style={styles.circle}>
+              <SmileLogo/>
+            </View>
+            <Text style={styles.smallText1}>average mood</Text>
           </View>
-          <Text style={styles.smallText}>average mood</Text>
         </View>
+      </View>
+
+      <View style={styles.line}>
+        <LineLogo/>
       </View>
 
       <Text style={styles.smallText}>{user.name+"'s Common Reasons for Using Cannabis:"}</Text>   
@@ -92,13 +108,15 @@ export default function Home({user}) {
       <Text style={styles.smallText}>{user.name+"'s Common Negative Effects:"}</Text>   
       <Text style={styles.textStyle1}>Couch Lock, Dry Eyes, Dry Mouth</Text>
 
+      <View style={styles.fill1}></View>
       <View style={styles.circleCaption2}>
-          <View style={styles.circle}>
-            <Text style={styles.circleNum}>+</Text>
-          </View>
-          <Text style={styles.textStyle}>Add New Session</Text>
-        </View>
-
+        <TouchableOpacity onPress={handleNewSession} style={styles.circle}>
+          <Text style={styles.circleNum}>+</Text>
+        </TouchableOpacity>
+        <View style={styles.fill1}></View>
+        <Text style={styles.textStyle}>Add New Session</Text>
+      </View>
+      <View style={styles.fill1}></View>
 
     </ScrollPage>
   );
@@ -115,6 +133,11 @@ const styles = StyleSheet.create({
     width: 40,
     height: 40,
     marginLeft: 30,
+  },
+  line: {
+    marginTop: 30,
+    height: 20,
+    alignItems: "center",
   },
   headerText: {
     color: "#183A1D",
@@ -151,6 +174,9 @@ const styles = StyleSheet.create({
     marginBottom: 30,
   },
   fill: {
+    marginBottom: 5,
+  },
+  fill1: {
     marginBottom: 10,
   },
   smallText: {
@@ -158,6 +184,13 @@ const styles = StyleSheet.create({
     fontSize: 13,
     fontFamily: "Karla_700Regular",
     marginLeft: 30,
+    marginTop: 5,
+  },
+  smallText1: {
+    color: "#183A1D",
+    fontSize: 13,
+    fontFamily: "Karla_700Regular",
+    textAlign: "center",
   },
   timeText: {
     color: "#183A1D",
@@ -203,8 +236,8 @@ const styles = StyleSheet.create({
   circleCaption2: {
     flexDirection: "column",
     alignItems: "center",
-    // marginLeft: 10,
-    // marginRight: 10,
+    marginLeft: 30,
+    marginRight: 20,
   },
   calendar: {
     flexDirection: "row",
