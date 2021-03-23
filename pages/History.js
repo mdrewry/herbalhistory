@@ -6,8 +6,9 @@ import { auth, firestore } from "../firebase";
 import { ContainedButton } from "../components/Buttons";
 
 
-var user = auth.currentUser["uid"];
 const getSessions = async () => {
+  let sessions = {}
+  var user = auth.currentUser["uid"];
   const all_sess = firestore.collection('sessions');
   const userSessions = await all_sess.where('userID', '==', user).get();
   if (userSessions.empty) {
@@ -15,8 +16,9 @@ const getSessions = async () => {
     return;
   }
   userSessions.forEach(doc => {
-    console.log(doc.id, '=>', doc.data());
+    sessions[doc.data()['date'].toDate().toISOString().split('T')[0]] = {marked: true, dotColor: 'blue', activeOpacity: 0}
   });
+  console.log(sessions)
 };
 
 
@@ -26,6 +28,8 @@ export default function History() {
     <Contain>
       <Text>History</Text>
       <Calendar
+      // somehow make this from the dates that i get from getSessions()
+      //this giving me errors when i switch it to {sessions}
       markedDates={{
         '2021-03-18': {marked: true, dotColor: 'blue', activeOpacity: 0},
       }}
