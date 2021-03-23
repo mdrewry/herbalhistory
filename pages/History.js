@@ -36,7 +36,7 @@ export default function History({ navigation}) {
       // somehow make this from the dates that i get from getSessions()
       //this giving me errors when i switch it to {sessions}
       markedDates={{
-        '2021-03-18': {marked: true, dotColor: 'blue', activeOpacity: 0},
+        '2021-03-23': {selected:true, marked: true, dotColor: 'blue', activeOpacity: 0},
       }}
       // Initially visible month. Default = Date()
       current = {new Date()}
@@ -66,7 +66,6 @@ export default function History({ navigation}) {
       // Enable the option to swipe between months. Default = false
       enableSwipeMonths={true}
       />
-      <ContainedButton handlePress={getSessions} text="GetSessions" />
     </Contain>
   );
 }
