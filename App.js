@@ -123,14 +123,12 @@ export default function App() {
             inactiveColor="#183A1D"
             barStyle={styles.bottomNavBar}
             screenOptions={({ route }) => ({
-        tabBarButton: [
-          "ViewSession",
-        ].includes(route.name)
-          ? () => {
-              return null;
-            }
-          : undefined,
-      })}
+              tabBarButton: ["ViewSession"].includes(route.name)
+                ? () => {
+                    return null;
+                  }
+                : undefined,
+            })}
           >
             <MaterialTab.Screen
               name="Home"
@@ -180,18 +178,22 @@ export default function App() {
             >
               {(props) => <Settings {...props} user={user} />}
             </MaterialTab.Screen>
-            <MaterialTab.Screen
+            {/* <MaterialTab.Screen
               name="ViewSession"
               options={{
                 display: "null",
                 tabBarLabel: "ViewSession",
                 tabBarIcon: ({ color }) => (
-                  <MaterialCommunityIcons name="clipboard-list-outline" color={color} size={26} />
+                  <MaterialCommunityIcons
+                    name="clipboard-list-outline"
+                    color={color}
+                    size={26}
+                  />
                 ),
               }}
             >
               {(props) => <ViewSession {...props} user={user} />}
-            </MaterialTab.Screen>
+            </MaterialTab.Screen> */}
           </MaterialTab.Navigator>
         )}
       </NavigationContainer>
