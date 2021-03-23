@@ -12,18 +12,25 @@ export default function Home({user, navigation}) {
   const date = [1,2,3,4,5,6,7];
   const day = 0;
   const hours = 2;
-  const funFact = "Cannabis has been legal for personal use in Alaska since 1975.";
+  const funFact = ["Cannabis has been legal for personal use in Alaska since 1975.",
+  "George Washington grew cannabis at Mount Vernon.",
+  "In 1996, California became the first state to legalize medical cannabis.",
+  "William Shakespeare grew and smoke marijuana.",
+  "Women build up a tolerance to cannabis faster than men.",
+  "In 2013, Uruguay became the first country to fully legalize cannabis use.",
+  "In 2012, Washington and Colorado became the first states to legalize cannabis for recreational use."];
+  const randNum = Math.floor(Math.random() * 7) + 0 ;
   const strain = "Wedding Cake";
-  const timesUsed = 11;
-  const averageRating = 4.75;
-  const reasons = "Anxiety, Back Pain, Sleep Aid";
+  const timesUsed = 11; //.fliter query
+  const averageRating = 4.75; //fliter query
+  const mood = "Uplifted, Relaxed, Happy";
   const positive = "Relaxation, Muscle Relief, Pain Relief";
   const negative = "Couch Lock, Dry Eyes, Dry Mouth";
 
 
 
   const handleNewSession = () => {
-    navigation.navigate("AddSession");
+    navigation.navigate("New Session");
   };
   
   return (
@@ -61,7 +68,7 @@ export default function Home({user, navigation}) {
         snapToAlignment={"center"}>
           {
             date.map(i => {
-              return  <View style={styles.dateBox}>
+              return  <View key={i.toString()} style={styles.dateBox}>
                         <Text style={styles.textStyle}>SUN</Text>
                         <Text style={styles.textStyle}>FEB</Text>
                         <Text style={styles.textStyle}>{i}</Text>
@@ -86,14 +93,14 @@ export default function Home({user, navigation}) {
         <View style={styles.infologo}>
           <FunFactInfo />
         </View>
-        <Text style={styles.funFact}>{funFact}</Text>
+        <Text style={styles.funFact}>{funFact[randNum]}</Text>
       </View>
 
       <Text style={styles.name}>{user.name+"'s"} </Text>
       <Text style={styles.headerText}>Statistics</Text>
       <View style={styles.fill}></View>
       <Text style={styles.smallText}>Favorite Strain (Highest Avg. Rating):</Text>   
-      <Text style={styles.textStyle1}>Wedding Cake</Text>
+      <Text style={styles.textStyle1}>{strain}</Text>
 
       <View style={{alignItems: "center"}}>
         <View style={styles.favStrain}>
@@ -124,8 +131,8 @@ export default function Home({user, navigation}) {
         <LineLogo/>
       </View>
 
-      <Text style={styles.smallText}>{user.name+"'s Common Reasons for Using Cannabis:"}</Text>   
-      <Text style={styles.textStyle1}>{reasons}</Text>
+      <Text style={styles.smallText}>{user.name+"'s Common Mood Words:"}</Text>   
+      <Text style={styles.textStyle1}>{mood}</Text>
       <Text style={styles.smallText}>{user.name+"'s Common Positive Effects:"}</Text>   
       <Text style={styles.textStyle1}>{positive}</Text>
       <Text style={styles.smallText}>{user.name+"'s Common Negative Effects:"}</Text>   
