@@ -1,11 +1,12 @@
 import React from "react";
 import { StyleSheet, Text, View } from "react-native";
-import Page from "../components/Page";
+import ScrollPage from "../components/ScrollPage";
 import LineLogo from "../res/LineLogo";
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 export default function ViewSession() {
   return (
-    <Page>
+    <ScrollPage>
+    <View>
       <Text style={styles.month}>MAR</Text>
       <Text style={styles.day}>23</Text>
       <Text style={styles.year}>2021</Text>
@@ -66,8 +67,8 @@ export default function ViewSession() {
       <Text style={styles.conc2}>Good Product for Sleep<FontAwesome5 name={'check-circle'}/></Text>
 
 
-
-    </Page>
+      </View>
+    </ScrollPage>
   );
 
 }
@@ -110,7 +111,7 @@ const styles = StyleSheet.create({
     width: 76,
     height: 69,
     left: 30,
-    top: 41,
+    top: 50,
 
     fontFamily: "Sansita",
     fontStyle: "normal",
@@ -128,7 +129,7 @@ const styles = StyleSheet.create({
     width: 86,
     height: 36,
     left: 25,
-    top: 105,
+    top: 110,
 
     fontFamily: "Karla",
     fontStyle: "normal",
@@ -144,7 +145,7 @@ const styles = StyleSheet.create({
     width: 90,
     height: 22,
     left: 23,
-    top: 128,
+    top: 135,
 
     fontFamily: "Karla",
     fontStyle: "normal",
@@ -160,7 +161,7 @@ const styles = StyleSheet.create({
     width: 139,
     height: 36,
     left: 117,
-    top: 57,
+    top: 60,
 
     fontFamily: "Karla",
     fontStyle: "normal",
@@ -175,7 +176,7 @@ const styles = StyleSheet.create({
     width: 139,
     height: 36,
     left: 117,
-    top: 70,
+    top: 75,
 
     fontFamily: "Karla",
     fontSize: 20,
@@ -190,7 +191,7 @@ const styles = StyleSheet.create({
     width: 139,
     height: 36,
     left: 117,
-    top: 90,
+    top: 100,
 
     fontFamily: "Karla",
     fontStyle: "normal",
@@ -202,10 +203,10 @@ const styles = StyleSheet.create({
   },
   ratio2: {
     position: "absolute",
-    width: 200,
+    width: 150,
     height: 36,
     left: 117,
-    top: 103,
+    top: 115,
 
     fontFamily: "Karla",
     fontSize: 20,
@@ -220,7 +221,7 @@ const styles = StyleSheet.create({
     width: 139,
     height: 36,
     left: 117,
-    top: 120,
+    top: 155,
 
     fontFamily: "Karla",
     fontStyle: "normal",
@@ -235,7 +236,7 @@ const styles = StyleSheet.create({
     width: 200,
     height: 36,
     left: 117,
-    top: 130,
+    top: 170,
 
     fontFamily: "Karla",
     fontSize: 20,
@@ -250,7 +251,7 @@ const styles = StyleSheet.create({
     width: 139,
     height: 36,
     left: 117,
-    top: 149,
+    top: 190,
 
     fontFamily: "Karla",
     fontStyle: "normal",
@@ -265,7 +266,7 @@ const styles = StyleSheet.create({
     width: 200,
     height: 36,
     left: 117,
-    top: 158,
+    top: 205,
 
     fontFamily: "Karla",
     fontSize: 20,
@@ -280,7 +281,7 @@ const styles = StyleSheet.create({
     width: 139,
     height: 36,
     left: 117,
-    top: 175,
+    top: 225,
 
     fontFamily: "Karla",
     fontStyle: "normal",
@@ -295,7 +296,7 @@ const styles = StyleSheet.create({
     width: 200,
     height: 36,
     left: 117,
-    top: 184,
+    top: 240,
 
     fontFamily: "Karla",
     fontSize: 20,
@@ -310,7 +311,7 @@ const styles = StyleSheet.create({
     width: 319,
     height: 116,
     left: 25,
-    top: 215,
+    top: 260,
 
     fontFamily: "Karla",
     fontStyle: "normal",
@@ -325,7 +326,7 @@ const styles = StyleSheet.create({
     width: 319,
     height: 116,
     left: 25,
-    top: 225,
+    top: 275,
 
     fontFamily: "Karla",
     fontSize: 20,
@@ -340,7 +341,7 @@ const styles = StyleSheet.create({
     width: 319,
     height: 116,
     left: 25,
-    top: 245,
+    top: 295,
 
     fontFamily: "Karla",
     fontStyle: "normal",
@@ -355,7 +356,7 @@ const styles = StyleSheet.create({
     width: 319,
     height: 116,
     left: 25,
-    top: 255,
+    top: 310,
 
     fontFamily: "Karla",
     fontSize: 20,
@@ -370,7 +371,7 @@ const styles = StyleSheet.create({
     width: 319,
     height: 116,
     left: 25,
-    top: 275,
+    top: 330,
 
     fontFamily: "Karla",
     fontStyle: "normal",
@@ -385,7 +386,7 @@ const styles = StyleSheet.create({
     width: 319,
     height: 116,
     left: 25,
-    top: 285,
+    top: 345,
 
     fontFamily: "Karla",
     fontSize: 20,
@@ -398,13 +399,13 @@ const styles = StyleSheet.create({
   line1: {
     position: "absolute",
     height: 0,
-    top: 320,
+    top: 370,
     alignItems: "center",
   },
   calendar: {
     position: "absolute",
     left: 50,
-    top: 150,
+    top: 170,
     fontSize: 30,
     color: "#183A1D"
 
@@ -414,7 +415,7 @@ const styles = StyleSheet.create({
     width: 319,
     height: 116,
     left: 25,
-    top: 340,
+    top: 385,
 
     fontFamily: "Karla",
     fontStyle: "normal",
@@ -427,42 +428,42 @@ const styles = StyleSheet.create({
   mood1: {
     position: "absolute",
     left: 25,
-    top: 360,
+    top: 400,
     fontSize: 25,
     color: "#183A1D"
   },
   mood2: {
     position: "absolute",
     left: 55,
-    top: 360,
+    top: 400,
     fontSize: 25,
     color: "#183A1D"
   },
   mood3: {
     position: "absolute",
     left: 85,
-    top: 360,
+    top: 400,
     fontSize: 25,
     color: "#183A1D"
   },
   mood4: {
     position: "absolute",
     left: 115,
-    top: 360,
+    top: 400,
     fontSize: 25,
     color: "#183A1D"
   },
   mood5: {
     position: "absolute",
     left: 145,
-    top: 360,
+    top: 400,
     fontSize: 25,
     color: "#183A1D"
   },
   mood6: {
     position: "absolute",
     left: 175,
-    top: 360,
+    top: 400,
     fontSize: 25,
     color: "#F6C453"
   },
@@ -471,7 +472,7 @@ const styles = StyleSheet.create({
     width: 319,
     height: 116,
     left: 25,
-    top: 390,
+    top: 430,
 
     fontFamily: "Karla",
     fontStyle: "normal",
@@ -486,7 +487,7 @@ const styles = StyleSheet.create({
     width: 319,
     height: 116,
     left: 25,
-    top: 405,
+    top: 445,
 
     fontFamily: "Karla",
     fontSize: 20,
@@ -501,7 +502,7 @@ const styles = StyleSheet.create({
     width: 319,
     height: 116,
     left: 25,
-    top: 425,
+    top: 465,
 
     fontFamily: "Karla",
     fontStyle: "normal",
@@ -516,7 +517,7 @@ const styles = StyleSheet.create({
     width: 319,
     height: 116,
     left: 25,
-    top: 440,
+    top: 480,
 
     fontFamily: "Karla",
     fontSize: 20,
@@ -531,7 +532,7 @@ const styles = StyleSheet.create({
     width: 319,
     height: 116,
     left: 25,
-    top: 460,
+    top: 500,
 
     fontFamily: "Karla",
     fontStyle: "normal",
@@ -546,7 +547,7 @@ const styles = StyleSheet.create({
     width: 319,
     height: 116,
     left: 25,
-    top: 475,
+    top: 515,
 
     fontFamily: "Karla",
     fontSize: 20,
@@ -559,13 +560,13 @@ const styles = StyleSheet.create({
   line2: {
     position: "absolute",
     height: 0,
-    top: 510,
+    top: 540,
     alignItems: "center",
   },
   line3: {
     position: "absolute",
     height: 0,
-    top: 625,
+    top: 670,
     alignItems: "center",
   },
   custom1: {
@@ -573,7 +574,7 @@ const styles = StyleSheet.create({
     width: 319,
     height: 116,
     left: 25,
-    top: 525,
+    top: 560,
 
     fontFamily: "Karla",
     fontSize: 20,
@@ -588,7 +589,7 @@ const styles = StyleSheet.create({
     width: 319,
     height: 116,
     left: 25,
-    top: 545,
+    top: 580,
 
     fontFamily: "Karla",
     fontStyle: "normal",
@@ -603,7 +604,7 @@ const styles = StyleSheet.create({
     width: 319,
     height: 116,
     left: 25,
-    top: 555,
+    top: 595,
 
     fontFamily: "Karla",
     fontSize: 20,
@@ -618,7 +619,7 @@ const styles = StyleSheet.create({
     width: 319,
     height: 116,
     left: 25,
-    top: 575,
+    top: 615,
 
     fontFamily: "Karla",
     fontStyle: "normal",
@@ -633,7 +634,7 @@ const styles = StyleSheet.create({
     width: 319,
     height: 116,
     left: 25,
-    top: 585,
+    top: 630,
 
     fontFamily: "Karla",
     fontSize: 20,
@@ -648,7 +649,7 @@ const styles = StyleSheet.create({
     width: 319,
     height: 116,
     left: 25,
-    top: 605,
+    top: 650,
 
     fontFamily: "Karla",
     fontStyle: "normal",
@@ -663,7 +664,7 @@ const styles = StyleSheet.create({
     width: 319,
     height: 116,
     left: 25,
-    top: 635,
+    top: 680,
 
     fontFamily: "Karla",
     fontSize: 20,
@@ -678,7 +679,7 @@ const styles = StyleSheet.create({
     width: 319,
     height: 116,
     left: 25,
-    top: 655,
+    top: 700,
 
     fontFamily: "Karla",
     fontStyle: "normal",
@@ -693,7 +694,7 @@ const styles = StyleSheet.create({
     width: 319,
     height: 116,
     left: 25,
-    top: 665,
+    top: 715,
 
     fontFamily: "Karla",
     fontSize: 20,
@@ -708,7 +709,7 @@ const styles = StyleSheet.create({
     width: 319,
     height: 116,
     left: 25,
-    top: 685,
+    top: 735,
 
     fontFamily: "Karla",
     fontStyle: "normal",
@@ -723,7 +724,7 @@ const styles = StyleSheet.create({
     width: 319,
     height: 116,
     left: 25,
-    top: 695,
+    top: 750,
 
     fontFamily: "Karla",
     fontSize: 20,
@@ -738,7 +739,7 @@ const styles = StyleSheet.create({
     width: 319,
     height: 116,
     left: 25,
-    top:800,
+    top:810,
 
     fontFamily: "Karla",
     fontStyle: "normal",
@@ -753,7 +754,7 @@ const styles = StyleSheet.create({
     width: 319,
     height: 116,
     left: 25,
-    top: 720,
+    top: 770,
 
     fontFamily: "Karla",
     fontStyle: "normal",
@@ -768,7 +769,7 @@ const styles = StyleSheet.create({
     width: 330,
     height: 50,
     left: 25,
-    top: 740,
+    top: 790,
 
     borderWidth: 2,
     borderRadius:15,
