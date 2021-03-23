@@ -9,7 +9,8 @@ import { ContainedButton } from "../components/Buttons";
 
 const getSessions = async () => {
   let sessions = {}
-  var user = auth.currentUser["uid"];
+  var user = auth.currentUser;
+  var userid = user["uid"];
   const all_sess = firestore.collection('sessions');
   const userSessions = await all_sess.where('userID', '==', user).get();
   if (userSessions.empty) {

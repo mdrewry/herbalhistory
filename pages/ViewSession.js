@@ -31,7 +31,7 @@ export default function ViewSession({navigation}) {
       <View style={styles.line1}>
         <LineLogo/>
       </View>
-      <FontAwesome5 style={styles.calendar}name={'calendar'} onclick={navigation.navigate("History")}/>
+      <FontAwesome5 style={styles.calendar}name={'calendar'}/>
       <Text style={styles.mood}>Overall Mood</Text>
       <FontAwesome5 style={styles.mood1}name={'sad-tear'} />
       <FontAwesome5 style={styles.mood2}name={'frown'} />
