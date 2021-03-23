@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { LogBox } from "react-native";
 import AppLoading from "expo-app-loading";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import { BottomTabBar } from '@react-navigation/bottom-tabs'
 import { NavigationContainer } from "@react-navigation/native";
 import { DefaultTheme, Provider as PaperProvider } from "react-native-paper";
 import _ from "lodash";
@@ -14,6 +15,7 @@ import Home from "./pages/Home";
 import History from "./pages/History";
 import AddSession from "./pages/AddSession";
 import Settings from "./pages/Settings";
+import ViewSession from "./pages/ViewSession"
 import {
   useFonts,
   Sansita_400Regular,
@@ -95,10 +97,21 @@ export default function App() {
   const disableTabBar = () => ({
     tabBarVisible: signedIn,
   });
+
   return (
     <PaperProvider theme={theme}>
       <NavigationContainer>
-        <Tab.Navigator>
+        <Tab.Navigator
+        screenOptions={({ route }) => ({
+        tabBarButton: [
+          "ViewSession",
+        ].includes(route.name)
+          ? () => {
+              return null;
+            }
+          : undefined,
+      })}
+      >
           {!signedIn ? (
             <>
               <Tab.Screen name="Landing" options={disableTabBar}>
@@ -127,6 +140,9 @@ export default function App() {
               </Tab.Screen>
               <Tab.Screen name="Settings">
                 {(props) => <Settings {...props} user={user} />}
+              </Tab.Screen>
+              <Tab.Screen name="ViewSession">
+                {(props) => <ViewSession {...props} user={user} />}
               </Tab.Screen>
             </>
           )}

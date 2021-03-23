@@ -1,4 +1,5 @@
 import React from "react";
+import {Redirect } from "react-router-dom";
 import { StyleSheet, Text, View } from "react-native";
 import Contain from "../components/Contain";
 import {Calendar, CalendarList, Agenda} from 'react-native-calendars';
@@ -23,7 +24,11 @@ const getSessions = async () => {
 
 
 
-export default function History() {
+export default function History({ navigation}) {
+  const handleSessionClick = () => {
+    console.log('clicked')
+    navigation.navigate("ViewSession");
+  };
   return (
     <Contain>
       <Text>History</Text>
@@ -37,7 +42,7 @@ export default function History() {
       current = {new Date()}
       // Handler which gets executed on day press. Default = undefined
       // *********this should open up the existing session if it has one or something like that
-      onDayPress={(day) => {console.log('selected day', day)}}
+      onDayPress={handleSessionClick}
       // Handler which gets executed on day long press. Default = undefined
       onDayLongPress={(day) => {console.log('selected day', day)}}
       // Month format in calendar title. Formatting values: http://arshaw.com/xdate/#Formatting
