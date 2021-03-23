@@ -10,5 +10,7 @@ const styles = StyleSheet.create({
     flexGrow: 1,
     backgroundColor: "#FEFBE9",
     alignItems: "center",
+    maxHeight: "100%",
+    width: "100%",
   },
 });
