@@ -5,9 +5,22 @@ import DashLogo from "../res/DashLogo";
 import FunFactInfo from "../res/FunFactInfo";
 import LineLogo from "../res/LineLogo";
 import SmileLogo from "../res/SmileLogo";
+import ScrollLeft from "../res/ScrollLeft";
+import ScrollRight from "../res/ScrollRight";
 export default function Home({user, navigation}) {
   
   const date = [1,2,3,4,5,6,7];
+  const day = 0;
+  const hours = 2;
+  const funFact = "Cannabis has been legal for personal use in Alaska since 1975.";
+  const strain = "Wedding Cake";
+  const timesUsed = 11;
+  const averageRating = 4.75;
+  const reasons = "Anxiety, Back Pain, Sleep Aid";
+  const positive = "Relaxation, Muscle Relief, Pain Relief";
+  const negative = "Couch Lock, Dry Eyes, Dry Mouth";
+
+
 
   const handleNewSession = () => {
     navigation.navigate("AddSession");
@@ -26,13 +39,13 @@ export default function Home({user, navigation}) {
         <View style={styles.timecontainer}>
           <View style={styles.circleCaption}>
             <View style={styles.circle}>
-              <Text style={styles.circleNum}>0</Text>
+              <Text style={styles.circleNum}>{day}</Text>
             </View>
             <Text style={styles.timeText}>days</Text>
           </View>
           <View style={styles.circleCaption}>
             <View style={styles.circle}>
-              <Text style={styles.circleNum}>2</Text>
+              <Text style={styles.circleNum}>{hours}</Text>
             </View>
             <Text style={styles.timeText}>hours</Text>
           </View>
@@ -58,12 +71,22 @@ export default function Home({user, navigation}) {
           }
       </ScrollView>
 
+      <View style={{flexDirection: "row"}}>
+        <View style={styles.leftArrow}>
+          <ScrollLeft />
+        </View>
+        <View style={styles.rightArrow}>
+          <ScrollRight />
+        </View>
+      </View>
+      
+      <View style={styles.fill1}></View>
       <Text style={styles.textStyle1}>Fun Fact of the Day:</Text>
       <View style={{flexDirection: "row"}}>
         <View style={styles.infologo}>
           <FunFactInfo />
         </View>
-        <Text style={styles.funFact}>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</Text>
+        <Text style={styles.funFact}>{funFact}</Text>
       </View>
 
       <Text style={styles.name}>{user.name+"'s"} </Text>
@@ -76,13 +99,13 @@ export default function Home({user, navigation}) {
         <View style={styles.favStrain}>
           <View style={styles.circleCaption2}>
             <View style={styles.circle}>
-              <Text style={styles.circleNum}>11</Text>
+              <Text style={styles.circleNum}>{timesUsed}</Text>
             </View>
             <Text style={styles.smallText1}>times used</Text>
           </View>
           <View style={styles.circleCaption2}>
             <View style={styles.circle}>
-              <Text style={styles.circleNum}>4.75</Text>
+              <Text style={styles.circleNum}>{averageRating}</Text>
             </View>
             <Text style={styles.smallText1}>average rating</Text>
             {/* <Text style={styles.smallText1}>rating (out</Text>
@@ -102,14 +125,14 @@ export default function Home({user, navigation}) {
       </View>
 
       <Text style={styles.smallText}>{user.name+"'s Common Reasons for Using Cannabis:"}</Text>   
-      <Text style={styles.textStyle1}>Anxiety, Back Pain, Sleep Aid</Text>
+      <Text style={styles.textStyle1}>{reasons}</Text>
       <Text style={styles.smallText}>{user.name+"'s Common Positive Effects:"}</Text>   
-      <Text style={styles.textStyle1}>Relaxation, Muscle Relief, Pain Relief</Text>
+      <Text style={styles.textStyle1}>{positive}</Text>
       <Text style={styles.smallText}>{user.name+"'s Common Negative Effects:"}</Text>   
-      <Text style={styles.textStyle1}>Couch Lock, Dry Eyes, Dry Mouth</Text>
+      <Text style={styles.textStyle1}>{negative}</Text>
 
       <View style={styles.fill1}></View>
-      <View style={styles.circleCaption2}>
+      <View style={styles.circleCaption3}>
         <TouchableOpacity onPress={handleNewSession} style={styles.circle}>
           <Text style={styles.circleNum}>+</Text>
         </TouchableOpacity>
@@ -127,6 +150,12 @@ const styles = StyleSheet.create({
     marginTop: 30,
     width: 110,
     height: 106.16,
+  },
+  leftArrow: {
+    marginLeft: 20,
+  },
+  rightArrow: {
+    marginLeft: 355,
   },
   infologo: {
     marginTop: 8,
@@ -169,7 +198,7 @@ const styles = StyleSheet.create({
   funFact: {
     color: "#183A1D",
     fontSize: 13,
-    fontFamily: "Karla_700Regular",
+    fontFamily: "Karla_400Regular",
     marginRight: 130,
     marginBottom: 30,
   },
@@ -182,20 +211,20 @@ const styles = StyleSheet.create({
   smallText: {
     color: "#183A1D",
     fontSize: 13,
-    fontFamily: "Karla_700Regular",
+    fontFamily: "Karla_400Regular",
     marginLeft: 30,
     marginTop: 5,
   },
   smallText1: {
     color: "#183A1D",
     fontSize: 13,
-    fontFamily: "Karla_700Regular",
+    fontFamily: "Karla_400Regular",
     textAlign: "center",
   },
   timeText: {
     color: "#183A1D",
     fontSize: 20,
-    fontFamily: "Karla_700Regular",
+    fontFamily: "Karla_400Regular",
     textAlign: "center",
   },
   circleNum: {
@@ -236,13 +265,16 @@ const styles = StyleSheet.create({
   circleCaption2: {
     flexDirection: "column",
     alignItems: "center",
-    marginLeft: 30,
-    marginRight: 20,
+    width: "33.33%",
+  },
+  circleCaption3: {
+    flexDirection: "column",
+    alignItems: "center",
   },
   calendar: {
     flexDirection: "row",
     marginTop: 5,
-    marginBottom: 25,
+    marginBottom: 5,
     paddingLeft: 15,
   },
   favStrain: {
