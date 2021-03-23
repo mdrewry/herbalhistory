@@ -1,12 +1,253 @@
 import React from "react";
-import { StyleSheet, Text, View } from "react-native";
-import Page from "../components/Page";
-export default function Home() {
+import { StyleSheet, Text, View, ScrollView, Button, TouchableOpacity  } from "react-native";
+import ScrollPage from "../components/ScrollPage";
+import DashLogo from "../res/DashLogo";
+import FunFactInfo from "../res/FunFactInfo";
+import LineLogo from "../res/LineLogo";
+import SmileLogo from "../res/SmileLogo";
+export default function Home({user, navigation}) {
+  
+  const date = [1,2,3,4,5,6,7];
+
+  const handleNewSession = () => {
+    navigation.navigate("AddSession");
+  };
+  
   return (
-    <Page>
-      <Text>Home</Text>
-    </Page>
+    <ScrollPage>
+      <View style={styles.logo}>
+        <DashLogo />
+      </View>
+      <Text style={styles.headerText}>Welcome Back,</Text>
+      <Text style={styles.name}>{user.name+"!"} </Text>
+      
+      <View style={styles.timestat}> 
+        <Text style={styles.textStyle}>It has been</Text>
+        <View style={styles.timecontainer}>
+          <View style={styles.circleCaption}>
+            <View style={styles.circle}>
+              <Text style={styles.circleNum}>0</Text>
+            </View>
+            <Text style={styles.timeText}>days</Text>
+          </View>
+          <View style={styles.circleCaption}>
+            <View style={styles.circle}>
+              <Text style={styles.circleNum}>2</Text>
+            </View>
+            <Text style={styles.timeText}>hours</Text>
+          </View>
+        </View>
+        <Text style={styles.textStyle}>since your last session.</Text>
+      </View>
+      
+      <Text style={styles.textStyle1}>This week:</Text>
+      <ScrollView contentContainerStyle={styles.calendar} 
+        horizontal= {true}
+        decelerationRate={0}
+        snapToInterval={102} //your element width
+        snapToAlignment={"center"}>
+          {
+            date.map(i => {
+              return  <View style={styles.dateBox}>
+                        <Text style={styles.textStyle}>SUN</Text>
+                        <Text style={styles.textStyle}>FEB</Text>
+                        <Text style={styles.textStyle}>{i}</Text>
+                        <Text style={styles.textStyle}>2021</Text>
+                      </View>;
+            })
+          }
+      </ScrollView>
+
+      <Text style={styles.textStyle1}>Fun Fact of the Day:</Text>
+      <View style={{flexDirection: "row"}}>
+        <View style={styles.infologo}>
+          <FunFactInfo />
+        </View>
+        <Text style={styles.funFact}>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</Text>
+      </View>
+
+      <Text style={styles.name}>{user.name+"'s"} </Text>
+      <Text style={styles.headerText}>Statistics</Text>
+      <View style={styles.fill}></View>
+      <Text style={styles.smallText}>Favorite Strain (Highest Avg. Rating):</Text>   
+      <Text style={styles.textStyle1}>Wedding Cake</Text>
+
+      <View style={{alignItems: "center"}}>
+        <View style={styles.favStrain}>
+          <View style={styles.circleCaption2}>
+            <View style={styles.circle}>
+              <Text style={styles.circleNum}>11</Text>
+            </View>
+            <Text style={styles.smallText1}>times used</Text>
+          </View>
+          <View style={styles.circleCaption2}>
+            <View style={styles.circle}>
+              <Text style={styles.circleNum}>4.75</Text>
+            </View>
+            <Text style={styles.smallText1}>average rating</Text>
+            {/* <Text style={styles.smallText1}>rating (out</Text>
+            <Text style={styles.smallText1}>of 5)</Text> */}
+          </View>
+          <View style={styles.circleCaption2}>
+            <View style={styles.circle}>
+              <SmileLogo/>
+            </View>
+            <Text style={styles.smallText1}>average mood</Text>
+          </View>
+        </View>
+      </View>
+
+      <View style={styles.line}>
+        <LineLogo/>
+      </View>
+
+      <Text style={styles.smallText}>{user.name+"'s Common Reasons for Using Cannabis:"}</Text>   
+      <Text style={styles.textStyle1}>Anxiety, Back Pain, Sleep Aid</Text>
+      <Text style={styles.smallText}>{user.name+"'s Common Positive Effects:"}</Text>   
+      <Text style={styles.textStyle1}>Relaxation, Muscle Relief, Pain Relief</Text>
+      <Text style={styles.smallText}>{user.name+"'s Common Negative Effects:"}</Text>   
+      <Text style={styles.textStyle1}>Couch Lock, Dry Eyes, Dry Mouth</Text>
+
+      <View style={styles.fill1}></View>
+      <View style={styles.circleCaption2}>
+        <TouchableOpacity onPress={handleNewSession} style={styles.circle}>
+          <Text style={styles.circleNum}>+</Text>
+        </TouchableOpacity>
+        <View style={styles.fill1}></View>
+        <Text style={styles.textStyle}>Add New Session</Text>
+      </View>
+      <View style={styles.fill1}></View>
+
+    </ScrollPage>
   );
 }
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  logo: {
+    marginTop: 30,
+    width: 110,
+    height: 106.16,
+  },
+  infologo: {
+    marginTop: 8,
+    width: 40,
+    height: 40,
+    marginLeft: 30,
+  },
+  line: {
+    marginTop: 30,
+    height: 20,
+    alignItems: "center",
+  },
+  headerText: {
+    color: "#183A1D",
+    fontSize: 40,
+    fontFamily: "Sansita_700Bold",
+    marginLeft: 30,
+  },
+  name: {
+    color: "#F6C453",
+    fontSize: 40,
+    fontFamily: "Sansita_700Bold",
+    marginLeft: 30,
+  },
+  timestat: {
+    alignItems: "center",
+    marginBottom: 10,
+  },
+  textStyle: {
+    color: "#183A1D",
+    fontSize: 20,
+    fontFamily: "Karla_700Bold",
+  },
+  textStyle1: {
+    color: "#183A1D",
+    fontSize: 20,
+    fontFamily: "Karla_700Bold",
+    marginLeft: 30,
+  },
+  funFact: {
+    color: "#183A1D",
+    fontSize: 13,
+    fontFamily: "Karla_700Regular",
+    marginRight: 130,
+    marginBottom: 30,
+  },
+  fill: {
+    marginBottom: 5,
+  },
+  fill1: {
+    marginBottom: 10,
+  },
+  smallText: {
+    color: "#183A1D",
+    fontSize: 13,
+    fontFamily: "Karla_700Regular",
+    marginLeft: 30,
+    marginTop: 5,
+  },
+  smallText1: {
+    color: "#183A1D",
+    fontSize: 13,
+    fontFamily: "Karla_700Regular",
+    textAlign: "center",
+  },
+  timeText: {
+    color: "#183A1D",
+    fontSize: 20,
+    fontFamily: "Karla_700Regular",
+    textAlign: "center",
+  },
+  circleNum: {
+    color: "#183A1D",
+    fontSize: 30,
+    fontFamily: "Karla_700Bold",
+  },
+  circle: {
+    backgroundColor: "#E1EEDD",
+    width: 70,
+    height: 70,
+    borderRadius: 70/2,
+    borderWidth: 3,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  dateBox: {
+    backgroundColor: "#E1EEDD",
+    width: 78,
+    height: 130,
+    borderRadius: 20,
+    borderWidth: 3,
+    alignItems: "center",
+    justifyContent: "center",
+    marginLeft: 8,
+    marginRight: 8,
+  },
+  timecontainer: {
+    flexDirection: "row",
+    marginBottom: 5,
+    marginTop: 5
+  },
+  circleCaption: {
+    flexDirection: "column",
+    marginLeft: 30,
+    marginRight: 30,
+  },
+  circleCaption2: {
+    flexDirection: "column",
+    alignItems: "center",
+    marginLeft: 30,
+    marginRight: 20,
+  },
+  calendar: {
+    flexDirection: "row",
+    marginTop: 5,
+    marginBottom: 25,
+    paddingLeft: 15,
+  },
+  favStrain: {
+    alignItems: "center",
+    flexDirection: "row",
+    marginTop: 10,
+  },
+});

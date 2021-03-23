@@ -16,6 +16,10 @@ import Home from "./pages/Home";
 import History from "./pages/History";
 import AddSession from "./pages/AddSession";
 import Settings from "./pages/Settings";
+import HomeIcon from "./res/HomeIcon";
+import HistoryIcon from "./res/HistoryIcon";
+import AddSessionIcon from "./res/AddSessionIcon";
+import SettingsIcon from "./res/SettingsIcon";
 import {
   useFonts,
   Sansita_400Regular,
