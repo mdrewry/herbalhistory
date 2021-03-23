@@ -2,7 +2,7 @@ import React from "react";
 import { StyleSheet, Text, View } from "react-native";
 import { BackButton } from "./Buttons";
 import LogoShape from "../res/LogoShape";
-export default function Header({ text, handleBack }) {
+export default function Header({ text1, text2, handleBack }) {
   return (
     <>
       <View style={styles.logo}>
@@ -12,7 +12,8 @@ export default function Header({ text, handleBack }) {
         <View style={styles.backButtonWrapper}>
           <BackButton handlePress={handleBack} />
         </View>
-        <Text style={styles.headerText}>{text}</Text>
+        <Text style={styles.headerText}>{text1}</Text>
+        <Text style={styles.headerText}>{text2}</Text>
       </View>
     </>
   );
@@ -29,6 +30,7 @@ const styles = StyleSheet.create({
   },
   header: {
     width: "80%",
+    height: "30%",
   },
   backButtonWrapper: {
     marginLeft: -20,

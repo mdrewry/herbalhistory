@@ -21,7 +21,7 @@ export default function Login({ navigation }) {
   };
   return (
     <Page>
-      <Header text="Welcome    Back!" handleBack={handleBack} />
+      <Header text1="Welcome" text2="Back!" handleBack={handleBack} />
       <View style={styles.content}>
         <TextField label="Email" value={email} setValue={setEmail} />
         <View style={styles.spacer} />
@@ -69,6 +69,6 @@ const styles = StyleSheet.create({
   content: {
     width: "80%",
     alignItems: "center",
-    top: 50,
+    height: "60%",
   },
 });
