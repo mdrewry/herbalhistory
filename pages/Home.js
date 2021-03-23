@@ -30,7 +30,7 @@ export default function Home({user, navigation}) {
 
 
   const handleNewSession = () => {
-    navigation.navigate("AddSession");
+    navigation.navigate("New Session");
   };
   
   return (
