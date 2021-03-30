@@ -94,6 +94,6 @@ const styles = StyleSheet.create({
   content: {
     width: "80%",
     alignItems: "center",
-    height: "60%",
+    height: "50%",
   },
 });
