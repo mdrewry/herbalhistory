@@ -3,7 +3,6 @@ import { StyleSheet, Text, View, TouchableOpacity } from "react-native";
 import ScrollPage from "../components/ScrollPage";
 import moment from "moment";
 import CalendarLogo from "../res/CalendarLogo";
-import SmileLogo from "../res/SmileLogo";
 import LineLogo from "../res/LineLogo";
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 export default function ViewSession({navigation}) {
@@ -56,26 +55,39 @@ export default function ViewSession({navigation}) {
         <Text style={styles.smallFont}>Method:</Text>
         <Text style={styles.normalFont}>Vaporizer</Text>
       </View>
-      {/* <Text style={styles.prodInf}>Product Information</Text>
-      <Text style={styles.strain1}>Strain:</Text>
-      <Text style={styles.strain2}>Wedding Cake</Text>
-      <Text style={styles.ratio1}>THC/CBD Ratio:</Text>
-      <Text style={styles.ratio2}>22% THC; Unknown %CBD</Text>
-      <Text style={styles.type1}>Type:</Text>
-      <Text style={styles.type2}>Hybrid</Text>
-      <Text style={styles.disp1}>Dispensary:</Text>
-      <Text style={styles.disp2}>Curaleaf</Text>
-      <Text style={styles.meth1}>Method:</Text>
-      <Text style={styles.meth2}>Vaporizer</Text>
-      <Text style={styles.dose1}>Dosage:</Text>
-      <Text style={styles.dose2}>1 Bowl</Text>
-      <Text style={styles.dose3}>Onset of Effect (Time from Intake):</Text>
-      <Text style={styles.dose4}>0 hours, 5 minutes</Text>
-      <Text style={styles.dose5}>Duration of Effect:</Text>
-      <Text style={styles.dose6}>2 hours, 30 minutes</Text>
-      <View style={styles.line1}>
+
+      <View style={styles.header1}>
+        <Text style={styles.smallText}>Dosage:</Text>   
+        <Text style={styles.textStyle}>1 Bowl</Text>
+        <Text style={styles.smallText}>Onset of Effect (Time from Intake):</Text>   
+        <Text style={styles.textStyle}>0 hours, 5 minutes</Text>
+        <Text style={styles.smallText}>Duration of Effect:</Text>   
+        <Text style={styles.textStyle}>2 hours, 30 minutes</Text>
+      </View>
+
+      <View style={styles.line}>
         <LineLogo/>
       </View>
+
+      <Text style={styles.smallText}>Overall Mood</Text>   
+      <Text style={styles.textStyle}>a</Text>
+      <Text style={styles.smallText}>Mood Words</Text>   
+      <Text style={styles.textStyle}>Uplifted, Relaxed, Happy</Text>
+      <Text style={styles.smallText}>Positive Effects</Text>   
+      <Text style={styles.textStyle}>Muscle Relief, Relaxation, Pain Relief</Text>
+      <Text style={styles.smallText}>Negative Effects</Text>   
+      <Text style={styles.textStyle}>Dry Eyes, Dry Mouth</Text>
+
+      <FontAwesome5 style={styles.asd} name={'calendar-alt'}/>
+      <Text style={styles.smallText}>Overall Mood</Text>
+      <FontAwesome5 style={styles.mood}name={'sad-tear'} />
+      <FontAwesome5 style={styles.mood}name={'frown'} />
+      <FontAwesome5 style={styles.mood}name={'meh'} />
+      <FontAwesome5 style={styles.mood}name={'smile'} />
+      <FontAwesome5 style={styles.mood}name={'laugh'} />
+      <FontAwesome5 style={styles.mood}name={'laugh-squint'} />
+      {/*
+      
       <FontAwesome5 style={styles.calendar}name={'calendar'}/>
       <Text style={styles.mood}>Overall Mood</Text>
       <FontAwesome5 style={styles.mood1}name={'sad-tear'} />
@@ -186,6 +198,7 @@ const styles = StyleSheet.create({
     color: "#183A1D",
     fontSize: 13,
     fontFamily: "Karla_400Regular",
+    marginTop: 5,
   },
   normalFont: {
     color: "#183A1D",
@@ -213,5 +226,102 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
   },
+  header1: {
+    marginTop: 40,
+  },
+  smallText: {
+    color: "#183A1D",
+    fontSize: 13,
+    fontFamily: "Karla_400Regular",
+    marginLeft: 30,
+    marginTop: 5,
+  },
+  textStyle: {
+    color: "#183A1D",
+    fontSize: 20,
+    fontFamily: "Karla_700Bold",
+    marginLeft: 30,
+  },
+  line: {
+    marginTop: 10,
+    height: 10,
+    alignItems: "center",
+  },
+  asd: {
+    // position: "absolute",
+    // left: 50,
+    // top: 170,
+    fontSize: 50,
+    color: "#183A1D"
+  },
+  mood: {
+    fontSize: 50,
+    color: "#183A1D"
+  },
+  // calendar: {
+  //   position: "absolute",
+  //   left: 50,
+  //   top: 170,
+  //   fontSize: 30,
+  //   color: "#183A1D"
+
+  // },
+  // mood: {
+  //   position: "absolute",
+  //   width: 319,
+  //   height: 116,
+  //   left: 25,
+  //   top: 385,
+
+  //   fontFamily: "Karla",
+  //   fontStyle: "normal",
+  //   fontWeight: "normal",
+  //   fontSize: 13,
+  //   lineHeight: 15,
+
+  //   color: "#183A1D",
+  // },
+  // mood1: {
+  //   position: "absolute",
+  //   left: 25,
+  //   top: 400,
+  //   fontSize: 25,
+  //   color: "#183A1D"
+  // },
+  // mood2: {
+  //   position: "absolute",
+  //   left: 55,
+  //   top: 400,
+  //   fontSize: 25,
+  //   color: "#183A1D"
+  // },
+  // mood3: {
+  //   position: "absolute",
+  //   left: 85,
+  //   top: 400,
+  //   fontSize: 25,
+  //   color: "#183A1D"
+  // },
+  // mood4: {
+  //   position: "absolute",
+  //   left: 115,
+  //   top: 400,
+  //   fontSize: 25,
+  //   color: "#183A1D"
+  // },
+  // mood5: {
+  //   position: "absolute",
+  //   left: 145,
+  //   top: 400,
+  //   fontSize: 25,
+  //   color: "#183A1D"
+  // },
+  // mood6: {
+  //   position: "absolute",
+  //   left: 175,
+  //   top: 400,
+  //   fontSize: 25,
+  //   color: "#F6C453"
+  // },
 
 });
