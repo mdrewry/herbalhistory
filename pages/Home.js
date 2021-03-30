@@ -4,9 +4,9 @@ import ScrollPage from "../components/ScrollPage";
 import DashLogo from "../res/DashLogo";
 import FunFactInfo from "../res/FunFactInfo";
 import LineLogo from "../res/LineLogo";
-import SmileLogo from "../res/SmileLogo";
 import ScrollLeft from "../res/ScrollLeft";
 import ScrollRight from "../res/ScrollRight";
+import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 export default function Home({user, navigation}) {
   
   const date = [1,2,3,4,5,6,7];
@@ -120,7 +120,7 @@ export default function Home({user, navigation}) {
           </View>
           <View style={styles.circleCaption2}>
             <View style={styles.circle}>
-              <SmileLogo/>
+              <FontAwesome5 style={styles.mood} name={'grin-beam'} />
             </View>
             <Text style={styles.smallText1}>average mood</Text>
           </View>
@@ -288,5 +288,9 @@ const styles = StyleSheet.create({
     alignItems: "center",
     flexDirection: "row",
     marginTop: 10,
+  },
+  mood: {
+    fontSize: 30,
+    color: "#183A1D"
   },
 });

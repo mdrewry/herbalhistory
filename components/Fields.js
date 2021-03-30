@@ -28,6 +28,7 @@ export const ButtonSelectionFieldRow = ({
             }}
             textStyle={{
               color: determineButtonColor(option.value),
+              fontSize: 20,
             }}
           />
         ))}
@@ -92,6 +93,7 @@ export const ButtonSelectionFieldColumn = ({
             }}
             textStyle={{
               color: determineButtonColor(option.value),
+              fontSize: 20,
             }}
           />
         ))}
@@ -322,7 +324,7 @@ const styles = StyleSheet.create({
   text: {
     color: "#183A1D",
     fontSize: 15,
-    fontFamily: "Karla_400Regular",
+    fontFamily: "Karla_700Bold",
   },
   buttonSelectionRowWrapper: {
     flexDirection: "row",

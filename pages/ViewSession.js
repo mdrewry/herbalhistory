@@ -2,8 +2,10 @@ import React, { useState } from "react";
 import { StyleSheet, Text, View, TouchableOpacity } from "react-native";
 import ScrollPage from "../components/ScrollPage";
 import moment from "moment";
-import CalendarLogo from "../res/CalendarLogo";
 import LineLogo from "../res/LineLogo";
+import TextBox from "../res/TextBox";
+import OutcomeBar from "../res/OutcomeBar";
+import OutcomeSlider from "../res/OutcomeSlider";
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 export default function ViewSession({navigation}) {
   
@@ -32,7 +34,7 @@ export default function ViewSession({navigation}) {
       <View style={styles.calendarButton}>
         <View style={{alignItems: "center"}}>
           <TouchableOpacity onPress={handleHistory} style={styles.circle}>
-            <CalendarLogo/>
+            <FontAwesome5 style={styles.calendar} name={'calendar-alt'}/>
           </TouchableOpacity>
         </View>
       </View>
@@ -42,7 +44,7 @@ export default function ViewSession({navigation}) {
         <Text style={styles.smallFont}>Strain:</Text>
         <Text style={styles.normalFont}>Wedding Cake</Text>
         <Text style={styles.smallFont}>THC/CBD Ratio:</Text>
-        <View style={styles.ratio}>
+        <View style={{flexDirection: "row"}}>
           <Text style={styles.highlight}>22</Text>
           <Text style={styles.normalFont}>% THC; </Text>
           <Text style={styles.highlight}>Unknown</Text>
@@ -63,67 +65,124 @@ export default function ViewSession({navigation}) {
         <Text style={styles.textStyle}>0 hours, 5 minutes</Text>
         <Text style={styles.smallText}>Duration of Effect:</Text>   
         <Text style={styles.textStyle}>2 hours, 30 minutes</Text>
-      </View>
-
-      <View style={styles.line}>
-        <LineLogo/>
-      </View>
-
-      <Text style={styles.smallText}>Overall Mood</Text>   
-      <Text style={styles.textStyle}>a</Text>
-      <Text style={styles.smallText}>Mood Words</Text>   
-      <Text style={styles.textStyle}>Uplifted, Relaxed, Happy</Text>
-      <Text style={styles.smallText}>Positive Effects</Text>   
-      <Text style={styles.textStyle}>Muscle Relief, Relaxation, Pain Relief</Text>
-      <Text style={styles.smallText}>Negative Effects</Text>   
-      <Text style={styles.textStyle}>Dry Eyes, Dry Mouth</Text>
-
-      <FontAwesome5 style={styles.asd} name={'calendar-alt'}/>
-      <Text style={styles.smallText}>Overall Mood</Text>
-      <FontAwesome5 style={styles.mood}name={'sad-tear'} />
-      <FontAwesome5 style={styles.mood}name={'frown'} />
-      <FontAwesome5 style={styles.mood}name={'meh'} />
-      <FontAwesome5 style={styles.mood}name={'smile'} />
-      <FontAwesome5 style={styles.mood}name={'laugh'} />
-      <FontAwesome5 style={styles.mood}name={'laugh-squint'} />
-      {/*
       
-      <FontAwesome5 style={styles.calendar}name={'calendar'}/>
-      <Text style={styles.mood}>Overall Mood</Text>
-      <FontAwesome5 style={styles.mood1}name={'sad-tear'} />
-      <FontAwesome5 style={styles.mood2}name={'frown'} />
-      <FontAwesome5 style={styles.mood3}name={'meh'} />
-      <FontAwesome5 style={styles.mood4}name={'smile'} />
-      <FontAwesome5 style={styles.mood5}name={'laugh'} />
-      <FontAwesome5 style={styles.mood6}name={'laugh-squint'} />
-      <Text style={styles.words1}>Mood Words</Text>
-      <Text style={styles.words2}>Uplifted, Relaxed, Happy</Text>
-      <Text style={styles.pos1}>Positive Effects</Text>
-      <Text style={styles.pos2}>Muscle Relief, Relaxation, Pain Relief</Text>
-      <Text style={styles.neg1}>Negative Effects</Text>
-      <Text style={styles.neg2}>Dry Eyes, Dry Mouth</Text>
-      <View style={styles.line2}>
-        <LineLogo/>
-      </View>
-      <Text style={styles.custom1}>Custom Section: Anxiety</Text>
-      <Text style={styles.bef1}>Anxiety Level Before Intake:</Text>
-      <Text style={styles.bef2}>7 out of 10</Text>
-      <Text style={styles.af1}>Anxiety Level After Intake:</Text>
-      <Text style={styles.af2}>0 out of 10</Text>
-      <Text style={styles.conc1}>Good Product for Anxiety<FontAwesome5 name={'check-circle'}/></Text>
-      <View style={styles.line3}>
-        <LineLogo/>
-      </View>
-      <Text style={styles.custom2}>Custom Section: Sleep</Text>
-      <Text style={styles.bef3}>Restlessness/Energy Before Intake:</Text>
-      <Text style={styles.bef4}>7 out of 10</Text>
-      <Text style={styles.af3}>Restlessness/Energy After Intake:</Text>
-      <Text style={styles.af4}>0 out of 10</Text>
-      <Text style={styles.desc1}>Sleep Description</Text>
-      <Text style={styles.desc2}>{'\n'}    Slept 8 hours without getting up in the middle of the night.</Text>
-      <Text style={styles.conc2}>Good Product for Sleep<FontAwesome5 name={'check-circle'}/></Text> */}
+        <View style={styles.line}>
+          <LineLogo/>
+        </View>
 
+        <Text style={styles.smallText}>Overall Mood</Text>   
+        <View style={{flexDirection: "row"}}>
+          <FontAwesome5 style={styles.mood} name={'sad-tear'} />
+          <FontAwesome5 style={styles.mood} name={'frown'} />
+          <FontAwesome5 style={styles.mood} name={'meh'} />
+          <FontAwesome5 style={styles.mood} name={'smile'} />
+          <FontAwesome5 style={styles.mood} name={'laugh'} />
+          <FontAwesome5 style={styles.mood1} name={'grin-beam'} />
+        </View>
+        <Text style={styles.smallText}>Mood Words</Text>
+        <View style={{flexDirection: "row"}}>
+          <Text style={styles.moodword1}>Uplifted</Text>
+          <Text style={styles.textStyle}>, </Text>
+          <Text style={styles.moodword2}>Relaxed</Text>
+          <Text style={styles.textStyle}>, </Text>
+          <Text style={styles.moodword3}>Happy</Text>
+        </View>
+        <Text style={styles.smallText}>Positive Effects</Text>   
+        <Text style={styles.textStyle}>Muscle Relief, Relaxation, Pain Relief</Text>
+        <Text style={styles.smallText}>Negative Effects</Text>   
+        <Text style={styles.textStyle}>Dry Eyes, Dry Mouth</Text>
 
+        <View style={styles.line}>
+          <LineLogo/>
+        </View>
+
+        <Text style={styles.prodInf}>Custom Section: Anxiety</Text>
+        <Text style={styles.smallText}>Anxiety Level Before Intake:</Text>   
+        <View style={{flexDirection: "row"}}>
+          <Text style={styles.textStyle1}>7</Text>
+          <Text style={styles.textStyle}> out of 10</Text>
+        </View>
+        <Text style={styles.smallText}>Anxiety Level After Intake:</Text>   
+        <View style={{flexDirection: "row"}}>
+          <Text style={styles.textStyle1}>0</Text>
+          <Text style={styles.textStyle}> out of 10</Text>
+        </View>
+        <View style={{flexDirection: "row"}}>
+          <Text style={styles.smallText}>Good Product for Anxiety</Text>
+          <FontAwesome5 style={styles.check} name={'check-circle'}/>
+        </View>
+
+        <View style={styles.line}>
+          <LineLogo/>
+        </View>
+
+        <Text style={styles.prodInf}>Custom Section: Sleep</Text>
+        <Text style={styles.smallText}>Restlessness/Energy Before Intake:</Text>   
+        <View style={{flexDirection: "row"}}>
+          <Text style={styles.textStyle1}>7</Text>
+          <Text style={styles.textStyle}> out of 10</Text>
+        </View>
+        <Text style={styles.smallText}>Restlessness/Energy After Intake:</Text>   
+        <View style={{flexDirection: "row"}}>
+          <Text style={styles.textStyle1}>0</Text>
+          <Text style={styles.textStyle}> out of 10</Text>
+        </View>
+        <Text style={styles.smallText}>Sleep Description:</Text>
+        <View style={styles.textbox}>
+          <TextBox/>
+          <View style={styles.textboxText}>
+            <Text style={styles.smallText}>Slept 8 hours without getting up in the middle of the night.</Text>
+          </View>
+        </View>
+        <View style={{flexDirection: "row"}}>
+          <Text style={styles.smallText}>Good Product for Sleep</Text>
+          <FontAwesome5 style={styles.check} name={'check-circle'}/>
+        </View>
+
+        <View style={styles.line}>
+          <LineLogo/>
+        </View>
+
+        <View style={{flexDirection: "row"}}>
+          <Text style={styles.smallText}>Would Try Again</Text>
+          <FontAwesome5 style={styles.check} name={'check-circle'}/>
+          <Text style={styles.smallText1}>Try Something Else</Text>
+          <FontAwesome5 style={styles.check} name={'circle'}/>
+        </View>
+
+        <View style={styles.outcome}>
+          <Text style={styles.smallText}>Overall Outcome:</Text>
+          <View style={styles.bar}>
+            <OutcomeBar/>
+            <View style={styles.slider}>
+              <OutcomeSlider/>
+              <Text style={styles.textStyle2}>5</Text>
+            </View>
+          </View>
+          <View style={styles.exp}>
+            <View style={styles.expHeader}>
+              <Text style={styles.negative}>negative</Text>
+              <Text style={styles.negative}>experience</Text>
+            </View>
+            <View style={styles.expHeader}>
+              <Text style={styles.positive}>positive</Text>
+              <Text style={styles.positive}>experience</Text>
+            </View>
+          </View>
+        </View>
+
+        <View style={styles.line}>
+          <LineLogo/>
+        </View>
+
+        <Text style={styles.smallText}>Other Notes:</Text>
+        <View style={styles.textbox}>
+          <TextBox/>
+          <View style={styles.textboxText}>
+            <Text style={styles.smallText}>Did it with my roommate; we watched a movie and ate dinner.</Text>
+          </View>
+        </View>
+      </View>
     </ScrollPage>
   );
 
@@ -205,9 +264,6 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontFamily: "Karla_700Bold",
   },
-  ratio: {
-    flexDirection: 'row',
-  },
   highlight: {
     color: "#F6C453",
     fontSize: 20,
@@ -228,100 +284,118 @@ const styles = StyleSheet.create({
   },
   header1: {
     marginTop: 40,
+    marginLeft: 30,
   },
   smallText: {
     color: "#183A1D",
     fontSize: 13,
     fontFamily: "Karla_400Regular",
-    marginLeft: 30,
     marginTop: 5,
+  },
+  smallText1: {
+    color: "#183A1D",
+    fontSize: 13,
+    fontFamily: "Karla_400Regular",
+    marginTop: 5,
+    marginLeft: 10,
   },
   textStyle: {
     color: "#183A1D",
     fontSize: 20,
     fontFamily: "Karla_700Bold",
-    marginLeft: 30,
+  },
+  textStyle1: {
+    color: "#F6C453",
+    fontSize: 20,
+    fontFamily: "Karla_700Bold",
+    textDecorationLine: 'underline',
+  },
+  textStyle2: {
+    color: "#183A1D",
+    fontSize: 20,
+    fontFamily: "Karla_700Bold",
+    left: 8,
   },
   line: {
     marginTop: 10,
     height: 10,
     alignItems: "center",
+    marginRight: 30,
   },
-  asd: {
-    // position: "absolute",
-    // left: 50,
-    // top: 170,
-    fontSize: 50,
+  calendar: {
+    fontSize: 40,
     color: "#183A1D"
   },
   mood: {
-    fontSize: 50,
-    color: "#183A1D"
+    fontSize: 30,
+    color: "#183A1D",
+    marginRight: 14,
   },
-  // calendar: {
-  //   position: "absolute",
-  //   left: 50,
-  //   top: 170,
-  //   fontSize: 30,
-  //   color: "#183A1D"
-
-  // },
-  // mood: {
-  //   position: "absolute",
-  //   width: 319,
-  //   height: 116,
-  //   left: 25,
-  //   top: 385,
-
-  //   fontFamily: "Karla",
-  //   fontStyle: "normal",
-  //   fontWeight: "normal",
-  //   fontSize: 13,
-  //   lineHeight: 15,
-
-  //   color: "#183A1D",
-  // },
-  // mood1: {
-  //   position: "absolute",
-  //   left: 25,
-  //   top: 400,
-  //   fontSize: 25,
-  //   color: "#183A1D"
-  // },
-  // mood2: {
-  //   position: "absolute",
-  //   left: 55,
-  //   top: 400,
-  //   fontSize: 25,
-  //   color: "#183A1D"
-  // },
-  // mood3: {
-  //   position: "absolute",
-  //   left: 85,
-  //   top: 400,
-  //   fontSize: 25,
-  //   color: "#183A1D"
-  // },
-  // mood4: {
-  //   position: "absolute",
-  //   left: 115,
-  //   top: 400,
-  //   fontSize: 25,
-  //   color: "#183A1D"
-  // },
-  // mood5: {
-  //   position: "absolute",
-  //   left: 145,
-  //   top: 400,
-  //   fontSize: 25,
-  //   color: "#183A1D"
-  // },
-  // mood6: {
-  //   position: "absolute",
-  //   left: 175,
-  //   top: 400,
-  //   fontSize: 25,
-  //   color: "#F6C453"
-  // },
+  mood1: {
+    fontSize: 30,
+    color: "#F6C453"
+  },
+  moodword1: {
+    color: "#CEA3F0",
+    fontSize: 20,
+    fontFamily: "Karla_700Bold",
+  },
+  moodword2: {
+    color: "#778E7B",
+    fontSize: 20,
+    fontFamily: "Karla_700Bold",
+  },
+  moodword3: {
+    color: "#EBCF3F",
+    fontSize: 20,
+    fontFamily: "Karla_700Bold",
+  },
+  check: {
+    fontSize: 22,
+    color: "#183A1D",
+    marginLeft: 4,
+  },
+  textbox: {
+    marginTop: 5,
+    marginBottom: 30,
+  },
+  textboxText: {
+    position: 'absolute',
+    marginTop: 5,
+    marginLeft: 15,
+    marginRight: 80,
+  },
+  bar: {
+    marginTop: 10,
+  },
+  outcome: {
+    marginTop: 10,
+  },
+  slider: {
+    flexDirection: "column",
+    position: 'absolute',
+    top: -5,
+    left: 250,
+  },
+  negative: {
+    color: "#183A1D",
+    fontSize: 13,
+    fontFamily: "Karla_400Regular",
+    marginRight: -2,
+  },
+  positive: {
+    color: "#183A1D",
+    fontSize: 13,
+    fontFamily: "Karla_400Regular",
+    marginLeft: 165,
+  },
+  exp: {
+    marginTop: 30,
+    flexDirection: "row",
+  },
+  expHeader: {
+    flexDirection: "column",
+    alignItems: 'center',
+  }
 
 });
