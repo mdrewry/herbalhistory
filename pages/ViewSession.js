@@ -1,17 +1,62 @@
-import React from "react";
-import { StyleSheet, Text, View } from "react-native";
+import React, { useState } from "react";
+import { StyleSheet, Text, View, TouchableOpacity } from "react-native";
 import ScrollPage from "../components/ScrollPage";
+import moment from "moment";
+import CalendarLogo from "../res/CalendarLogo";
+import SmileLogo from "../res/SmileLogo";
 import LineLogo from "../res/LineLogo";
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 export default function ViewSession({navigation}) {
+  
+  const [date, setDate] = useState(new Date());
+  const displayDate = moment(date).format("MMM DD YYYY h:mm a").split(" ");
+  
+  const handleHistory = () => {
+    navigation.navigate("History");
+  };
+
   return (
     <ScrollPage>
-    <View>
-      <Text style={styles.month}>MAR</Text>
-      <Text style={styles.day}>23</Text>
-      <Text style={styles.year}>2021</Text>
-      <Text style={styles.time}>3:00 PM</Text>
-      <Text style={styles.prodInf}>Product Information</Text>
+      <View style={styles.header}>
+        <View style={styles.dateTextWrapper}>
+          <Text style={styles.headerTextMonth}>{displayDate[0]}</Text>
+          <Text style={styles.headerTextDay}>{displayDate[1]}</Text>
+          <Text style={styles.headerTextYear}>{displayDate[2]}</Text>
+          <View style={styles.rowCenter}>
+            <Text style={styles.hourText}>{displayDate[3]}</Text>
+            <Text style={styles.amPmText}>{displayDate[4]}</Text>
+          </View>
+        </View>
+      </View>
+      
+      
+      <View style={styles.calendarButton}>
+        <View style={{alignItems: "center"}}>
+          <TouchableOpacity onPress={handleHistory} style={styles.circle}>
+            <CalendarLogo/>
+          </TouchableOpacity>
+        </View>
+      </View>
+
+      <View style={styles.productHeader}>
+        <Text style={styles.prodInf}>Product Information</Text>
+        <Text style={styles.smallFont}>Strain:</Text>
+        <Text style={styles.normalFont}>Wedding Cake</Text>
+        <Text style={styles.smallFont}>THC/CBD Ratio:</Text>
+        <View style={styles.ratio}>
+          <Text style={styles.highlight}>22</Text>
+          <Text style={styles.normalFont}>% THC; </Text>
+          <Text style={styles.highlight}>Unknown</Text>
+          <Text style={styles.normalFont}>% CBD</Text>
+        </View>
+        <Text style={styles.smallFont}>Type:</Text>
+        <Text style={styles.normalFont}>Hybrid</Text>
+        <Text style={styles.smallFont}>Dispensary:</Text>
+        <Text style={styles.normalFont}>Curaleaf</Text>
+        <Text style={styles.smallFont}>Method:</Text>
+        <Text style={styles.normalFont}>Vaporizer</Text>
+      </View>
+      {/* <Text style={styles.prodInf}>Product Information</Text>
       <Text style={styles.strain1}>Strain:</Text>
       <Text style={styles.strain2}>Wedding Cake</Text>
       <Text style={styles.ratio1}>THC/CBD Ratio:</Text>
@@ -64,10 +109,9 @@ export default function ViewSession({navigation}) {
       <Text style={styles.af4}>0 out of 10</Text>
       <Text style={styles.desc1}>Sleep Description</Text>
       <Text style={styles.desc2}>{'\n'}    Slept 8 hours without getting up in the middle of the night.</Text>
-      <Text style={styles.conc2}>Good Product for Sleep<FontAwesome5 name={'check-circle'}/></Text>
+      <Text style={styles.conc2}>Good Product for Sleep<FontAwesome5 name={'check-circle'}/></Text> */}
 
 
-      </View>
     </ScrollPage>
   );
 
@@ -75,718 +119,99 @@ export default function ViewSession({navigation}) {
 
 
 const styles = StyleSheet.create({
-  prodInf: {
-    position: "absolute",
-    fontFamily: "Karla",
-    width: 195,
-    height: 23,
-    left: 117,
-    top: 36,
-    fontStyle: "normal",
-    fontWeight: "bold",
-    fontSize: 20,
-    lineHeight: 23,
-    display: "flex",
+  header: {
+    // height: "25%",
+    paddingTop: 60,
+    flexDirection: "row",
+    justifyContent: "space-between",
+    marginLeft: 30,
+    // width: "90%",
+  },
+  headerText: {
+    color: "#FEFBE9",
+    fontSize: 45,
+    fontFamily: "Sansita_700Bold",
+  },
+  dateTextWrapper: {
     alignItems: "center",
+  },
+  headerTextMonth: {
+    color: "#183A1D",
+    fontSize: 20,
+    fontFamily: "Karla_700Bold",
+    textTransform: 'uppercase',
+  },
+  headerTextDay: {
+    color: "#F6C453",
+    fontSize: 65,
+    fontFamily: "Sansita_700Bold",
+    marginTop: -15,
+  },
+  headerTextYear: {
+    color: "#183A1D",
+    fontSize: 20,
+    fontFamily: "Karla_700Bold",
+    marginTop: -15,
+  },
+  rowCenter: {
+    flexDirection: "row",
+    alignItems: "center",
+    position: "relative",
+  },
+  amPmText: {
+    position: "absolute",
+    marginLeft: 10,
+    color: "#183A1D",
+    fontFamily: "Karla_700Bold",
+    fontSize: 20,
+    textTransform: 'uppercase',
+  },
+  hourText: {
+    color: "#183A1D",
+    fontFamily: "Karla_700Bold",
+    fontSize: 20,
+    marginLeft: -40,
+  },
+  productHeader: {
+    position: "absolute",
+    left: 130,
+    top: 60,
+  },
+  prodInf: {
+    fontFamily: "Karla_700Bold",
+    fontSize: 20,
     color: "#F1B779",
   },
-  month: {
-    position: "absolute",
-    width: 86,
-    height: 36,
-    left: 23,
-    top: 36,
-
-    fontFamily: "Karla",
-    fontStyle: "normal",
-    fontWeight: "bold",
-    fontSize: 20,
-    lineHeight: 23,
-    textAlign: "center",
-
+  smallFont: {
     color: "#183A1D",
+    fontSize: 13,
+    fontFamily: "Karla_400Regular",
   },
-  day: {
-    position: "absolute",
-    width: 76,
-    height: 69,
-    left: 30,
-    top: 50,
-
-    fontFamily: "Sansita",
-    fontStyle: "normal",
-    fontWeight: "bold",
-    fontSize: 65,
-    lineHeight: 78,
-    display: "flex",
-    alignItems: "center",
-    textAlign: "center",
-
+  normalFont: {
+    color: "#183A1D",
+    fontSize: 20,
+    fontFamily: "Karla_700Bold",
+  },
+  ratio: {
+    flexDirection: 'row',
+  },
+  highlight: {
     color: "#F6C453",
-  },
-  year: {
-    position: "absolute",
-    width: 86,
-    height: 36,
-    left: 25,
-    top: 110,
-
-    fontFamily: "Karla",
-    fontStyle: "normal",
-    fontWeight: "bold",
     fontSize: 20,
-    lineHeight: 23,
-    textAlign: "center",
-
-    color: "#183A1D",
+    fontFamily: "Karla_700Bold",
   },
-  time: {
-    position: "absolute",
-    width: 90,
-    height: 22,
-    left: 23,
-    top: 135,
-
-    fontFamily: "Karla",
-    fontStyle: "normal",
-    fontWeight: "bold",
-    fontSize: 20,
-    lineHeight: 23,
-    textAlign: "center",
-
-    color: "#183A1D",
+  calendarButton: {
+    marginTop: 10,
+    width: "33.33%",
   },
-  strain1: {
-    position: "absolute",
-    width: 139,
-    height: 36,
-    left: 117,
-    top: 60,
-
-    fontFamily: "Karla",
-    fontStyle: "normal",
-    fontWeight: "normal",
-    fontSize: 13,
-    lineHeight: 15,
-
-    color: "#183A1D",
-  },
-  strain2: {
-    position: "absolute",
-    width: 139,
-    height: 36,
-    left: 117,
-    top: 75,
-
-    fontFamily: "Karla",
-    fontSize: 20,
-    fontStyle: "normal",
-    fontWeight: "700",
-    lineHeight: 23,
-
-    color: "#183A1D",
-  },
-  ratio1: {
-    position: "absolute",
-    width: 139,
-    height: 36,
-    left: 117,
-    top: 100,
-
-    fontFamily: "Karla",
-    fontStyle: "normal",
-    fontWeight: "normal",
-    fontSize: 13,
-    lineHeight: 15,
-
-    color: "#183A1D",
-  },
-  ratio2: {
-    position: "absolute",
-    width: 150,
-    height: 36,
-    left: 117,
-    top: 115,
-
-    fontFamily: "Karla",
-    fontSize: 20,
-    fontStyle: "normal",
-    fontWeight: "700",
-    lineHeight: 23,
-
-    color: "#183A1D",
-  },
-  type1: {
-    position: "absolute",
-    width: 139,
-    height: 36,
-    left: 117,
-    top: 155,
-
-    fontFamily: "Karla",
-    fontStyle: "normal",
-    fontWeight: "normal",
-    fontSize: 13,
-    lineHeight: 15,
-
-    color: "#183A1D",
-  },
-  type2: {
-    position: "absolute",
-    width: 200,
-    height: 36,
-    left: 117,
-    top: 170,
-
-    fontFamily: "Karla",
-    fontSize: 20,
-    fontStyle: "normal",
-    fontWeight: "700",
-    lineHeight: 23,
-
-    color: "#183A1D",
-  },
-  disp1: {
-    position: "absolute",
-    width: 139,
-    height: 36,
-    left: 117,
-    top: 190,
-
-    fontFamily: "Karla",
-    fontStyle: "normal",
-    fontWeight: "normal",
-    fontSize: 13,
-    lineHeight: 15,
-
-    color: "#183A1D",
-  },
-  disp2: {
-    position: "absolute",
-    width: 200,
-    height: 36,
-    left: 117,
-    top: 205,
-
-    fontFamily: "Karla",
-    fontSize: 20,
-    fontStyle: "normal",
-    fontWeight: "700",
-    lineHeight: 23,
-
-    color: "#183A1D",
-  },
-  meth1: {
-    position: "absolute",
-    width: 139,
-    height: 36,
-    left: 117,
-    top: 225,
-
-    fontFamily: "Karla",
-    fontStyle: "normal",
-    fontWeight: "normal",
-    fontSize: 13,
-    lineHeight: 15,
-
-    color: "#183A1D",
-  },
-  meth2: {
-    position: "absolute",
-    width: 200,
-    height: 36,
-    left: 117,
-    top: 240,
-
-    fontFamily: "Karla",
-    fontSize: 20,
-    fontStyle: "normal",
-    fontWeight: "700",
-    lineHeight: 23,
-
-    color: "#183A1D",
-  },
-  dose1: {
-    position: "absolute",
-    width: 319,
-    height: 116,
-    left: 25,
-    top: 260,
-
-    fontFamily: "Karla",
-    fontStyle: "normal",
-    fontWeight: "normal",
-    fontSize: 13,
-    lineHeight: 15,
-
-    color: "#183A1D",
-  },
-  dose2: {
-    position: "absolute",
-    width: 319,
-    height: 116,
-    left: 25,
-    top: 275,
-
-    fontFamily: "Karla",
-    fontSize: 20,
-    fontStyle: "normal",
-    fontWeight: "700",
-    lineHeight: 23,
-
-    color: "#183A1D",
-  },
-  dose3: {
-    position: "absolute",
-    width: 319,
-    height: 116,
-    left: 25,
-    top: 295,
-
-    fontFamily: "Karla",
-    fontStyle: "normal",
-    fontWeight: "normal",
-    fontSize: 13,
-    lineHeight: 15,
-
-    color: "#183A1D",
-  },
-  dose4: {
-    position: "absolute",
-    width: 319,
-    height: 116,
-    left: 25,
-    top: 310,
-
-    fontFamily: "Karla",
-    fontSize: 20,
-    fontStyle: "normal",
-    fontWeight: "700",
-    lineHeight: 23,
-
-    color: "#183A1D",
-  },
-  dose5: {
-    position: "absolute",
-    width: 319,
-    height: 116,
-    left: 25,
-    top: 330,
-
-    fontFamily: "Karla",
-    fontStyle: "normal",
-    fontWeight: "normal",
-    fontSize: 13,
-    lineHeight: 15,
-
-    color: "#183A1D",
-  },
-  dose6: {
-    position: "absolute",
-    width: 319,
-    height: 116,
-    left: 25,
-    top: 345,
-
-    fontFamily: "Karla",
-    fontSize: 20,
-    fontStyle: "normal",
-    fontWeight: "700",
-    lineHeight: 23,
-
-    color: "#183A1D",
-  },
-  line1: {
-    position: "absolute",
-    height: 0,
-    top: 370,
+  circle: {
+    backgroundColor: "#E1EEDD",
+    width: 70,
+    height: 70,
+    borderRadius: 70/2,
+    borderWidth: 3,
     alignItems: "center",
+    justifyContent: "center",
   },
-  calendar: {
-    position: "absolute",
-    left: 50,
-    top: 170,
-    fontSize: 30,
-    color: "#183A1D"
-
-  },
-  mood: {
-    position: "absolute",
-    width: 319,
-    height: 116,
-    left: 25,
-    top: 385,
-
-    fontFamily: "Karla",
-    fontStyle: "normal",
-    fontWeight: "normal",
-    fontSize: 13,
-    lineHeight: 15,
-
-    color: "#183A1D",
-  },
-  mood1: {
-    position: "absolute",
-    left: 25,
-    top: 400,
-    fontSize: 25,
-    color: "#183A1D"
-  },
-  mood2: {
-    position: "absolute",
-    left: 55,
-    top: 400,
-    fontSize: 25,
-    color: "#183A1D"
-  },
-  mood3: {
-    position: "absolute",
-    left: 85,
-    top: 400,
-    fontSize: 25,
-    color: "#183A1D"
-  },
-  mood4: {
-    position: "absolute",
-    left: 115,
-    top: 400,
-    fontSize: 25,
-    color: "#183A1D"
-  },
-  mood5: {
-    position: "absolute",
-    left: 145,
-    top: 400,
-    fontSize: 25,
-    color: "#183A1D"
-  },
-  mood6: {
-    position: "absolute",
-    left: 175,
-    top: 400,
-    fontSize: 25,
-    color: "#F6C453"
-  },
-  words1: {
-    position: "absolute",
-    width: 319,
-    height: 116,
-    left: 25,
-    top: 430,
-
-    fontFamily: "Karla",
-    fontStyle: "normal",
-    fontWeight: "normal",
-    fontSize: 13,
-    lineHeight: 15,
-
-    color: "#183A1D",
-  },
-  words2: {
-    position: "absolute",
-    width: 319,
-    height: 116,
-    left: 25,
-    top: 445,
-
-    fontFamily: "Karla",
-    fontSize: 20,
-    fontStyle: "normal",
-    fontWeight: "700",
-    lineHeight: 23,
-
-    color: "#183A1D",
-  },
-  pos1: {
-    position: "absolute",
-    width: 319,
-    height: 116,
-    left: 25,
-    top: 465,
-
-    fontFamily: "Karla",
-    fontStyle: "normal",
-    fontWeight: "normal",
-    fontSize: 13,
-    lineHeight: 15,
-
-    color: "#183A1D",
-  },
-  pos2: {
-    position: "absolute",
-    width: 319,
-    height: 116,
-    left: 25,
-    top: 480,
-
-    fontFamily: "Karla",
-    fontSize: 20,
-    fontStyle: "normal",
-    fontWeight: "700",
-    lineHeight: 23,
-
-    color: "#183A1D",
-  },
-  neg1: {
-    position: "absolute",
-    width: 319,
-    height: 116,
-    left: 25,
-    top: 500,
-
-    fontFamily: "Karla",
-    fontStyle: "normal",
-    fontWeight: "normal",
-    fontSize: 13,
-    lineHeight: 15,
-
-    color: "#183A1D",
-  },
-  neg2: {
-    position: "absolute",
-    width: 319,
-    height: 116,
-    left: 25,
-    top: 515,
-
-    fontFamily: "Karla",
-    fontSize: 20,
-    fontStyle: "normal",
-    fontWeight: "700",
-    lineHeight: 23,
-
-    color: "#183A1D",
-  },
-  line2: {
-    position: "absolute",
-    height: 0,
-    top: 540,
-    alignItems: "center",
-  },
-  line3: {
-    position: "absolute",
-    height: 0,
-    top: 670,
-    alignItems: "center",
-  },
-  custom1: {
-    position: "absolute",
-    width: 319,
-    height: 116,
-    left: 25,
-    top: 560,
-
-    fontFamily: "Karla",
-    fontSize: 20,
-    fontStyle: "normal",
-    fontWeight: "700",
-    lineHeight: 23,
-
-    color: "#F6C453",
-  },
-  bef1: {
-    position: "absolute",
-    width: 319,
-    height: 116,
-    left: 25,
-    top: 580,
-
-    fontFamily: "Karla",
-    fontStyle: "normal",
-    fontWeight: "normal",
-    fontSize: 13,
-    lineHeight: 15,
-
-    color: "#183A1D",
-  },
-  bef2: {
-    position: "absolute",
-    width: 319,
-    height: 116,
-    left: 25,
-    top: 595,
-
-    fontFamily: "Karla",
-    fontSize: 20,
-    fontStyle: "normal",
-    fontWeight: "700",
-    lineHeight: 23,
-
-    color: "#183A1D",
-  },
-  af1: {
-    position: "absolute",
-    width: 319,
-    height: 116,
-    left: 25,
-    top: 615,
-
-    fontFamily: "Karla",
-    fontStyle: "normal",
-    fontWeight: "normal",
-    fontSize: 13,
-    lineHeight: 15,
-
-    color: "#183A1D",
-  },
-  af2: {
-    position: "absolute",
-    width: 319,
-    height: 116,
-    left: 25,
-    top: 630,
-
-    fontFamily: "Karla",
-    fontSize: 20,
-    fontStyle: "normal",
-    fontWeight: "700",
-    lineHeight: 23,
-
-    color: "#183A1D",
-  },
-  conc1: {
-    position: "absolute",
-    width: 319,
-    height: 116,
-    left: 25,
-    top: 650,
-
-    fontFamily: "Karla",
-    fontStyle: "normal",
-    fontWeight: "normal",
-    fontSize: 13,
-    lineHeight: 15,
-
-    color: "#183A1D",
-  },
-  custom2: {
-    position: "absolute",
-    width: 319,
-    height: 116,
-    left: 25,
-    top: 680,
-
-    fontFamily: "Karla",
-    fontSize: 20,
-    fontStyle: "normal",
-    fontWeight: "700",
-    lineHeight: 23,
-
-    color: "#F6C453",
-  },
-  bef3: {
-    position: "absolute",
-    width: 319,
-    height: 116,
-    left: 25,
-    top: 700,
-
-    fontFamily: "Karla",
-    fontStyle: "normal",
-    fontWeight: "normal",
-    fontSize: 13,
-    lineHeight: 15,
-
-    color: "#183A1D",
-  },
-  bef4: {
-    position: "absolute",
-    width: 319,
-    height: 116,
-    left: 25,
-    top: 715,
-
-    fontFamily: "Karla",
-    fontSize: 20,
-    fontStyle: "normal",
-    fontWeight: "700",
-    lineHeight: 23,
-
-    color: "#183A1D",
-  },
-  af3: {
-    position: "absolute",
-    width: 319,
-    height: 116,
-    left: 25,
-    top: 735,
-
-    fontFamily: "Karla",
-    fontStyle: "normal",
-    fontWeight: "normal",
-    fontSize: 13,
-    lineHeight: 15,
-
-    color: "#183A1D",
-  },
-  af4: {
-    position: "absolute",
-    width: 319,
-    height: 116,
-    left: 25,
-    top: 750,
-
-    fontFamily: "Karla",
-    fontSize: 20,
-    fontStyle: "normal",
-    fontWeight: "700",
-    lineHeight: 23,
-
-    color: "#183A1D",
-  },
-  conc2: {
-    position: "absolute",
-    width: 319,
-    height: 116,
-    left: 25,
-    top:810,
-
-    fontFamily: "Karla",
-    fontStyle: "normal",
-    fontWeight: "normal",
-    fontSize: 13,
-    lineHeight: 15,
-
-    color: "#183A1D",
-  },
-  desc1: {
-    position: "absolute",
-    width: 319,
-    height: 116,
-    left: 25,
-    top: 770,
-
-    fontFamily: "Karla",
-    fontStyle: "normal",
-    fontWeight: "normal",
-    fontSize: 13,
-    lineHeight: 15,
-
-    color: "#183A1D",
-  },
-  desc2: {
-    position: "absolute",
-    width: 330,
-    height: 50,
-    left: 25,
-    top: 790,
-
-    borderWidth: 2,
-    borderRadius:15,
-    borderColor: "#183A1D",
-    fontFamily: "Karla",
-    fontStyle: "normal",
-    fontWeight: "normal",
-    fontSize: 13,
-    lineHeight: 15,
-
-    color: "#183A1D",
-  }
-
-
-
-
-
-
 
 });

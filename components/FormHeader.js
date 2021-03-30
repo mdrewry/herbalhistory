@@ -57,13 +57,13 @@ const styles = StyleSheet.create({
     color: "#F6C453",
     fontSize: 65,
     fontFamily: "Sansita_700Bold",
-    marginTop: -20,
+    marginTop: -15,
   },
   headerTextYear: {
     color: "#183A1D",
     fontSize: 20,
     fontFamily: "Karla_700Bold",
-    marginTop: -20,
+    marginTop: -15,
   },
   clockWrapper: {
     borderColor: "#183A1D",

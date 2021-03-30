@@ -178,7 +178,7 @@ export default function App() {
             >
               {(props) => <Settings {...props} user={user} />}
             </MaterialTab.Screen>
-            {/* <MaterialTab.Screen
+            <MaterialTab.Screen
               name="ViewSession"
               options={{
                 display: "null",
@@ -193,7 +193,7 @@ export default function App() {
               }}
             >
               {(props) => <ViewSession {...props} user={user} />}
-            </MaterialTab.Screen> */}
+            </MaterialTab.Screen>
           </MaterialTab.Navigator>
         )}
       </NavigationContainer>

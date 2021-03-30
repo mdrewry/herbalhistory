@@ -1,5 +1,5 @@
 import React from "react";
-import { StyleSheet, Text, View, ScrollView, Button, TouchableOpacity  } from "react-native";
+import { StyleSheet, Text, View, ScrollView, TouchableOpacity  } from "react-native";
 import ScrollPage from "../components/ScrollPage";
 import DashLogo from "../res/DashLogo";
 import FunFactInfo from "../res/FunFactInfo";
@@ -66,7 +66,7 @@ export default function Home({user, navigation}) {
         decelerationRate={0}
         snapToInterval={102} //your element width
         snapToAlignment={"center"}>
-          {/* {
+          {
             date.map(i => {
               return  <View key={i.toString()} style={styles.dateBox}>
                         <Text style={styles.textStyle}>SUN</Text>
@@ -75,50 +75,7 @@ export default function Home({user, navigation}) {
                         <Text style={styles.textStyle}>2021</Text>
                       </View>;
             })
-          } */}
-          <View style={styles.dateBox}>
-            <Text style={styles.textStyle}>TUES</Text>
-            <Text style={styles.textStyle}>MAR</Text>
-            <Text style={styles.textStyle}>23</Text>
-            <Text style={styles.textStyle}>2021</Text>
-          </View>
-          <View style={styles.dateBox}>
-            <Text style={styles.textStyle}>WED</Text>
-            <Text style={styles.textStyle}>MAR</Text>
-            <Text style={styles.textStyle}>24</Text>
-            <Text style={styles.textStyle}>2021</Text>
-          </View>
-          <View style={styles.dateBox}>
-            <Text style={styles.textStyle}>THURS</Text>
-            <Text style={styles.textStyle}>MAR</Text>
-            <Text style={styles.textStyle}>25</Text>
-            <Text style={styles.textStyle}>2021</Text>
-          </View>
-          <View style={styles.dateBox}>
-            <Text style={styles.textStyle}>FRI</Text>
-            <Text style={styles.textStyle}>MAR</Text>
-            <Text style={styles.textStyle}>26</Text>
-            <Text style={styles.textStyle}>2021</Text>
-          </View>
-          <View style={styles.dateBox}>
-            <Text style={styles.textStyle}>SAT</Text>
-            <Text style={styles.textStyle}>MAR</Text>
-            <Text style={styles.textStyle}>27</Text>
-            <Text style={styles.textStyle}>2021</Text>
-          </View>
-          <View style={styles.dateBox}>
-            <Text style={styles.textStyle}>SUN</Text>
-            <Text style={styles.textStyle}>MAR</Text>
-            <Text style={styles.textStyle}>28</Text>
-            <Text style={styles.textStyle}>2021</Text>
-          </View>
-          <View style={styles.dateBox}>
-            <Text style={styles.textStyle}>MON</Text>
-            <Text style={styles.textStyle}>MAR</Text>
-            <Text style={styles.textStyle}>29</Text>
-            <Text style={styles.textStyle}>2021</Text>
-          </View>
-                      
+          }                      
       </ScrollView>
 
       <View style={{flexDirection: "row"}}>
