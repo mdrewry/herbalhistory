@@ -25,7 +25,7 @@ export default function FormHeader({ navigation, showDatePicker, date }) {
           handlePress={showDatePicker}
         />
       </View>
-      <View>
+      <View style={styles.dateTextWrapper}>
         <FormNavButton text="cancel" handlePress={handleCancel} />
       </View>
     </View>
@@ -34,11 +34,11 @@ export default function FormHeader({ navigation, showDatePicker, date }) {
 
 const styles = StyleSheet.create({
   header: {
-    height: "25%",
-    paddingTop: 30,
+    paddingTop: 60,
     flexDirection: "row",
-    justifyContent: "space-between",
-    width: "90%",
+    // height: "30%",
+    // justifyContent: "space-between",
+    // width: "90%",
   },
   headerText: {
     color: "#FEFBE9",
@@ -47,23 +47,26 @@ const styles = StyleSheet.create({
   },
   dateTextWrapper: {
     alignItems: "center",
+    marginLeft: 70,
+    marginRight: 92.5,
   },
   headerTextMonth: {
     color: "#183A1D",
     fontSize: 20,
     fontFamily: "Karla_700Bold",
+    textTransform: 'uppercase',
   },
   headerTextDay: {
     color: "#F6C453",
     fontSize: 65,
     fontFamily: "Sansita_700Bold",
-    marginTop: -20,
+    marginTop: -15,
   },
   headerTextYear: {
     color: "#183A1D",
     fontSize: 20,
     fontFamily: "Karla_700Bold",
-    marginTop: -20,
+    marginTop: -15,
   },
   clockWrapper: {
     borderColor: "#183A1D",
@@ -86,6 +89,7 @@ const styles = StyleSheet.create({
     color: "#183A1D",
     fontFamily: "Karla_700Bold",
     fontSize: 20,
+    textTransform: 'uppercase',
   },
   hourText: {
     color: "#8E9098",
