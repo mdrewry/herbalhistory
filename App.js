@@ -16,7 +16,6 @@ import Home from "./pages/Home";
 import History from "./pages/History";
 import AddSession from "./pages/AddSession";
 import Settings from "./pages/Settings";
-import ViewSession from "./pages/ViewSession";
 
 import {
   useFonts,
@@ -176,23 +175,9 @@ export default function App() {
                 ),
               }}
             >
-              {(props) => <Settings {...props} user={user} />}
-            </MaterialTab.Screen>
-            <MaterialTab.Screen
-              name="ViewSession"
-              options={{
-                display: "null",
-                tabBarLabel: "ViewSession",
-                tabBarIcon: ({ color }) => (
-                  <MaterialCommunityIcons
-                    name="clipboard-list-outline"
-                    color={color}
-                    size={26}
-                  />
-                ),
-              }}
-            >
-              {(props) => <ViewSession {...props} user={user} />}
+              {(props) => (
+                <Settings {...props} user={user} setSignedIn={setSignedIn} />
+              )}
             </MaterialTab.Screen>
           </MaterialTab.Navigator>
         )}

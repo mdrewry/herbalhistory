@@ -6,14 +6,13 @@ import LineLogo from "../res/LineLogo";
 import TextBox from "../res/TextBox";
 import OutcomeBar from "../res/OutcomeBar";
 import OutcomeSlider from "../res/OutcomeSlider";
-import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
-export default function ViewSession({navigation}) {
-  
-  const [date, setDate] = useState(new Date());
-  const displayDate = moment(date).format("MMM DD YYYY h:mm a").split(" ");
-  
+import FontAwesome5 from "react-native-vector-icons/FontAwesome5";
+export default function ViewSession({ session, setPage }) {
+  const displayDate = moment(session.date.toDate())
+    .format("MMM DD YYYY h:mm a")
+    .split(" ");
   const handleHistory = () => {
-    navigation.navigate("History");
+    setPage(0);
   };
 
   return (
@@ -29,12 +28,11 @@ export default function ViewSession({navigation}) {
           </View>
         </View>
       </View>
-      
-      
+
       <View style={styles.calendarButton}>
-        <View style={{alignItems: "center"}}>
+        <View style={{ alignItems: "center" }}>
           <TouchableOpacity onPress={handleHistory} style={styles.circle}>
-            <FontAwesome5 style={styles.calendar} name={'calendar-alt'}/>
+            <FontAwesome5 style={styles.calendar} name={"calendar-alt"} />
           </TouchableOpacity>
         </View>
       </View>
@@ -44,7 +42,7 @@ export default function ViewSession({navigation}) {
         <Text style={styles.smallFont}>Strain:</Text>
         <Text style={styles.normalFont}>Wedding Cake</Text>
         <Text style={styles.smallFont}>THC/CBD Ratio:</Text>
-        <View style={{flexDirection: "row"}}>
+        <View style={{ flexDirection: "row" }}>
           <Text style={styles.highlight}>22</Text>
           <Text style={styles.normalFont}>% THC; </Text>
           <Text style={styles.highlight}>Unknown</Text>
@@ -59,103 +57,109 @@ export default function ViewSession({navigation}) {
       </View>
 
       <View style={styles.header1}>
-        <Text style={styles.smallText}>Dosage:</Text>   
+        <Text style={styles.smallText}>Dosage:</Text>
         <Text style={styles.textStyle}>1 Bowl</Text>
-        <Text style={styles.smallText}>Onset of Effect (Time from Intake):</Text>   
+        <Text style={styles.smallText}>
+          Onset of Effect (Time from Intake):
+        </Text>
         <Text style={styles.textStyle}>0 hours, 5 minutes</Text>
-        <Text style={styles.smallText}>Duration of Effect:</Text>   
+        <Text style={styles.smallText}>Duration of Effect:</Text>
         <Text style={styles.textStyle}>2 hours, 30 minutes</Text>
-      
+
         <View style={styles.line}>
-          <LineLogo/>
+          <LineLogo />
         </View>
 
-        <Text style={styles.smallText}>Overall Mood</Text>   
-        <View style={{flexDirection: "row"}}>
-          <FontAwesome5 style={styles.mood} name={'sad-tear'} />
-          <FontAwesome5 style={styles.mood} name={'frown'} />
-          <FontAwesome5 style={styles.mood} name={'meh'} />
-          <FontAwesome5 style={styles.mood} name={'smile'} />
-          <FontAwesome5 style={styles.mood} name={'laugh'} />
-          <FontAwesome5 style={styles.mood1} name={'grin-beam'} />
+        <Text style={styles.smallText}>Overall Mood</Text>
+        <View style={{ flexDirection: "row" }}>
+          <FontAwesome5 style={styles.mood} name={"sad-tear"} />
+          <FontAwesome5 style={styles.mood} name={"frown"} />
+          <FontAwesome5 style={styles.mood} name={"meh"} />
+          <FontAwesome5 style={styles.mood} name={"smile"} />
+          <FontAwesome5 style={styles.mood} name={"laugh"} />
+          <FontAwesome5 style={styles.mood1} name={"grin-beam"} />
         </View>
         <Text style={styles.smallText}>Mood Words</Text>
-        <View style={{flexDirection: "row"}}>
+        <View style={{ flexDirection: "row" }}>
           <Text style={styles.moodword1}>Uplifted</Text>
           <Text style={styles.textStyle}>, </Text>
           <Text style={styles.moodword2}>Relaxed</Text>
           <Text style={styles.textStyle}>, </Text>
           <Text style={styles.moodword3}>Happy</Text>
         </View>
-        <Text style={styles.smallText}>Positive Effects</Text>   
-        <Text style={styles.textStyle}>Muscle Relief, Relaxation, Pain Relief</Text>
-        <Text style={styles.smallText}>Negative Effects</Text>   
+        <Text style={styles.smallText}>Positive Effects</Text>
+        <Text style={styles.textStyle}>
+          Muscle Relief, Relaxation, Pain Relief
+        </Text>
+        <Text style={styles.smallText}>Negative Effects</Text>
         <Text style={styles.textStyle}>Dry Eyes, Dry Mouth</Text>
 
         <View style={styles.line}>
-          <LineLogo/>
+          <LineLogo />
         </View>
 
         <Text style={styles.prodInf}>Custom Section: Anxiety</Text>
-        <Text style={styles.smallText}>Anxiety Level Before Intake:</Text>   
-        <View style={{flexDirection: "row"}}>
+        <Text style={styles.smallText}>Anxiety Level Before Intake:</Text>
+        <View style={{ flexDirection: "row" }}>
           <Text style={styles.textStyle1}>7</Text>
           <Text style={styles.textStyle}> out of 10</Text>
         </View>
-        <Text style={styles.smallText}>Anxiety Level After Intake:</Text>   
-        <View style={{flexDirection: "row"}}>
+        <Text style={styles.smallText}>Anxiety Level After Intake:</Text>
+        <View style={{ flexDirection: "row" }}>
           <Text style={styles.textStyle1}>0</Text>
           <Text style={styles.textStyle}> out of 10</Text>
         </View>
-        <View style={{flexDirection: "row"}}>
+        <View style={{ flexDirection: "row" }}>
           <Text style={styles.smallText}>Good Product for Anxiety</Text>
-          <FontAwesome5 style={styles.check} name={'check-circle'}/>
+          <FontAwesome5 style={styles.check} name={"check-circle"} />
         </View>
 
         <View style={styles.line}>
-          <LineLogo/>
+          <LineLogo />
         </View>
 
         <Text style={styles.prodInf}>Custom Section: Sleep</Text>
-        <Text style={styles.smallText}>Restlessness/Energy Before Intake:</Text>   
-        <View style={{flexDirection: "row"}}>
+        <Text style={styles.smallText}>Restlessness/Energy Before Intake:</Text>
+        <View style={{ flexDirection: "row" }}>
           <Text style={styles.textStyle1}>7</Text>
           <Text style={styles.textStyle}> out of 10</Text>
         </View>
-        <Text style={styles.smallText}>Restlessness/Energy After Intake:</Text>   
-        <View style={{flexDirection: "row"}}>
+        <Text style={styles.smallText}>Restlessness/Energy After Intake:</Text>
+        <View style={{ flexDirection: "row" }}>
           <Text style={styles.textStyle1}>0</Text>
           <Text style={styles.textStyle}> out of 10</Text>
         </View>
         <Text style={styles.smallText}>Sleep Description:</Text>
         <View style={styles.textbox}>
-          <TextBox/>
+          <TextBox />
           <View style={styles.textboxText}>
-            <Text style={styles.smallText}>Slept 8 hours without getting up in the middle of the night.</Text>
+            <Text style={styles.smallText}>
+              Slept 8 hours without getting up in the middle of the night.
+            </Text>
           </View>
         </View>
-        <View style={{flexDirection: "row"}}>
+        <View style={{ flexDirection: "row" }}>
           <Text style={styles.smallText}>Good Product for Sleep</Text>
-          <FontAwesome5 style={styles.check} name={'check-circle'}/>
+          <FontAwesome5 style={styles.check} name={"check-circle"} />
         </View>
 
         <View style={styles.line}>
-          <LineLogo/>
+          <LineLogo />
         </View>
 
-        <View style={{flexDirection: "row"}}>
+        <View style={{ flexDirection: "row" }}>
           <Text style={styles.smallText}>Would Try Again</Text>
-          <FontAwesome5 style={styles.check} name={'check-circle'}/>
+          <FontAwesome5 style={styles.check} name={"check-circle"} />
           <Text style={styles.smallText1}>Try Something Else</Text>
-          <FontAwesome5 style={styles.check} name={'circle'}/>
+          <FontAwesome5 style={styles.check} name={"circle"} />
         </View>
 
         <View style={styles.outcome}>
           <Text style={styles.smallText}>Overall Outcome:</Text>
           <View style={styles.bar}>
-            <OutcomeBar/>
+            <OutcomeBar />
             <View style={styles.slider}>
-              <OutcomeSlider/>
+              <OutcomeSlider />
               <Text style={styles.textStyle2}>5</Text>
             </View>
           </View>
@@ -172,22 +176,22 @@ export default function ViewSession({navigation}) {
         </View>
 
         <View style={styles.line}>
-          <LineLogo/>
+          <LineLogo />
         </View>
 
         <Text style={styles.smallText}>Other Notes:</Text>
         <View style={styles.textbox}>
-          <TextBox/>
+          <TextBox />
           <View style={styles.textboxText}>
-            <Text style={styles.smallText}>Did it with my roommate; we watched a movie and ate dinner.</Text>
+            <Text style={styles.smallText}>
+              Did it with my roommate; we watched a movie and ate dinner.
+            </Text>
           </View>
         </View>
       </View>
     </ScrollPage>
   );
-
 }
-
 
 const styles = StyleSheet.create({
   header: {
@@ -210,7 +214,7 @@ const styles = StyleSheet.create({
     color: "#183A1D",
     fontSize: 20,
     fontFamily: "Karla_700Bold",
-    textTransform: 'uppercase',
+    textTransform: "uppercase",
   },
   headerTextDay: {
     color: "#F6C453",
@@ -235,7 +239,7 @@ const styles = StyleSheet.create({
     color: "#183A1D",
     fontFamily: "Karla_700Bold",
     fontSize: 20,
-    textTransform: 'uppercase',
+    textTransform: "uppercase",
   },
   hourText: {
     color: "#183A1D",
@@ -277,7 +281,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#E1EEDD",
     width: 70,
     height: 70,
-    borderRadius: 70/2,
+    borderRadius: 70 / 2,
     borderWidth: 3,
     alignItems: "center",
     justifyContent: "center",
@@ -308,7 +312,7 @@ const styles = StyleSheet.create({
     color: "#F6C453",
     fontSize: 20,
     fontFamily: "Karla_700Bold",
-    textDecorationLine: 'underline',
+    textDecorationLine: "underline",
   },
   textStyle2: {
     color: "#183A1D",
@@ -324,7 +328,7 @@ const styles = StyleSheet.create({
   },
   calendar: {
     fontSize: 40,
-    color: "#183A1D"
+    color: "#183A1D",
   },
   mood: {
     fontSize: 30,
@@ -333,7 +337,7 @@ const styles = StyleSheet.create({
   },
   mood1: {
     fontSize: 30,
-    color: "#F6C453"
+    color: "#F6C453",
   },
   moodword1: {
     color: "#CEA3F0",
@@ -360,7 +364,7 @@ const styles = StyleSheet.create({
     marginBottom: 30,
   },
   textboxText: {
-    position: 'absolute',
+    position: "absolute",
     marginTop: 5,
     marginLeft: 15,
     marginRight: 80,
@@ -373,7 +377,7 @@ const styles = StyleSheet.create({
   },
   slider: {
     flexDirection: "column",
-    position: 'absolute',
+    position: "absolute",
     top: -5,
     left: 250,
   },
@@ -395,7 +399,6 @@ const styles = StyleSheet.create({
   },
   expHeader: {
     flexDirection: "column",
-    alignItems: 'center',
-  }
-
+    alignItems: "center",
+  },
 });
