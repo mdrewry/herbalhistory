@@ -7,10 +7,9 @@ import TextBox from "../res/TextBox";
 import OutcomeBar from "../res/OutcomeBar";
 import OutcomeSlider from "../res/OutcomeSlider";
 import FontAwesome5 from "react-native-vector-icons/FontAwesome5";
-export default function ViewSession({ session, setPage }) {
-  const displayDate = moment(session.date.toDate())
-    .format("MMM DD YYYY h:mm a")
-    .split(" ");
+export default function ViewSession({ daySessions, setPage }) {
+  console.log(daySessions);
+  const displayDate = moment().format("MMM DD YYYY h:mm a").split(" ");
   const handleHistory = () => {
     setPage(0);
   };
