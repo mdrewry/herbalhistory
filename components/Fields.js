@@ -1,7 +1,7 @@
 import React from "react";
 import { StyleSheet, Text, View } from "react-native";
 import { TextInput, DefaultTheme, RadioButton } from "react-native-paper";
-import { TextButton, MoodButton } from "./Buttons";
+import { TextButton, MoodButton, CustomTextLeftButton } from "./Buttons";
 export const ButtonSelectionFieldRow = ({
   label,
   value,
@@ -84,23 +84,18 @@ export const ButtonSelectionFieldColumn = ({
       <Text style={styles.buttonSelectionLabel}>{label}</Text>
       <View style={styles.buttonSelectionColWrapper}>
         {options.map((option, key) => (
-          <TextButton
+          <CustomTextLeftButton
             key={key}
-            handlePress={() => handleSelection(option.value)}
             text={option.label}
-            buttonStyle={{
-              width: "auto",
-            }}
-            textStyle={{
-              color: determineButtonColor(option.value),
-              fontSize: 20,
-            }}
+            textStyle={{ color: determineButtonColor(option.value) }}
+            handlePress={() => handleSelection(option.value)}
           />
         ))}
       </View>
     </>
   );
 };
+
 export const MultipleSelectionField = ({ label, value, setValue, options }) => {
   const handleSelection = (selectedWord) => {
     const index = value.findIndex((word) => word === selectedWord);
@@ -119,16 +114,11 @@ export const MultipleSelectionField = ({ label, value, setValue, options }) => {
       <Text style={styles.buttonSelectionLabel}>{label}</Text>
       <View style={styles.buttonSelectionColWrapper}>
         {options.map((option, key) => (
-          <TextButton
+          <CustomTextLeftButton
             key={key}
-            handlePress={() => handleSelection(option.value)}
             text={option.label}
-            buttonStyle={{
-              width: "auto",
-            }}
-            textStyle={{
-              color: determineButtonColor(option.value),
-            }}
+            textStyle={{ color: determineButtonColor(option.value) }}
+            handlePress={() => handleSelection(option.value)}
           />
         ))}
       </View>
@@ -289,6 +279,7 @@ export const LabellessTextField = ({ value, setValue, pos }) => {
       value={value[pos]}
       onChangeText={handleChange}
       keyboardType="numeric"
+      placeholder="00"
     />
   );
 };
@@ -325,12 +316,6 @@ const styles = StyleSheet.create({
     color: "#183A1D",
     fontSize: 15,
     fontFamily: "Karla_700Bold",
-  },
-  buttonSelectionRowWrapper: {
-    flexDirection: "row",
-    alignItems: "flex-end",
-    flexWrap: "wrap",
-    width: "100%",
   },
   buttonSelectionRowWrapper: {
     flexDirection: "row",

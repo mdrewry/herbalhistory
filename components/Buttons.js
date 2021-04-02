@@ -1,6 +1,6 @@
 import React from "react";
-import { StyleSheet } from "react-native";
-import { Button, IconButton } from "react-native-paper";
+import { StyleSheet, Text } from "react-native";
+import { Button, IconButton, TouchableRipple } from "react-native-paper";
 export const ContainedButton = ({ handlePress, text }) => {
   return (
     <Button style={styles.button} mode="contained" onPress={handlePress}>
@@ -28,8 +28,27 @@ export const TextButton = ({ handlePress, text, buttonStyle, textStyle }) => {
       mode="text"
       onPress={handlePress}
     >
-      {text}
+      <Text style={styles.textStyle}>{text}</Text>
     </Button>
+  );
+};
+export const CustomTextLeftButton = ({ handlePress, text, textStyle }) => {
+  return (
+    <TouchableRipple
+      onPress={handlePress}
+      borderless={true}
+      style={styles.customRippleButton}
+      rippleColor="rgba(24, 58, 29, .32)"
+    >
+      <Text
+        style={{
+          ...textStyle,
+          ...styles.buttonText,
+        }}
+      >
+        {text}
+      </Text>
+    </TouchableRipple>
   );
 };
 export const BackButton = ({ handlePress }) => {
@@ -62,6 +81,7 @@ const styles = StyleSheet.create({
   },
   buttonText: {
     fontFamily: "Karla_700Bold",
+    fontSize: 20,
   },
   backButton: {
     margin: -20,
@@ -69,5 +89,12 @@ const styles = StyleSheet.create({
   formNavButton: {
     fontSize: 13,
     fontFamily: "Karla_400Regular",
+  },
+  customRippleButton: {
+    width: "100%",
+    flexDirection: "row",
+    marginTop: 20,
+    padding: 20,
+    borderRadius: 50,
   },
 });

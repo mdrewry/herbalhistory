@@ -2,11 +2,8 @@ import React from "react";
 import { StyleSheet, Text, View } from "react-native";
 import moment from "moment";
 import { FormNavButton, TextButton } from "./Buttons";
-export default function FormHeader({ navigation, showDatePicker, date }) {
+export default function FormHeader({ handleCancel, showDatePicker, date }) {
   const displayDate = moment(date).format("MMM DD YYYY h:mm a").split(" ");
-  const handleCancel = () => {
-    navigation.navigate("Home");
-  };
   return (
     <View style={styles.header}>
       <View style={styles.dateTextWrapper}>
@@ -25,7 +22,8 @@ export default function FormHeader({ navigation, showDatePicker, date }) {
           handlePress={showDatePicker}
         />
       </View>
-      <View style={styles.dateTextWrapper}>
+      <View style={styles.fill} />
+      <View>
         <FormNavButton text="cancel" handlePress={handleCancel} />
       </View>
     </View>
@@ -36,9 +34,7 @@ const styles = StyleSheet.create({
   header: {
     paddingTop: 60,
     flexDirection: "row",
-    // height: "30%",
-    // justifyContent: "space-between",
-    // width: "90%",
+    width: "95%",
   },
   headerText: {
     color: "#FEFBE9",
@@ -47,14 +43,12 @@ const styles = StyleSheet.create({
   },
   dateTextWrapper: {
     alignItems: "center",
-    marginLeft: 70,
-    marginRight: 92.5,
   },
   headerTextMonth: {
     color: "#183A1D",
     fontSize: 20,
     fontFamily: "Karla_700Bold",
-    textTransform: 'uppercase',
+    textTransform: "uppercase",
   },
   headerTextDay: {
     color: "#F6C453",
@@ -83,13 +77,16 @@ const styles = StyleSheet.create({
     alignItems: "center",
     position: "relative",
   },
+  fill: {
+    flexGrow: 1,
+  },
   amPmText: {
     position: "absolute",
     marginLeft: 70,
     color: "#183A1D",
     fontFamily: "Karla_700Bold",
     fontSize: 20,
-    textTransform: 'uppercase',
+    textTransform: "uppercase",
   },
   hourText: {
     color: "#8E9098",

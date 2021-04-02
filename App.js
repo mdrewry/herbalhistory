@@ -16,7 +16,6 @@ import Home from "./pages/Home";
 import History from "./pages/History";
 import AddSession from "./pages/AddSession";
 import Settings from "./pages/Settings";
-
 import {
   useFonts,
   Sansita_400Regular,
@@ -121,6 +120,9 @@ export default function App() {
             activeColor="#F6C453"
             inactiveColor="#183A1D"
             barStyle={styles.bottomNavBar}
+            tabBarOptions={{
+              keyboardHidesTabBar: true,
+            }}
             screenOptions={({ route }) => ({
               tabBarButton: ["ViewSession"].includes(route.name)
                 ? () => {

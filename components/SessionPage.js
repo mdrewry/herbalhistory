@@ -1,5 +1,5 @@
 import React from "react";
-import { StyleSheet, Text, ScrollView, View } from "react-native";
+import { StyleSheet, Text, View } from "react-native";
 export default function AddSession({
   highlightText,
   page,
@@ -14,12 +14,7 @@ export default function AddSession({
         {regText}
         <Text style={styles.highlightText}>{highlightText}</Text>
       </Text>
-      <ScrollView contentContainerStyle={styles.container}>
-        <View style={styles.stretchOpen}>
-          <View style={styles.stretch} />
-        </View>
-        {children}
-      </ScrollView>
+      <View style={styles.container}>{children}</View>
     </>
   );
 }
@@ -27,15 +22,9 @@ export default function AddSession({
 const styles = StyleSheet.create({
   container: {
     flexGrow: 1,
-    padding: 20,
+
     width: "90%",
-  },
-  stretchOpen: {
-    flexDirection: "row",
-    width: "100%",
-  },
-  stretch: {
-    flexGrow: 1,
+    alignSelf: "center",
   },
   regText: {
     fontFamily: "Karla_700Bold",

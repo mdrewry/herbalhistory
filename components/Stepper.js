@@ -60,7 +60,7 @@ const styles = StyleSheet.create({
   rowCenter: {
     flexDirection: "row",
     alignItems: "center",
-    width: "90%",
+    width: "100%",
     paddingBottom: 10,
   },
   stepperIconWrapper: {

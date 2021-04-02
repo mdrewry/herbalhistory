@@ -1,11 +1,10 @@
 import React, { useState, useEffect, Fragment } from "react";
-import { StyleSheet, Text, View } from "react-native";
+import { StyleSheet } from "react-native";
 import moment from "moment";
-import Contain from "../components/Contain";
 import { CalendarList } from "react-native-calendars";
 import { firestore } from "../firebase";
-import { ContainedButton } from "../components/Buttons";
 import ViewSession from "./ViewSession";
+import { UncenteredPage } from "../components/Page";
 
 export default function History({ navigation, user }) {
   const [sessions, setSessions] = useState([]);
@@ -54,7 +53,7 @@ export default function History({ navigation, user }) {
     setPage(day.dateString);
   };
   return (
-    <>
+    <UncenteredPage>
       {page === 0 && (
         <CalendarList
           // Callback which gets executed when visible months change in scroll view. Default = undefined
@@ -69,6 +68,7 @@ export default function History({ navigation, user }) {
           markingType="custom"
           markedDates={markedDates}
           onDayPress={handleSessionClick}
+          style={styles.calendar}
           theme={{
             backgroundColor: "#FEFBE9",
             calendarBackground: "#FEFBE9",
@@ -91,8 +91,12 @@ export default function History({ navigation, user }) {
           )}
         </Fragment>
       ))}
-    </>
+    </UncenteredPage>
   );
 }
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  calendar: {
+    marginTop: "15%",
+  },
+});

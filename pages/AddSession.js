@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { StyleSheet, Text, View, ScrollView, Button } from "react-native";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
+import ScrollPage from "../components/ScrollPage";
 import Page from "../components/Page";
 import SessionPage from "../components/SessionPage";
 import { FormNavButton, ContainedButton } from "../components/Buttons";
@@ -25,15 +26,15 @@ export default function AddSession({ user, navigation }) {
   const [fieldsFilled, setFieldsFilled] = useState(true);
   const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
   const [strainName, setStrainName] = useState("");
-  const [thcCbdValue, setThcCbdValue] = useState(["00", "00"]);
+  const [thcCbdValue, setThcCbdValue] = useState(["", ""]);
   const [thcValueType, setThcValueType] = useState("%");
   const [thcFamily, setThcFamily] = useState("Sativa");
   const [consumptionMethod, setConsumptionMethod] = useState(
     "Inhalation (smoke)"
   );
   const [dosage, setDosage] = useState("");
-  const [sessionOnset, setSessionOnset] = useState(["00", "00"]);
-  const [sessionDuration, setSessionDuration] = useState(["00", "00"]);
+  const [sessionOnset, setSessionOnset] = useState(["", ""]);
+  const [sessionDuration, setSessionDuration] = useState(["", ""]);
   const [overallMood, setOverallMood] = useState(0);
   const [moodWords, setMoodWords] = useState([]);
   const [positiveWords, setPositiveWords] = useState([]);
@@ -45,13 +46,13 @@ export default function AddSession({ user, navigation }) {
   const handleNavigation = () => {
     setPage(0);
     setStrainName("");
-    setThcCbdValue(["00", "00"]);
+    setThcCbdValue(["", ""]);
     setThcValueType("%");
     setThcFamily("Sativa");
     setConsumptionMethod("Inhalation (smoke)");
     setDosage("");
-    setSessionOnset(["00", "00"]);
-    setSessionDuration(["00", "00"]);
+    setSessionOnset(["", ""]);
+    setSessionDuration(["", ""]);
     setOverallMood(0);
     setMoodWords([]);
     setPositiveWords([]);
@@ -182,7 +183,6 @@ export default function AddSession({ user, navigation }) {
     setFieldsFilled(verified);
     return verified;
   };
-
   if (page === numPages)
     return (
       <Page>
@@ -213,134 +213,141 @@ export default function AddSession({ user, navigation }) {
         navigation={navigation}
         date={date}
         showDatePicker={showDatePicker}
+        handleCancel={handleNavigation}
       />
-      <SessionPage highlightText="product" page={0} currPage={page}>
-        <View>
-          <TextField
-            label="Strain"
-            value={strainName}
-            setValue={setStrainName}
+
+      <ScrollPage>
+        <SessionPage highlightText="product" page={0} currPage={page}>
+          <View>
+            <TextField
+              label="Strain"
+              value={strainName}
+              setValue={setStrainName}
+            />
+          </View>
+          <FormDivider />
+          <TwoFieldRow
+            value={thcCbdValue}
+            setValue={setThcCbdValue}
+            label="THC/CBD Contents"
+            sublabel1="THC"
+            sublabel2="CBD"
+          />
+          <View style={styles.spacer} />
+          <ButtonSelectionFieldRow
+            label="Type (Tap One)"
+            value={thcValueType}
+            setValue={setThcValueType}
+            options={thcValueTypeSelection}
+          />
+          <FormDivider />
+          <ButtonSelectionFieldRow
+            label="Type (Tap One)"
+            value={thcFamily}
+            setValue={setThcFamily}
+            options={thcFamilySelection}
+          />
+          <FormDivider />
+          <ButtonSelectionFieldColumn
+            label="Method (Tap One)"
+            value={consumptionMethod}
+            setValue={setConsumptionMethod}
+            options={consumptionMethodSelection}
+          />
+        </SessionPage>
+        <SessionPage highlightText="dosage" page={1} currPage={page}>
+          <View>
+            <TextField label="Dosage" value={dosage} setValue={setDosage} />
+          </View>
+          <FormDivider />
+          <TwoFieldRow
+            value={sessionOnset}
+            setValue={setSessionOnset}
+            label="Onset of Effect"
+            sublabel1="Hr"
+            sublabel2="Min"
+          />
+          <FormDivider />
+          <TwoFieldRow
+            value={sessionDuration}
+            setValue={setSessionDuration}
+            label="Duration of Effect"
+            sublabel1="Hr"
+            sublabel2="Min"
+          />
+        </SessionPage>
+        <SessionPage highlightText="mood" page={2} currPage={page}>
+          <MoodSelectionField
+            label="Overall Mood"
+            value={overallMood}
+            setValue={setOverallMood}
+          />
+          <FormDivider />
+          <MultipleSelectionField
+            label="Mood Words(Select All That Apply)"
+            value={moodWords}
+            setValue={setMoodWords}
+            options={moodWordsSelection}
+          />
+        </SessionPage>
+        <SessionPage highlightText="positive effects" page={3} currPage={page}>
+          <MultipleSelectionField
+            label="Positive Effects(Select All That Apply)"
+            value={positiveWords}
+            setValue={setPositiveWords}
+            options={positiveWordsSelection}
+          />
+        </SessionPage>
+        <SessionPage highlightText="negative effects" page={4} currPage={page}>
+          <MultipleSelectionField
+            label="Negative Effects(Select All That Apply)"
+            value={negativeWords}
+            setValue={setNegativeWords}
+            options={negativeWordsSelection}
+          />
+        </SessionPage>
+        <SessionPage highlightText="overall session" page={5} currPage={page}>
+          <RadioButtonSelection
+            label="Would Try Again"
+            value={wouldTryAgain}
+            setValue={setWouldTryAgain}
+            options={wouldTryAgainSelection}
+          />
+          <FormDivider />
+          <RadioButtonSelection
+            label="Overall Rating"
+            value={overallRating}
+            setValue={setOverallRating}
+            options={overallRatingSelection}
+          />
+          <FormDivider />
+          <View>
+            <MultiLineTextField
+              label="notes"
+              lines={5}
+              value={notes}
+              setValue={setNotes}
+            />
+          </View>
+        </SessionPage>
+
+        <View style={styles.paddingWrapper}>
+          <View style={styles.errorTextWrapper}>
+            {!fieldsFilled && (
+              <Text style={styles.errorText}>
+                Please fill out all fields to continue
+              </Text>
+            )}
+          </View>
+          <Stepper
+            page={page}
+            setPage={setPage}
+            numPages={numPages}
+            verifyPage={verifyPage}
+            submitForm={submitForm}
           />
         </View>
-        <FormDivider />
-        <TwoFieldRow
-          value={thcCbdValue}
-          setValue={setThcCbdValue}
-          label="THC/CBD Contents"
-          sublabel1="THC"
-          sublabel2="CBD"
-        />
-        <View style={styles.spacer} />
-        <ButtonSelectionFieldRow
-          label="Type (Tap One)"
-          value={thcValueType}
-          setValue={setThcValueType}
-          options={thcValueTypeSelection}
-        />
-        <FormDivider />
-        <ButtonSelectionFieldRow
-          label="Type (Tap One)"
-          value={thcFamily}
-          setValue={setThcFamily}
-          options={thcFamilySelection}
-        />
-        <FormDivider />
-        <ButtonSelectionFieldColumn
-          label="Method (Tap One)"
-          value={consumptionMethod}
-          setValue={setConsumptionMethod}
-          options={consumptionMethodSelection}
-        />
-      </SessionPage>
-      <SessionPage highlightText="dosage" page={1} currPage={page}>
-        <View>
-          <TextField label="Dosage" value={dosage} setValue={setDosage} />
-        </View>
-        <FormDivider />
-        <TwoFieldRow
-          value={sessionOnset}
-          setValue={setSessionOnset}
-          label="Onset of Effect"
-          sublabel1="Hr"
-          sublabel2="Min"
-        />
-        <FormDivider />
-        <TwoFieldRow
-          value={sessionDuration}
-          setValue={setSessionDuration}
-          label="Duration of Effect"
-          sublabel1="Hr"
-          sublabel2="Min"
-        />
-      </SessionPage>
-      <SessionPage highlightText="mood" page={2} currPage={page}>
-        <MoodSelectionField
-          label="Overall Mood"
-          value={overallMood}
-          setValue={setOverallMood}
-        />
-        <FormDivider />
-        <MultipleSelectionField
-          label="Mood Words(Select All That Apply)"
-          value={moodWords}
-          setValue={setMoodWords}
-          options={moodWordsSelection}
-        />
-      </SessionPage>
-      <SessionPage highlightText="positive effects" page={3} currPage={page}>
-        <MultipleSelectionField
-          label="Positive Effects(Select All That Apply)"
-          value={positiveWords}
-          setValue={setPositiveWords}
-          options={positiveWordsSelection}
-        />
-      </SessionPage>
-      <SessionPage highlightText="negative effects" page={4} currPage={page}>
-        <MultipleSelectionField
-          label="Negative Effects(Select All That Apply)"
-          value={negativeWords}
-          setValue={setNegativeWords}
-          options={negativeWordsSelection}
-        />
-      </SessionPage>
-      <SessionPage highlightText="overall session" page={5} currPage={page}>
-        <RadioButtonSelection
-          label="Would Try Again"
-          value={wouldTryAgain}
-          setValue={setWouldTryAgain}
-          options={wouldTryAgainSelection}
-        />
-        <FormDivider />
-        <RadioButtonSelection
-          label="Overall Rating"
-          value={overallRating}
-          setValue={setOverallRating}
-          options={overallRatingSelection}
-        />
-        <FormDivider />
-        <View>
-          <MultiLineTextField
-            label="notes"
-            lines={5}
-            value={notes}
-            setValue={setNotes}
-          />
-        </View>
-      </SessionPage>
-      <View style={styles.errorTextWrapper}>
-        {!fieldsFilled && (
-          <Text style={styles.errorText}>
-            Please fill out all fields to continue
-          </Text>
-        )}
-      </View>
-      <Stepper
-        page={page}
-        setPage={setPage}
-        numPages={numPages}
-        verifyPage={verifyPage}
-        submitForm={submitForm}
-      />
+      </ScrollPage>
     </Page>
   );
 }
@@ -391,5 +398,9 @@ const styles = StyleSheet.create({
   errorTextWrapper: {
     width: "90%",
     height: 20,
+  },
+  paddingWrapper: {
+    width: "95%",
+    alignSelf: "center",
   },
 });
