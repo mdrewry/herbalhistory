@@ -8,8 +8,20 @@ import OutcomeBar from "../res/OutcomeBar";
 import OutcomeSlider from "../res/OutcomeSlider";
 import FontAwesome5 from "react-native-vector-icons/FontAwesome5";
 export default function ViewSession({ daySessions, setPage }) {
-  console.log(daySessions);
-  const displayDate = moment().format("MMM DD YYYY h:mm a").split(" ");
+  
+  const [index, setIndex] = useState(0);
+
+  const product = daySessions[index];
+  const moodwords = product.moodWords.join(", ");
+  const positivewords = product.positiveWords.join(", ");
+  const negativewords = product.negativeWords.join(", ");
+  const displayDate = moment(product.date.toDate()).format("MMM DD YYYY h:mm a").split(" ");
+  const mood = ["sad-tear","frown","meh","smile","laugh","grin-beam"];
+  const sliderStyle = [styles.slider1,styles.slider2,styles.slider3,styles.slider4,styles.slider5];
+
+  // console.log(daySessions);
+  // console.log(product.date.toDate());
+
   const handleHistory = () => {
     setPage(0);
   };
@@ -39,31 +51,44 @@ export default function ViewSession({ daySessions, setPage }) {
       <View style={styles.productHeader}>
         <Text style={styles.prodInf}>Product Information</Text>
         <Text style={styles.smallFont}>Strain:</Text>
-        <Text style={styles.normalFont}>Wedding Cake</Text>
+        <Text style={styles.normalFont}>{product.strain}</Text>
         <Text style={styles.smallFont}>THC/CBD Ratio:</Text>
         <View style={{ flexDirection: "row" }}>
-          <Text style={styles.highlight}>22</Text>
-          <Text style={styles.normalFont}>% THC; </Text>
-          <Text style={styles.highlight}>Unknown</Text>
-          <Text style={styles.normalFont}>% CBD</Text>
+          <Text style={styles.highlight}>{product.thcValue}</Text>
+          <Text style={styles.normalFont}>{product.chemValueType}</Text>
+          <Text style={styles.normalFont}> THC; </Text>
+          <Text style={styles.highlight}>{product.cbdValue}</Text>
+          <Text style={styles.normalFont}>{product.chemValueType}</Text>
+          <Text style={styles.normalFont}> CBD</Text>
         </View>
         <Text style={styles.smallFont}>Type:</Text>
-        <Text style={styles.normalFont}>Hybrid</Text>
+        <Text style={styles.normalFont}>{product.thcFamily}</Text>
         <Text style={styles.smallFont}>Dispensary:</Text>
-        <Text style={styles.normalFont}>Curaleaf</Text>
+        <Text style={styles.normalFont}>Curaleaf</Text> 
+        {/* Dispensary? */}
         <Text style={styles.smallFont}>Method:</Text>
-        <Text style={styles.normalFont}>Vaporizer</Text>
+        <Text style={styles.normalFont}>{product.method}</Text>
       </View>
 
       <View style={styles.header1}>
         <Text style={styles.smallText}>Dosage:</Text>
-        <Text style={styles.textStyle}>1 Bowl</Text>
+        <Text style={styles.textStyle}>{product.dosage}</Text>
         <Text style={styles.smallText}>
           Onset of Effect (Time from Intake):
         </Text>
-        <Text style={styles.textStyle}>0 hours, 5 minutes</Text>
+        <View style={{ flexDirection: "row" }}>
+          <Text style={styles.textStyle}>{product.sessionOnset[0]}</Text>
+          <Text style={styles.textStyle}> hours, </Text>
+          <Text style={styles.textStyle}>{product.sessionOnset[1]}</Text>
+          <Text style={styles.textStyle}> minutes</Text>
+        </View>
         <Text style={styles.smallText}>Duration of Effect:</Text>
-        <Text style={styles.textStyle}>2 hours, 30 minutes</Text>
+        <View style={{ flexDirection: "row" }}>
+          <Text style={styles.textStyle}>{product.sessionDuration[0]}</Text>
+          <Text style={styles.textStyle}> hours, </Text>
+          <Text style={styles.textStyle}>{product.sessionDuration[1]}</Text>
+          <Text style={styles.textStyle}> minutes</Text>
+        </View>
 
         <View style={styles.line}>
           <LineLogo />
@@ -71,29 +96,20 @@ export default function ViewSession({ daySessions, setPage }) {
 
         <Text style={styles.smallText}>Overall Mood</Text>
         <View style={{ flexDirection: "row" }}>
-          <FontAwesome5 style={styles.mood} name={"sad-tear"} />
-          <FontAwesome5 style={styles.mood} name={"frown"} />
-          <FontAwesome5 style={styles.mood} name={"meh"} />
-          <FontAwesome5 style={styles.mood} name={"smile"} />
-          <FontAwesome5 style={styles.mood} name={"laugh"} />
-          <FontAwesome5 style={styles.mood1} name={"grin-beam"} />
+          {mood.map((item, key) => {
+            if(product.overallMood == key)
+              return <FontAwesome5 key={key} style={styles.mood1} name={item} />
+            return <FontAwesome5 key={key} style={styles.mood} name={item} />
+          })}
         </View>
         <Text style={styles.smallText}>Mood Words</Text>
-        <View style={{ flexDirection: "row" }}>
-          <Text style={styles.moodword1}>Uplifted</Text>
-          <Text style={styles.textStyle}>, </Text>
-          <Text style={styles.moodword2}>Relaxed</Text>
-          <Text style={styles.textStyle}>, </Text>
-          <Text style={styles.moodword3}>Happy</Text>
-        </View>
+        <Text style={styles.textStyle}>{moodwords}</Text>
         <Text style={styles.smallText}>Positive Effects</Text>
-        <Text style={styles.textStyle}>
-          Muscle Relief, Relaxation, Pain Relief
-        </Text>
+        <Text style={styles.textStyle}>{positivewords}</Text>
         <Text style={styles.smallText}>Negative Effects</Text>
-        <Text style={styles.textStyle}>Dry Eyes, Dry Mouth</Text>
+        <Text style={styles.textStyle}>{negativewords}</Text>
 
-        <View style={styles.line}>
+        {/* <View style={styles.line}>
           <LineLogo />
         </View>
 
@@ -140,7 +156,7 @@ export default function ViewSession({ daySessions, setPage }) {
         <View style={{ flexDirection: "row" }}>
           <Text style={styles.smallText}>Good Product for Sleep</Text>
           <FontAwesome5 style={styles.check} name={"check-circle"} />
-        </View>
+        </View> */}
 
         <View style={styles.line}>
           <LineLogo />
@@ -148,19 +164,29 @@ export default function ViewSession({ daySessions, setPage }) {
 
         <View style={{ flexDirection: "row" }}>
           <Text style={styles.smallText}>Would Try Again</Text>
-          <FontAwesome5 style={styles.check} name={"check-circle"} />
+          {product.wouldTryAgain ? (
+            <FontAwesome5 style={styles.check} name={"check-circle"} />
+            ) : (
+            <FontAwesome5 style={styles.check} name={"circle"} />
+          )
+          }
           <Text style={styles.smallText1}>Try Something Else</Text>
-          <FontAwesome5 style={styles.check} name={"circle"} />
+          {product.wouldTryAgain ? (
+            <FontAwesome5 style={styles.check} name={"circle"} />
+            ) : (
+            <FontAwesome5 style={styles.check} name={"check-circle"} />
+          )
+          }
         </View>
 
         <View style={styles.outcome}>
           <Text style={styles.smallText}>Overall Outcome:</Text>
           <View style={styles.bar}>
-            <OutcomeBar />
-            <View style={styles.slider}>
+          <OutcomeBar />
+            <View style={sliderStyle[product.overallRating - 1]}>
               <OutcomeSlider />
-              <Text style={styles.textStyle2}>5</Text>
-            </View>
+              <Text style={styles.textStyle2}>{product.overallRating}</Text>
+            </View>            
           </View>
           <View style={styles.exp}>
             <View style={styles.expHeader}>
@@ -178,13 +204,11 @@ export default function ViewSession({ daySessions, setPage }) {
           <LineLogo />
         </View>
 
-        <Text style={styles.smallText}>Other Notes:</Text>
+        <Text style={styles.smallText}>Notes:</Text>
         <View style={styles.textbox}>
           <TextBox />
           <View style={styles.textboxText}>
-            <Text style={styles.smallText}>
-              Did it with my roommate; we watched a movie and ate dinner.
-            </Text>
+            <Text style={styles.smallText}>{product.notes}</Text>
           </View>
         </View>
       </View>
@@ -317,7 +341,7 @@ const styles = StyleSheet.create({
     color: "#183A1D",
     fontSize: 20,
     fontFamily: "Karla_700Bold",
-    left: 8,
+    left: 10,
   },
   line: {
     marginTop: 10,
@@ -337,6 +361,7 @@ const styles = StyleSheet.create({
   mood1: {
     fontSize: 30,
     color: "#F6C453",
+    marginRight: 14,
   },
   moodword1: {
     color: "#CEA3F0",
@@ -374,10 +399,34 @@ const styles = StyleSheet.create({
   outcome: {
     marginTop: 10,
   },
-  slider: {
+  slider1: {
     flexDirection: "column",
     position: "absolute",
-    top: -5,
+    top: -6,
+    left: -2,
+  },
+  slider2: {
+    flexDirection: "column",
+    position: "absolute",
+    top: -6,
+    left: 61,
+  },
+  slider3: {
+    flexDirection: "column",
+    position: "absolute",
+    top: -6,
+    left: 124,
+  },
+  slider4: {
+    flexDirection: "column",
+    position: "absolute",
+    top: -6,
+    left: 187,
+  },
+  slider5: {
+    flexDirection: "column",
+    position: "absolute",
+    top: -6,
     left: 250,
   },
   negative: {
