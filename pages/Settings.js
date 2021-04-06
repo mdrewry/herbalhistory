@@ -5,14 +5,19 @@ import { ContainedButton } from "../components/Buttons";
 import DashLogo from "../res/DashLogo";
 import ScrollPage from "../components/ScrollPage";
 import { auth } from "../firebase";
-export default function Settings({}) {
+export default function Settings({ setSignedIn }) {
   const handleSignOut = async () => {
+    setSignedIn(false);
     auth.signOut();
   };
   const [sectionText, setSectionText] = useState("Custom Sections:");
-  const [moreText, setMoreText] = useState("More Settings and Features Coming Soon!");
+  const [moreText, setMoreText] = useState(
+    "More Settings and Features Coming Soon!"
+  );
   const [headerText, setHeaderText] = useState("Settings");
-  const [descText, setDescText] = useState("Choose what custom areas of focus you would like to add to your session entries.");
+  const [descText, setDescText] = useState(
+    "Choose what custom areas of focus you would like to add to your session entries."
+  );
   const [field1Text, setField1Text] = useState("Sleep");
   const [field2Text, setField2Text] = useState("Anxiety");
   const [isSleepSwitchOn, setIsSleepSwitchOn] = React.useState(false);
@@ -28,10 +33,19 @@ export default function Settings({}) {
       <Text style={styles.sectionText}>{sectionText}</Text>
       <Text style={styles.descText}>{descText}</Text>
       <View style={styles.fields}>
-        <Text style={styles.fieldText}>{field1Text}</Text>
-        <Switch value={isSleepSwitchOn} onValueChange={onToggleSleepSwitch} />
-        <Text style={styles.fieldText}>{field2Text}</Text>
-        <Switch value={isAnxietySwitchOn} onValueChange={onToggleAnxietySwitch} />
+        <View style={styles.rowCenter}>
+          <Text style={styles.fieldText}>{field1Text}</Text>
+          <View style={styles.grow} />
+          <Switch value={isSleepSwitchOn} onValueChange={onToggleSleepSwitch} />
+        </View>
+        <View style={styles.rowCenter}>
+          <Text style={styles.fieldText}>{field2Text}</Text>
+          <View style={styles.grow} />
+          <Switch
+            value={isAnxietySwitchOn}
+            onValueChange={onToggleAnxietySwitch}
+          />
+        </View>
       </View>
       <Text style={styles.moreText}>{moreText}</Text>
       <View style={styles.signOut}>
@@ -51,13 +65,13 @@ const styles = StyleSheet.create({
     fontSize: 30,
     fontFamily: "Karla_700Bold",
     marginLeft: 30,
-    color: "#183A1D"
+    color: "#183A1D",
   },
   descText: {
     fontSize: 18,
     fontFamily: "Karla_400Regular",
     marginLeft: 30,
-    color: "#183A1D"
+    color: "#183A1D",
   },
   moreText: {
     color: "#F1B779",
@@ -69,19 +83,26 @@ const styles = StyleSheet.create({
     color: "#183A1D",
     fontSize: 40,
     fontFamily: "Sansita_700Bold",
-    margin: 30
+    margin: 30,
   },
   fields: {
-    margin: 30
+    margin: 30,
   },
   fieldText: {
     fontSize: 25,
     fontFamily: "Karla_400Regular",
-    color: "#183A1D"
+    color: "#183A1D",
   },
   signOut: {
     margin: 38,
     width: "80%",
-    alignItems: "center"
-  }
+    alignItems: "center",
+  },
+  rowCenter: {
+    flexDirection: "row",
+    alignItems: "center",
+  },
+  grow: {
+    flexGrow: 1,
+  },
 });

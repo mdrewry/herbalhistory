@@ -16,8 +16,6 @@ import Home from "./pages/Home";
 import History from "./pages/History";
 import AddSession from "./pages/AddSession";
 import Settings from "./pages/Settings";
-import ViewSession from "./pages/ViewSession";
-
 import {
   useFonts,
   Sansita_400Regular,
@@ -122,15 +120,16 @@ export default function App() {
             activeColor="#F6C453"
             inactiveColor="#183A1D"
             barStyle={styles.bottomNavBar}
+            tabBarOptions={{
+              keyboardHidesTabBar: true,
+            }}
             screenOptions={({ route }) => ({
-        tabBarButton: [
-          "ViewSession",
-        ].includes(route.name)
-          ? () => {
-              return null;
-            }
-          : undefined,
-      })}
+              tabBarButton: ["ViewSession"].includes(route.name)
+                ? () => {
+                    return null;
+                  }
+                : undefined,
+            })}
           >
             <MaterialTab.Screen
               name="Home"
@@ -178,19 +177,9 @@ export default function App() {
                 ),
               }}
             >
-              {(props) => <Settings {...props} user={user} />}
-            </MaterialTab.Screen>
-            <MaterialTab.Screen
-              name="ViewSession"
-              options={{
-                display: "null",
-                tabBarLabel: "ViewSession",
-                tabBarIcon: ({ color }) => (
-                  <MaterialCommunityIcons name="clipboard-list-outline" color={color} size={26} />
-                ),
-              }}
-            >
-              {(props) => <ViewSession {...props} user={user} />}
+              {(props) => (
+                <Settings {...props} user={user} setSignedIn={setSignedIn} />
+              )}
             </MaterialTab.Screen>
           </MaterialTab.Navigator>
         )}

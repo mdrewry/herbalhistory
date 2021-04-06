@@ -1,25 +1,32 @@
 import React from "react";
-import { StyleSheet, Text, View, ScrollView, Button, TouchableOpacity  } from "react-native";
+import {
+  StyleSheet,
+  Text,
+  View,
+  ScrollView,
+  TouchableOpacity,
+} from "react-native";
 import ScrollPage from "../components/ScrollPage";
 import DashLogo from "../res/DashLogo";
 import FunFactInfo from "../res/FunFactInfo";
 import LineLogo from "../res/LineLogo";
-import SmileLogo from "../res/SmileLogo";
 import ScrollLeft from "../res/ScrollLeft";
 import ScrollRight from "../res/ScrollRight";
-export default function Home({user, navigation}) {
-  
-  const date = [1,2,3,4,5,6,7];
+import FontAwesome5 from "react-native-vector-icons/FontAwesome5";
+export default function Home({ user, navigation }) {
+  const date = [1, 2, 3, 4, 5, 6, 7];
   const day = 0;
   const hours = 2;
-  const funFact = ["Cannabis has been legal for personal use in Alaska since 1975.",
-  "George Washington grew cannabis at Mount Vernon.",
-  "In 1996, California became the first state to legalize medical cannabis.",
-  "William Shakespeare grew and smoke marijuana.",
-  "Women build up a tolerance to cannabis faster than men.",
-  "In 2013, Uruguay became the first country to fully legalize cannabis use.",
-  "In 2012, Washington and Colorado became the first states to legalize cannabis for recreational use."];
-  const randNum = Math.floor(Math.random() * 7) + 0 ;
+  const funFact = [
+    "Cannabis has been legal for personal use in Alaska since 1975.",
+    "George Washington grew cannabis at Mount Vernon.",
+    "In 1996, California became the first state to legalize medical cannabis.",
+    "William Shakespeare grew and smoke marijuana.",
+    "Women build up a tolerance to cannabis faster than men.",
+    "In 2013, Uruguay became the first country to fully legalize cannabis use.",
+    "In 2012, Washington and Colorado became the first states to legalize cannabis for recreational use.",
+  ];
+  const randNum = Math.floor(Math.random() * 7) + 0;
   const strain = "Wedding Cake";
   const timesUsed = 11; //.fliter query
   const averageRating = 4.75; //fliter query
@@ -27,21 +34,19 @@ export default function Home({user, navigation}) {
   const positive = "Relaxation, Muscle Relief, Pain Relief";
   const negative = "Couch Lock, Dry Eyes, Dry Mouth";
 
-
-
   const handleNewSession = () => {
     navigation.navigate("New Session");
   };
-  
+
   return (
     <ScrollPage>
       <View style={styles.logo}>
         <DashLogo />
       </View>
       <Text style={styles.headerText}>Welcome Back,</Text>
-      <Text style={styles.name}>{user.name+"!"} </Text>
-      
-      <View style={styles.timestat}> 
+      <Text style={styles.name}>{user.name + "!"} </Text>
+
+      <View style={styles.timestat}>
         <Text style={styles.textStyle}>It has been</Text>
         <View style={styles.timecontainer}>
           <View style={styles.circleCaption}>
@@ -59,26 +64,24 @@ export default function Home({user, navigation}) {
         </View>
         <Text style={styles.textStyle}>since your last session.</Text>
       </View>
-      
-      <Text style={styles.textStyle1}>This week:</Text>
-      <ScrollView contentContainerStyle={styles.calendar} 
-        horizontal= {true}
-        decelerationRate={0}
-        snapToInterval={102} //your element width
-        snapToAlignment={"center"}>
-          {
-            date.map(i => {
-              return  <View key={i.toString()} style={styles.dateBox}>
-                        <Text style={styles.textStyle}>SUN</Text>
-                        <Text style={styles.textStyle}>FEB</Text>
-                        <Text style={styles.textStyle}>{i}</Text>
-                        <Text style={styles.textStyle}>2021</Text>
-                      </View>;
-            })
-          }
-      </ScrollView>
 
-      <View style={{flexDirection: "row"}}>
+      <Text style={styles.textStyle1}>This week:</Text>
+      <View style={styles.calendarWrapper}>
+        <ScrollView contentContainerStyle={styles.calendar} horizontal={true}>
+          {date.map((i) => {
+            return (
+              <View key={i.toString()} style={styles.dateBox}>
+                <Text style={styles.textStyle}>SUN</Text>
+                <Text style={styles.textStyle}>FEB</Text>
+                <Text style={styles.textStyle}>{i}</Text>
+                <Text style={styles.textStyle}>2021</Text>
+              </View>
+            );
+          })}
+        </ScrollView>
+      </View>
+
+      <View style={{ flexDirection: "row" }}>
         <View style={styles.leftArrow}>
           <ScrollLeft />
         </View>
@@ -86,23 +89,25 @@ export default function Home({user, navigation}) {
           <ScrollRight />
         </View>
       </View>
-      
+
       <View style={styles.fill1}></View>
       <Text style={styles.textStyle1}>Fun Fact of the Day:</Text>
-      <View style={{flexDirection: "row"}}>
+      <View style={{ flexDirection: "row" }}>
         <View style={styles.infologo}>
           <FunFactInfo />
         </View>
         <Text style={styles.funFact}>{funFact[randNum]}</Text>
       </View>
 
-      <Text style={styles.name}>{user.name+"'s"} </Text>
+      <Text style={styles.name}>{user.name + "'s"} </Text>
       <Text style={styles.headerText}>Statistics</Text>
       <View style={styles.fill}></View>
-      <Text style={styles.smallText}>Favorite Strain (Highest Avg. Rating):</Text>   
+      <Text style={styles.smallText}>
+        Favorite Strain (Highest Avg. Rating):
+      </Text>
       <Text style={styles.textStyle1}>{strain}</Text>
 
-      <View style={{alignItems: "center"}}>
+      <View style={{ alignItems: "center" }}>
         <View style={styles.favStrain}>
           <View style={styles.circleCaption2}>
             <View style={styles.circle}>
@@ -120,7 +125,7 @@ export default function Home({user, navigation}) {
           </View>
           <View style={styles.circleCaption2}>
             <View style={styles.circle}>
-              <SmileLogo/>
+              <FontAwesome5 style={styles.mood} name={"grin-beam"} />
             </View>
             <Text style={styles.smallText1}>average mood</Text>
           </View>
@@ -128,14 +133,20 @@ export default function Home({user, navigation}) {
       </View>
 
       <View style={styles.line}>
-        <LineLogo/>
+        <LineLogo />
       </View>
 
-      <Text style={styles.smallText}>{user.name+"'s Common Mood Words:"}</Text>   
+      <Text style={styles.smallText}>
+        {user.name + "'s Common Mood Words:"}
+      </Text>
       <Text style={styles.textStyle1}>{mood}</Text>
-      <Text style={styles.smallText}>{user.name+"'s Common Positive Effects:"}</Text>   
+      <Text style={styles.smallText}>
+        {user.name + "'s Common Positive Effects:"}
+      </Text>
       <Text style={styles.textStyle1}>{positive}</Text>
-      <Text style={styles.smallText}>{user.name+"'s Common Negative Effects:"}</Text>   
+      <Text style={styles.smallText}>
+        {user.name + "'s Common Negative Effects:"}
+      </Text>
       <Text style={styles.textStyle1}>{negative}</Text>
 
       <View style={styles.fill1}></View>
@@ -147,7 +158,6 @@ export default function Home({user, navigation}) {
         <Text style={styles.textStyle}>Add New Session</Text>
       </View>
       <View style={styles.fill1}></View>
-
     </ScrollPage>
   );
 }
@@ -172,7 +182,7 @@ const styles = StyleSheet.create({
   },
   line: {
     marginTop: 30,
-    height: 20,
+    height: 10,
     alignItems: "center",
   },
   headerText: {
@@ -243,7 +253,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#E1EEDD",
     width: 70,
     height: 70,
-    borderRadius: 70/2,
+    borderRadius: 70 / 2,
     borderWidth: 3,
     alignItems: "center",
     justifyContent: "center",
@@ -262,7 +272,7 @@ const styles = StyleSheet.create({
   timecontainer: {
     flexDirection: "row",
     marginBottom: 5,
-    marginTop: 5
+    marginTop: 5,
   },
   circleCaption: {
     flexDirection: "column",
@@ -282,11 +292,18 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     marginTop: 5,
     marginBottom: 5,
-    paddingLeft: 15,
+  },
+  calendarWrapper: {
+    width: "90%",
+    alignSelf: "center",
   },
   favStrain: {
     alignItems: "center",
     flexDirection: "row",
     marginTop: 10,
+  },
+  mood: {
+    fontSize: 30,
+    color: "#183A1D",
   },
 });
