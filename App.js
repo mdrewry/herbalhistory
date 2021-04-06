@@ -16,6 +16,7 @@ import Home from "./pages/Home";
 import History from "./pages/History";
 import AddSession from "./pages/AddSession";
 import Settings from "./pages/Settings";
+import ViewSession from "./pages/ViewSession"
 import {
   useFonts,
   Sansita_400Regular,
@@ -97,6 +98,7 @@ export default function App() {
   const disableTabBar = () => ({
     tabBarVisible: signedIn,
   });
+
   return (
     <PaperProvider theme={theme}>
       <NavigationContainer>
