@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect, Fragment } from "react";
 import { StyleSheet } from "react-native";
 import moment from "moment";
@@ -21,7 +20,7 @@ export default function History({ navigation, user }) {
       snapshot.docs.forEach((doc) => {
         const data = doc.data();
         const id = doc.id;
-        const dateKey = moment(data.date.toDate()).format("YYYY-MM-D");
+        const dateKey = moment(data.date.toDate()).format("YYYY-MM-DD");
         if (sessions[dateKey] === undefined) sessions[dateKey] = [];
         sessions[dateKey].push({ ...data, id });
         markedDates[dateKey] = {

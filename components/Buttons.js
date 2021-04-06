@@ -3,33 +3,38 @@ import { StyleSheet, Text } from "react-native";
 import { Button, IconButton, TouchableRipple } from "react-native-paper";
 export const ContainedButton = ({ handlePress, text }) => {
   return (
-    <Button style={styles.button} mode="contained" onPress={handlePress}>
-      {text}
-    </Button>
+    <TouchableRipple
+      onPress={handlePress}
+      borderless={true}
+      style={styles.customFilledRippleButton}
+      rippleColor="rgba(254, 251, 233, .32)"
+    >
+      <Text style={styles.filledButtonText}>{text}</Text>
+    </TouchableRipple>
   );
 };
-export const FormNavButton = ({ handlePress, text, disabled }) => {
+export const FormNavButton = ({ handlePress, text }) => {
   return (
-    <Button
-      style={styles.formNavButton}
-      mode="contained"
+    <TouchableRipple
       onPress={handlePress}
-      disabled={disabled}
+      borderless={true}
+      style={styles.formNavButton}
+      rippleColor="rgba(254, 251, 233, .32)"
     >
-      {text}
-    </Button>
+      <Text style={styles.formNavButtonText}>{text}</Text>
+    </TouchableRipple>
   );
 };
 export const TextButton = ({ handlePress, text, buttonStyle, textStyle }) => {
   return (
-    <Button
-      style={{ ...styles.button, ...buttonStyle }}
-      labelStyle={{ ...styles.buttonText, ...textStyle }}
-      mode="text"
+    <TouchableRipple
       onPress={handlePress}
+      borderless={true}
+      style={{ ...styles.customRippleButton, ...buttonStyle }}
+      rippleColor="rgba(24, 58, 29, .32)"
     >
-      <Text style={styles.textStyle}>{text}</Text>
-    </Button>
+      <Text style={{ ...styles.buttonText, ...textStyle }}>{text}</Text>
+    </TouchableRipple>
   );
 };
 export const CustomTextLeftButton = ({ handlePress, text, textStyle }) => {
@@ -37,13 +42,13 @@ export const CustomTextLeftButton = ({ handlePress, text, textStyle }) => {
     <TouchableRipple
       onPress={handlePress}
       borderless={true}
-      style={styles.customRippleButton}
+      style={styles.customRippleLeftButton}
       rippleColor="rgba(24, 58, 29, .32)"
     >
       <Text
         style={{
-          ...textStyle,
           ...styles.buttonText,
+          ...textStyle,
         }}
       >
         {text}
@@ -82,15 +87,41 @@ const styles = StyleSheet.create({
   buttonText: {
     fontFamily: "Karla_700Bold",
     fontSize: 20,
+    color: "#183A1D",
   },
   backButton: {
     margin: -20,
   },
-  formNavButton: {
+  formNavButtonText: {
     fontSize: 13,
     fontFamily: "Karla_400Regular",
+    color: "#FEFBE9",
+  },
+  formNavButton: {
+    padding: 10,
+    borderRadius: 50,
+    alignItems: "center",
+    backgroundColor: "#183A1D",
   },
   customRippleButton: {
+    width: "100%",
+    padding: 20,
+    borderRadius: 50,
+    alignItems: "center",
+  },
+  filledButtonText: {
+    fontFamily: "Karla_700Bold",
+    fontSize: 20,
+    color: "#FEFBE9",
+  },
+  customFilledRippleButton: {
+    width: "100%",
+    padding: 20,
+    borderRadius: 50,
+    alignItems: "center",
+    backgroundColor: "#183A1D",
+  },
+  customRippleLeftButton: {
     width: "100%",
     flexDirection: "row",
     marginTop: 20,

@@ -24,7 +24,7 @@ export default function FormHeader({ handleCancel, showDatePicker, date }) {
       </View>
       <View style={styles.fill} />
       <View>
-        <FormNavButton text="cancel" handlePress={handleCancel} />
+        <FormNavButton text="Cancel" handlePress={handleCancel} />
       </View>
     </View>
   );
