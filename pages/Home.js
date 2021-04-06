@@ -45,9 +45,11 @@ export default function Home({ user, navigation }) {
   }, []);
   const date = [1, 2, 3, 4, 5, 6, 7];
   const currDay = moment().format("MMM DD YYYY h:mm a");
-  const lastDateHours = moment(sessions[lastDate][sessions[lastDate].length - 1].date.toDate()).format("MMM DD YYYY h:mm a");
-  const day = moment(currDay).diff(moment(lastDateHours), 'days');
-  const hours = moment(currDay).diff(moment(lastDateHours), 'hours') % 24;
+  // const lastDateHours = moment(sessions[lastDate][sessions[lastDate].length - 1].date.toDate()).format("MMM DD YYYY h:mm a");
+  // const day = moment(currDay).diff(moment(lastDateHours), 'days');
+  // const hours = moment(currDay).diff(moment(lastDateHours), 'hours') % 24;
+  const day = 0;
+  const hours = 0;
   const funFact = [
     "Cannabis has been legal for personal use in Alaska since 1975.",
     "George Washington grew cannabis at Mount Vernon.",
