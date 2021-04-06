@@ -63,8 +63,8 @@ export default function ViewSession({ daySessions, setPage }) {
         </View>
         <Text style={styles.smallFont}>Type:</Text>
         <Text style={styles.normalFont}>{product.thcFamily}</Text>
-        <Text style={styles.smallFont}>Dispensary:</Text>
-        <Text style={styles.normalFont}>Curaleaf</Text> 
+        {/* <Text style={styles.smallFont}>Dispensary:</Text>
+        <Text style={styles.normalFont}>Curaleaf</Text>  */}
         {/* Dispensary? */}
         <Text style={styles.smallFont}>Method:</Text>
         <Text style={styles.normalFont}>{product.method}</Text>

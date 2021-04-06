@@ -200,7 +200,7 @@ export const RadioButtonSelection = ({ label, value, setValue, options }) => {
       <Text style={styles.text}>{label}</Text>
       <View style={styles.radioButtonWrapper}>
         {options.map((option, key) => (
-          <View style={styles.colCenter}>
+          <View style={styles.colCenter} key={key}>
             <RadioButton
               theme={theme}
               value={option.value}
