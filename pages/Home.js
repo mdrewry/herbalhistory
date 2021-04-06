@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import {
   StyleSheet,
   Text,
@@ -7,6 +7,8 @@ import {
   TouchableOpacity,
 } from "react-native";
 import ScrollPage from "../components/ScrollPage";
+import moment from "moment";
+import { firestore } from "../firebase";
 import DashLogo from "../res/DashLogo";
 import FunFactInfo from "../res/FunFactInfo";
 import LineLogo from "../res/LineLogo";
@@ -14,9 +16,38 @@ import ScrollLeft from "../res/ScrollLeft";
 import ScrollRight from "../res/ScrollRight";
 import FontAwesome5 from "react-native-vector-icons/FontAwesome5";
 export default function Home({ user, navigation }) {
+  
+  const [sessions, setSessions] = useState([]);
+  const [lastDate, setlastDate] = useState(moment().format("YYYY-MM-D"))
+  useEffect(() => {
+    const sessionsRef = firestore
+      .collection("sessions")
+      .where("userID", "==", user.id)
+      .orderBy("date", "asc");
+    const unsubscribeSessions = sessionsRef.onSnapshot((snapshot) => {
+      let sessions = {};
+      snapshot.docs.forEach((doc) => {
+        const data = doc.data();
+        const id = doc.id;
+        const dateKey = moment(data.date.toDate()).format("YYYY-MM-D");
+        setlastDate(dateKey)
+        // if(moment(dateKey).isBefore(lastDate))
+          // setlastDate(dateKey);
+        if (sessions[dateKey] === undefined) 
+          sessions[dateKey] = [];
+        sessions[dateKey].push({ ...data, id });
+      });
+      setSessions(sessions);
+    });
+    return () => {
+      unsubscribeSessions();
+    };
+  }, []);
   const date = [1, 2, 3, 4, 5, 6, 7];
-  const day = 0;
-  const hours = 2;
+  const currDay = moment().format("MMM DD YYYY h:mm a");
+  const lastDateHours = moment(sessions[lastDate][sessions[lastDate].length - 1].date.toDate()).format("MMM DD YYYY h:mm a");
+  const day = moment(currDay).diff(moment(lastDateHours), 'days');
+  const hours = moment(currDay).diff(moment(lastDateHours), 'hours') % 24;
   const funFact = [
     "Cannabis has been legal for personal use in Alaska since 1975.",
     "George Washington grew cannabis at Mount Vernon.",
