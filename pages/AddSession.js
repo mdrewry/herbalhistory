@@ -1,10 +1,10 @@
-import React, { useState } from "react";
-import { StyleSheet, Text, View, ScrollView, Button } from "react-native";
+import React, { useState, useEffect } from "react";
+import { StyleSheet, Text, View } from "react-native";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import ScrollPage from "../components/ScrollPage";
 import Page from "../components/Page";
 import SessionPage from "../components/SessionPage";
-import { FormNavButton, ContainedButton } from "../components/Buttons";
+import { ContainedButton } from "../components/Buttons";
 import FormDivider from "../components/FormDivider";
 import { firestore } from "../firebase";
 import {
@@ -20,7 +20,7 @@ import {
 import FormHeader from "../components/FormHeader";
 import Header from "../components/Header";
 import Stepper from "../components/Stepper";
-export default function AddSession({ user, navigation }) {
+export default function AddSession({ user, navigation, setBarDisabled }) {
   const [page, setPage] = useState(0);
   const [date, setDate] = useState(new Date());
   const [fieldsFilled, setFieldsFilled] = useState(true);
@@ -43,6 +43,14 @@ export default function AddSession({ user, navigation }) {
   const [wouldTryAgain, setWouldTryAgain] = useState(true);
   const [notes, setNotes] = useState("");
   const numPages = 6;
+
+  useEffect(() => {
+    const unsubscribeNavigator = navigation.addListener("tabPress", (e) => {
+      console.log("test");
+      setBarDisabled(true);
+    });
+    return unsubscribeNavigator;
+  });
   const handleNavigation = () => {
     setPage(0);
     setStrainName("");
@@ -60,6 +68,7 @@ export default function AddSession({ user, navigation }) {
     setOverallRating(4);
     setWouldTryAgain(true);
     setNotes("");
+    setBarDisabled(false);
     navigation.navigate("Home");
   };
   const submitForm = async () => {

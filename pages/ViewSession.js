@@ -8,19 +8,23 @@ import OutcomeBar from "../res/OutcomeBar";
 import OutcomeSlider from "../res/OutcomeSlider";
 import FontAwesome5 from "react-native-vector-icons/FontAwesome5";
 export default function ViewSession({ daySessions, setPage }) {
-  
   const [index, setIndex] = useState(0);
 
   const product = daySessions[index];
   const moodwords = product.moodWords.join(", ");
   const positivewords = product.positiveWords.join(", ");
   const negativewords = product.negativeWords.join(", ");
-  const displayDate = moment(product.date.toDate()).format("MMM DD YYYY h:mm a").split(" ");
-  const mood = ["sad-tear","frown","meh","smile","laugh","grin-beam"];
-  const sliderStyle = [styles.slider1,styles.slider2,styles.slider3,styles.slider4,styles.slider5];
-
-  // console.log(daySessions);
-  // console.log(product.date.toDate());
+  const displayDate = moment(product.date.toDate())
+    .format("MMM DD YYYY h:mm a")
+    .split(" ");
+  const mood = ["sad-tear", "frown", "meh", "smile", "laugh", "grin-beam"];
+  const sliderStyle = [
+    styles.slider1,
+    styles.slider2,
+    styles.slider3,
+    styles.slider4,
+    styles.slider5,
+  ];
 
   const handleHistory = () => {
     setPage(0);
@@ -97,9 +101,11 @@ export default function ViewSession({ daySessions, setPage }) {
         <Text style={styles.smallText}>Overall Mood</Text>
         <View style={{ flexDirection: "row" }}>
           {mood.map((item, key) => {
-            if(product.overallMood == key)
-              return <FontAwesome5 key={key} style={styles.mood1} name={item} />
-            return <FontAwesome5 key={key} style={styles.mood} name={item} />
+            if (product.overallMood == key)
+              return (
+                <FontAwesome5 key={key} style={styles.mood1} name={item} />
+              );
+            return <FontAwesome5 key={key} style={styles.mood} name={item} />;
           })}
         </View>
         <Text style={styles.smallText}>Mood Words</Text>
@@ -166,27 +172,25 @@ export default function ViewSession({ daySessions, setPage }) {
           <Text style={styles.smallText}>Would Try Again</Text>
           {product.wouldTryAgain ? (
             <FontAwesome5 style={styles.check} name={"check-circle"} />
-            ) : (
+          ) : (
             <FontAwesome5 style={styles.check} name={"circle"} />
-          )
-          }
+          )}
           <Text style={styles.smallText1}>Try Something Else</Text>
           {product.wouldTryAgain ? (
             <FontAwesome5 style={styles.check} name={"circle"} />
-            ) : (
+          ) : (
             <FontAwesome5 style={styles.check} name={"check-circle"} />
-          )
-          }
+          )}
         </View>
 
         <View style={styles.outcome}>
           <Text style={styles.smallText}>Overall Outcome:</Text>
           <View style={styles.bar}>
-          <OutcomeBar />
+            <OutcomeBar />
             <View style={sliderStyle[product.overallRating - 1]}>
               <OutcomeSlider />
               <Text style={styles.textStyle2}>{product.overallRating}</Text>
-            </View>            
+            </View>
           </View>
           <View style={styles.exp}>
             <View style={styles.expHeader}>

@@ -16,7 +16,6 @@ import Home from "./pages/Home";
 import History from "./pages/History";
 import AddSession from "./pages/AddSession";
 import Settings from "./pages/Settings";
-import ViewSession from "./pages/ViewSession"
 import {
   useFonts,
   Sansita_400Regular,
@@ -61,6 +60,7 @@ const theme = {
 export default function App() {
   const [user, setUser] = useState(null);
   const [signedIn, setSignedIn] = useState(false);
+  const [barDisabled, setBarDisabled] = useState(false);
   let [fontsLoaded] = useFonts({
     Karla_400Regular,
     Karla_400Regular_Italic,
@@ -121,7 +121,10 @@ export default function App() {
           <MaterialTab.Navigator
             activeColor="#F6C453"
             inactiveColor="#183A1D"
-            barStyle={styles.bottomNavBar}
+            barStyle={{
+              ...styles.bottomNavBar,
+              display: barDisabled ? "none" : "flex",
+            }}
             tabBarOptions={{
               keyboardHidesTabBar: true,
             }}
@@ -168,7 +171,13 @@ export default function App() {
                 ),
               }}
             >
-              {(props) => <AddSession {...props} user={user} />}
+              {(props) => (
+                <AddSession
+                  {...props}
+                  user={user}
+                  setBarDisabled={setBarDisabled}
+                />
+              )}
             </MaterialTab.Screen>
             <MaterialTab.Screen
               name="Settings"

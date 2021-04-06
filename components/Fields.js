@@ -340,7 +340,8 @@ const styles = StyleSheet.create({
     alignItems: "flex-start",
   },
   twoFieldFieldWrapper: {
-    width: 50,
+    width: 75,
+    marginRight: 5,
   },
   spacer: {
     width: 20,
