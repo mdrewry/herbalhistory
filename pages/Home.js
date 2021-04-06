@@ -18,7 +18,10 @@ import FontAwesome5 from "react-native-vector-icons/FontAwesome5";
 export default function Home({ user, navigation }) {
   
   const [sessions, setSessions] = useState([]);
-  const [lastDate, setlastDate] = useState(moment().format("YYYY-MM-D"))
+  const [lastDate, setlastDate] = useState(moment().format("2021-03-30"));
+  const [day, setDay] = useState(0);
+  const [hours, setHours] = useState(0);
+
   useEffect(() => {
     const sessionsRef = firestore
       .collection("sessions")
@@ -26,27 +29,29 @@ export default function Home({ user, navigation }) {
       .orderBy("date", "asc");
     const unsubscribeSessions = sessionsRef.onSnapshot((snapshot) => {
       let sessions = {};
+      let lastDate = "";
       snapshot.docs.forEach((doc) => {
         const data = doc.data();
         const id = doc.id;
-        const dateKey = moment(data.date.toDate()).format("YYYY-MM-D");
-        setlastDate(dateKey);
+        const dateKey = moment(data.date.toDate()).format("YYYY-MM-DD");
+        lastDate = dateKey;
         if (sessions[dateKey] === undefined) 
           sessions[dateKey] = [];
         sessions[dateKey].push({ ...data, id });
       });
       setSessions(sessions);
+      setlastDate(lastDate); 
+      setDateTime(sessions, lastDate);
     });
     return () => {
       unsubscribeSessions();
     };
   }, []);
   const date = [1, 2, 3, 4, 5, 6, 7];
-  console.log(sessions)
-  const currDay = moment().format("MMM DD YYYY h:mm a");
-  const lastDateHours = moment(sessions[lastDate][sessions[lastDate].length - 1].date.toDate()).format("MMM DD YYYY h:mm a");
-  const day = moment(currDay).diff(moment(lastDateHours), 'days');
-  const hours = moment(currDay).diff(moment(lastDateHours), 'hours') % 24;
+  // const currDay = moment().format("MMM DD YYYY h:mm a");
+  // const lastDateHours = moment(sessions[lastDate][sessions[lastDate].length - 1].date.toDate()).format("MMM DD YYYY h:mm a");
+  // const day = moment(currDay).diff(moment(lastDateHours), 'days');
+  // const hours = moment(currDay).diff(moment(lastDateHours), 'hours') % 24;
   const funFact = [
     "Cannabis has been legal for personal use in Alaska since 1975.",
     "George Washington grew cannabis at Mount Vernon.",
@@ -67,6 +72,13 @@ export default function Home({ user, navigation }) {
   const handleNewSession = () => {
     navigation.navigate("New Session");
   };
+
+  const setDateTime = (sessions, dateKey) => {
+    const currDay = moment().format("MMM DD YYYY h:mm a");
+    const lastDateHours = moment(sessions[dateKey][sessions[dateKey].length - 1].date.toDate()).format("MMM DD YYYY h:mm a");
+    setDay(moment(currDay).diff(moment(lastDateHours), 'days'));
+    setHours(moment(currDay).diff(moment(lastDateHours), 'hours') % 24);
+  }
 
   return (
     <ScrollPage>
