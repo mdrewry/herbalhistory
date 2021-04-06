@@ -37,7 +37,7 @@ export default function Signup({ navigation }) {
   };
   return (
     <Page>
-      <Header text="Create an Account" handleBack={handleBack} />
+      <Header text1="Create an" text2="Account" handleBack={handleBack} />
       <View style={styles.content}>
         <TextField label="Name" value={name} setValue={setName} />
         <View style={styles.spacer} />
@@ -84,8 +84,8 @@ const styles = StyleSheet.create({
   },
   fill: {
     flexGrow: 1,
+    height: 50,
   },
-
   errorText: {
     color: "#ff0033",
     fontSize: 15,
@@ -94,6 +94,6 @@ const styles = StyleSheet.create({
   content: {
     width: "80%",
     alignItems: "center",
-    top: 50,
+    height: "50%",
   },
 });
