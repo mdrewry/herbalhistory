@@ -30,9 +30,7 @@ export default function Home({ user, navigation }) {
         const data = doc.data();
         const id = doc.id;
         const dateKey = moment(data.date.toDate()).format("YYYY-MM-D");
-        setlastDate(dateKey)
-        // if(moment(dateKey).isBefore(lastDate))
-          // setlastDate(dateKey);
+        setlastDate(dateKey);
         if (sessions[dateKey] === undefined) 
           sessions[dateKey] = [];
         sessions[dateKey].push({ ...data, id });
@@ -44,6 +42,7 @@ export default function Home({ user, navigation }) {
     };
   }, []);
   const date = [1, 2, 3, 4, 5, 6, 7];
+  console.log(sessions)
   const currDay = moment().format("MMM DD YYYY h:mm a");
   const lastDateHours = moment(sessions[lastDate][sessions[lastDate].length - 1].date.toDate()).format("MMM DD YYYY h:mm a");
   const day = moment(currDay).diff(moment(lastDateHours), 'days');
