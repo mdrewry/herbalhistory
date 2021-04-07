@@ -18,9 +18,16 @@ import FontAwesome5 from "react-native-vector-icons/FontAwesome5";
 export default function Home({ user, navigation }) {
   
   const [sessions, setSessions] = useState([]);
-  const [lastDate, setlastDate] = useState(moment().format("2021-03-30"));
+  const [lastDate, setlastDate] = useState(moment().format("YYYY-MM-DD"));
   const [day, setDay] = useState(0);
   const [hours, setHours] = useState(0);
+  const [strain, setStrain] = useState("");
+  const [timesUsed, setTimesUsed] = useState(0);
+  const [averageRating, setAverageRating] = useState(0);
+  const [averageMood, setAverageMood] = useState(0);
+  const [mood, setMood] = useState([]);
+  const [positive, setPositive] = useState([]);
+  const [negative, setNegative] = useState([]);
 
   useEffect(() => {
     const sessionsRef = firestore
@@ -30,11 +37,46 @@ export default function Home({ user, navigation }) {
     const unsubscribeSessions = sessionsRef.onSnapshot((snapshot) => {
       let sessions = {};
       let lastDate = "";
+      let strainMap = new Map();
+      let moodMap = new Map();
+      let freqMap = new Map();
+      let commonMood = [];
+      let commonPos = [];
+      let commonNeg = [];
       snapshot.docs.forEach((doc) => {
         const data = doc.data();
         const id = doc.id;
         const dateKey = moment(data.date.toDate()).format("YYYY-MM-DD");
         lastDate = dateKey;
+        const strainStr = data.strain;
+        const rating = data.overallRating;
+        const mood = data.overallMood;
+        const moodwords = data.moodWords;
+        const positivewords = data.positiveWords;
+        const negativewords = data.negativeWords;
+        for( i=0;i<moodwords.length;i++)
+          commonMood.push(moodwords[i]);
+        for( i=0;i<positivewords.length;i++)
+          commonPos.push(positivewords[i]);
+        for( i=0;i<negativewords.length;i++)
+          commonNeg.push(negativewords[i]);
+        if(freqMap.has(strainStr))
+          freqMap.set(strainStr, freqMap.get(strainStr) + 1);
+        else
+          freqMap.set(strainStr, 1);
+        if(strainMap.has(strainStr)){
+          const runningAvg = (strainMap.get(strainStr) + (rating - strainMap.get(strainStr)) / freqMap.get(strainStr));
+          strainMap.set(strainStr, Math.round(runningAvg * 100) / 100);
+        }
+        else
+          strainMap.set(strainStr,rating);
+        if(moodMap.has(strainStr)){
+          const runningAvg = (moodMap.get(strainStr) + (mood - moodMap.get(strainStr)) / freqMap.get(strainStr));
+          moodMap.set(strainStr, Math.round(runningAvg));
+        }
+        else
+          moodMap.set(strainStr, mood);
+
         if (sessions[dateKey] === undefined) 
           sessions[dateKey] = [];
         sessions[dateKey].push({ ...data, id });
@@ -42,16 +84,16 @@ export default function Home({ user, navigation }) {
       setSessions(sessions);
       setlastDate(lastDate); 
       setDateTime(sessions, lastDate);
+      favoriteStrain(strainMap, freqMap, moodMap);
+      setMood(common(commonMood))
+      setPositive(common(commonPos))
+      setNegative(common(commonNeg))
     });
     return () => {
       unsubscribeSessions();
     };
   }, []);
   const date = [1, 2, 3, 4, 5, 6, 7];
-  // const currDay = moment().format("MMM DD YYYY h:mm a");
-  // const lastDateHours = moment(sessions[lastDate][sessions[lastDate].length - 1].date.toDate()).format("MMM DD YYYY h:mm a");
-  // const day = moment(currDay).diff(moment(lastDateHours), 'days');
-  // const hours = moment(currDay).diff(moment(lastDateHours), 'hours') % 24;
   const funFact = [
     "Cannabis has been legal for personal use in Alaska since 1975.",
     "George Washington grew cannabis at Mount Vernon.",
@@ -62,22 +104,82 @@ export default function Home({ user, navigation }) {
     "In 2012, Washington and Colorado became the first states to legalize cannabis for recreational use.",
   ];
   const randNum = Math.floor(Math.random() * 7) + 0;
-  const strain = "Wedding Cake";
-  const timesUsed = 11; //.fliter query
-  const averageRating = 4.75; //fliter query
-  const mood = "Uplifted, Relaxed, Happy";
-  const positive = "Relaxation, Muscle Relief, Pain Relief";
-  const negative = "Couch Lock, Dry Eyes, Dry Mouth";
+  const moodArr = ["sad-tear","frown","meh","smile","laugh","grin-beam"];
 
   const handleNewSession = () => {
     navigation.navigate("New Session");
   };
 
   const setDateTime = (sessions, dateKey) => {
-    const currDay = moment().format("MMM DD YYYY h:mm a");
-    const lastDateHours = moment(sessions[dateKey][sessions[dateKey].length - 1].date.toDate()).format("MMM DD YYYY h:mm a");
+    // console.log(sessions)
+    const currDay = moment().format("YYYY-MM-DD hh:mm");
+    const lastDateHours = moment(sessions[dateKey][sessions[dateKey].length - 1].date.toDate()).format("YYYY-MM-DD hh:mm");
     setDay(moment(currDay).diff(moment(lastDateHours), 'days'));
     setHours(moment(currDay).diff(moment(lastDateHours), 'hours') % 24);
+  };
+
+  const favoriteStrain = (strainMap, freqMap, moodMap) => {
+    // var modeMap = {};
+    // var max = strain[0]
+    // var count = 1;
+    // for(var i = 0; i < strain.length; i++){
+    //     var temp = strain[i];
+    //     if(modeMap[temp] == null)
+    //       modeMap[temp] = 1;
+    //     else
+    //       modeMap[temp]++;  
+    //     if(modeMap[temp] > count){
+    //       max = temp;
+    //       count = modeMap[temp];
+    //     }
+    // }
+    var highest = 1;
+    var strainStr = "None";
+    for (let key of strainMap.keys()){
+      if(highest < strainMap.get(key)){
+        highest = strainMap.get(key);
+        strainStr = key;
+      }
+    }
+    setStrain(strainStr);
+    setTimesUsed(freqMap.get(strainStr));
+    setAverageRating(highest);
+    setAverageMood(moodMap.get(strainStr))
+  };
+
+  const common = (arr) => {
+    let commonArr = [];
+    commonArr.push(mostFreq(arr))
+    const second = arr.filter(function(x){
+      return x !== mostFreq(arr);
+    });
+    console.log()
+    if(second.length !== 0)
+    commonArr.push(mostFreq(second))
+    const third = second.filter(function(x){
+      return x !== mostFreq(second);
+    });
+    if(third.length !== 0)
+      commonArr.push(mostFreq(third))
+    return commonArr;
+  }
+
+  const mostFreq = (arr) => {
+    var modeMap = {};
+    var max = arr[0]
+    var count = 1;
+    for(var i = 0; i < arr.length; i++){
+        var temp = arr[i];
+        if(modeMap[temp] == null)
+          modeMap[temp] = 1;
+        else
+          modeMap[temp]++;  
+        if(modeMap[temp] > count){
+          max = temp;
+          count = modeMap[temp];
+        }
+    }
+    return max;
   }
 
   return (
@@ -167,7 +269,7 @@ export default function Home({ user, navigation }) {
           </View>
           <View style={styles.circleCaption2}>
             <View style={styles.circle}>
-              <FontAwesome5 style={styles.mood} name={"grin-beam"} />
+              <FontAwesome5 style={styles.mood} name={moodArr[averageMood]} />
             </View>
             <Text style={styles.smallText1}>average mood</Text>
           </View>
@@ -181,15 +283,15 @@ export default function Home({ user, navigation }) {
       <Text style={styles.smallText}>
         {user.name + "'s Common Mood Words:"}
       </Text>
-      <Text style={styles.textStyle1}>{mood}</Text>
+      <Text style={styles.textStyle1}>{mood.join(", ")}</Text>
       <Text style={styles.smallText}>
         {user.name + "'s Common Positive Effects:"}
       </Text>
-      <Text style={styles.textStyle1}>{positive}</Text>
+      <Text style={styles.textStyle1}>{positive.join(", ")}</Text>
       <Text style={styles.smallText}>
         {user.name + "'s Common Negative Effects:"}
       </Text>
-      <Text style={styles.textStyle1}>{negative}</Text>
+      <Text style={styles.textStyle1}>{negative.join(", ")}</Text>
 
       <View style={styles.fill1}></View>
       <View style={styles.circleCaption3}>

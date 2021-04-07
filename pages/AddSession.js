@@ -143,11 +143,11 @@ export default function AddSession({ user, navigation }) {
     { label: "No", value: false },
   ];
   const overallRatingSelection = [
-    { label: "Bad", value: 0 },
-    { label: "Ok", value: 1 },
-    { label: "Good", value: 2 },
-    { label: "Great", value: 3 },
-    { label: "Awesome", value: 4 },
+    { label: "Bad", value: 1 },
+    { label: "Ok", value: 2 },
+    { label: "Good", value: 3 },
+    { label: "Great", value: 4 },
+    { label: "Awesome", value: 5 },
   ];
 
   const showDatePicker = () => {
