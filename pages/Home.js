@@ -25,6 +25,10 @@ export default function Home({ user, navigation }) {
   const [timesUsed, setTimesUsed] = useState(0);
   const [averageRating, setAverageRating] = useState(0);
   const [averageMood, setAverageMood] = useState(0);
+  const [commonStrain, setCommonStrain] = useState("");
+  const [commonTimesUsed, setCommonTimesUsed] = useState(0);
+  const [commonAverageRating, setCommonAverageRating] = useState(0);
+  const [commonAverageMood, setCommonAverageMood] = useState(0);
   const [mood, setMood] = useState([]);
   const [positive, setPositive] = useState([]);
   const [negative, setNegative] = useState([]);
@@ -37,9 +41,9 @@ export default function Home({ user, navigation }) {
     const unsubscribeSessions = sessionsRef.onSnapshot((snapshot) => {
       let sessions = {};
       let lastDate = "";
-      let strainMap = new Map();
-      let moodMap = new Map();
-      let freqMap = new Map();
+      let strainMap = {};
+      let moodMap = {};
+      let freqMap = {};
       let commonMood = [];
       let commonPos = [];
       let commonNeg = [];
@@ -60,22 +64,22 @@ export default function Home({ user, navigation }) {
           commonPos.push(positivewords[i]);
         for( i=0;i<negativewords.length;i++)
           commonNeg.push(negativewords[i]);
-        if(freqMap.has(strainStr))
-          freqMap.set(strainStr, freqMap.get(strainStr) + 1);
+        if(freqMap[strainStr] !== undefined)
+          freqMap[strainStr] = freqMap[strainStr] + 1;
         else
-          freqMap.set(strainStr, 1);
-        if(strainMap.has(strainStr)){
-          const runningAvg = (strainMap.get(strainStr) + (rating - strainMap.get(strainStr)) / freqMap.get(strainStr));
-          strainMap.set(strainStr, Math.round(runningAvg * 100) / 100);
+          freqMap[strainStr] = 1;
+        if(strainMap[strainStr] !== undefined){
+          const runningAvg = (strainMap[strainStr] + (rating - strainMap[strainStr]) / freqMap[strainStr]);
+          strainMap[strainStr] = Math.round(runningAvg * 100) / 100;
         }
         else
-          strainMap.set(strainStr,rating);
-        if(moodMap.has(strainStr)){
-          const runningAvg = (moodMap.get(strainStr) + (mood - moodMap.get(strainStr)) / freqMap.get(strainStr));
-          moodMap.set(strainStr, Math.round(runningAvg));
+          strainMap[strainStr] = rating;
+        if(moodMap[strainStr] !== undefined){
+          const runningAvg = (moodMap[strainStr] + (mood - moodMap[strainStr]) / freqMap[strainStr]);
+          moodMap[strainStr] = Math.round(runningAvg);
         }
         else
-          moodMap.set(strainStr, mood);
+          moodMap[strainStr] = mood;
 
         if (sessions[dateKey] === undefined) 
           sessions[dateKey] = [];
@@ -85,6 +89,7 @@ export default function Home({ user, navigation }) {
       setlastDate(lastDate); 
       setDateTime(sessions, lastDate);
       favoriteStrain(strainMap, freqMap, moodMap);
+      mostCommonStrain(strainMap, freqMap, moodMap);
       setMood(common(commonMood))
       setPositive(common(commonPos))
       setNegative(common(commonNeg))
@@ -119,33 +124,34 @@ export default function Home({ user, navigation }) {
   };
 
   const favoriteStrain = (strainMap, freqMap, moodMap) => {
-    // var modeMap = {};
-    // var max = strain[0]
-    // var count = 1;
-    // for(var i = 0; i < strain.length; i++){
-    //     var temp = strain[i];
-    //     if(modeMap[temp] == null)
-    //       modeMap[temp] = 1;
-    //     else
-    //       modeMap[temp]++;  
-    //     if(modeMap[temp] > count){
-    //       max = temp;
-    //       count = modeMap[temp];
-    //     }
-    // }
-    var highest = 1;
+    var highest = 0;
     var strainStr = "None";
-    for (let key of strainMap.keys()){
-      if(highest < strainMap.get(key)){
-        highest = strainMap.get(key);
+    for (let key in strainMap){
+      if(highest < strainMap[key]){
+        highest = strainMap[key];
         strainStr = key;
       }
     }
     setStrain(strainStr);
-    setTimesUsed(freqMap.get(strainStr));
+    setTimesUsed(freqMap[strainStr]);
     setAverageRating(highest);
-    setAverageMood(moodMap.get(strainStr))
+    setAverageMood(moodMap[strainStr])
   };
+
+  const mostCommonStrain = (strainMap, freqMap, moodMap) => {
+    var highest = 0;
+    var strainStr = "None";
+    for (let key in freqMap){
+      if(highest < freqMap[key]){
+        highest = freqMap[key];
+        strainStr = key;
+      }
+    }
+    setCommonStrain(strainStr);
+    setCommonTimesUsed(highest);
+    setCommonAverageRating(strainMap[strainStr]);
+    setCommonAverageMood(moodMap[strainStr]);
+  }
 
   const common = (arr) => {
     let commonArr = [];
@@ -270,6 +276,40 @@ export default function Home({ user, navigation }) {
           <View style={styles.circleCaption2}>
             <View style={styles.circle}>
               <FontAwesome5 style={styles.mood} name={moodArr[averageMood]} />
+            </View>
+            <Text style={styles.smallText1}>average mood</Text>
+          </View>
+        </View>
+      </View>
+
+      <View style={styles.line}>
+        <LineLogo />
+      </View>
+
+      <Text style={styles.smallText}>
+        Most Commonly Used Strain:
+      </Text>
+      <Text style={styles.textStyle1}>{commonStrain}</Text>
+
+      <View style={{ alignItems: "center" }}>
+        <View style={styles.favStrain}>
+          <View style={styles.circleCaption2}>
+            <View style={styles.circle}>
+              <Text style={styles.circleNum}>{commonTimesUsed}</Text>
+            </View>
+            <Text style={styles.smallText1}>times used</Text>
+          </View>
+          <View style={styles.circleCaption2}>
+            <View style={styles.circle}>
+              <Text style={styles.circleNum}>{commonAverageRating}</Text>
+            </View>
+            <Text style={styles.smallText1}>average rating</Text>
+            {/* <Text style={styles.smallText1}>rating (out</Text>
+            <Text style={styles.smallText1}>of 5)</Text> */}
+          </View>
+          <View style={styles.circleCaption2}>
+            <View style={styles.circle}>
+              <FontAwesome5 style={styles.mood} name={moodArr[commonAverageMood]} />
             </View>
             <Text style={styles.smallText1}>average mood</Text>
           </View>
