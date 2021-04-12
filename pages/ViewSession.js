@@ -19,6 +19,11 @@ export default function ViewSession({ daySessions, setPage }) {
   const mood = ["sad-tear","frown","meh","smile","laugh","grin-beam"];
   const sliderStyle = [styles.slider1,styles.slider2,styles.slider3,styles.slider4,styles.slider5];
 
+  var dis = product.dispensary;
+  if(dis === undefined)
+    dis = "";
+  //change later
+
   // console.log(daySessions);
   // console.log(product.date.toDate());
 
@@ -63,9 +68,13 @@ export default function ViewSession({ daySessions, setPage }) {
         </View>
         <Text style={styles.smallFont}>Type:</Text>
         <Text style={styles.normalFont}>{product.thcFamily}</Text>
-        {/* <Text style={styles.smallFont}>Dispensary:</Text>
-        <Text style={styles.normalFont}>Curaleaf</Text>  */}
-        {/* Dispensary? */}
+        {dis.length !== 0 ? (
+          <View>
+            <Text style={styles.smallFont}>Dispensary:</Text>
+            <Text style={styles.normalFont}>{product.dispensary}</Text> 
+          </View> ) :
+          <View></View> 
+        }
         <Text style={styles.smallFont}>Method:</Text>
         <Text style={styles.normalFont}>{product.method}</Text>
       </View>
