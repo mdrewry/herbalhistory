@@ -6,6 +6,7 @@ import Page from "../components/Page";
 import SessionPage from "../components/SessionPage";
 import { ContainedButton } from "../components/Buttons";
 import FormDivider from "../components/FormDivider";
+import fieldLists from "../fieldLists";
 import { firestore } from "../firebase";
 import {
   TextField,
@@ -28,7 +29,7 @@ export default function AddSession({ user, navigation, setBarDisabled }) {
   const [strainName, setStrainName] = useState("");
   const [thcCbdValue, setThcCbdValue] = useState(["", ""]);
   const [thcValueType, setThcValueType] = useState("%");
-  const [thcFamily, setThcFamily] = useState("Sativa");
+  const [cannabisFamily, setCannabisFamily] = useState("Unknown");
   const [consumptionMethod, setConsumptionMethod] = useState(
     "Inhalation (smoke)"
   );
@@ -42,21 +43,71 @@ export default function AddSession({ user, navigation, setBarDisabled }) {
   const [overallRating, setOverallRating] = useState(4);
   const [wouldTryAgain, setWouldTryAgain] = useState(true);
   const [notes, setNotes] = useState("");
-  const numPages = 6;
+  const {
+    cannabisFamilySelection,
+    thcValueTypeSelection,
+    consumptionMethodSelection,
+    moodWordsSelection,
+    positiveWordsSelection,
+    negativeWordsSelection,
+    wouldTryAgainSelection,
+    overallRatingSelection,
+  } = fieldLists;
+  const trackingPreference = user.trackingPreference;
+  const calculateEnabledPages = () => {
+    const {
+      method,
+      strain,
+      cannabisFamily,
+      thcCbdValue,
+      dosage,
+      duration,
+      onset,
+      moodWords,
+      negativeWords,
+      positiveWords,
+      overallMood,
+      overallRating,
+      wouldTryAgain,
+      notes,
+      sleep,
+      anxiety,
+    } = trackingPreference;
+    let pages = [
+      {
+        enabled: strain || thcCbdValue || cannabisFamily || method,
+        pageNum: 0,
+      },
+      { enabled: dosage || duration || onset, pageNum: 0 },
+      { enabled: moodWords || overallMood, pageNum: 0 },
+      { enabled: positiveWords, pageNum: 0 },
+      { enabled: negativeWords, pageNum: 0 },
+      { enabled: wouldTryAgain || overallRating || notes, pageNum: 0 },
+    ];
+    let numPages = 0;
+    pages = pages.map((page) => {
+      if (!page.enabled) return page;
+      page.pageNum = numPages;
+      numPages++;
+      return page;
+    });
+    console.log(pages);
+    return { numPages, pages };
+  };
+  const { numPages, pages } = calculateEnabledPages();
 
   useEffect(() => {
     const unsubscribeNavigator = navigation.addListener("tabPress", (e) => {
-      console.log("test");
       setBarDisabled(true);
     });
     return unsubscribeNavigator;
-  });
+  }, []);
   const handleNavigation = () => {
     setPage(0);
     setStrainName("");
     setThcCbdValue(["", ""]);
     setThcValueType("%");
-    setThcFamily("Sativa");
+    setCannabisFamily("Sativa");
     setConsumptionMethod("Inhalation (smoke)");
     setDosage("");
     setSessionOnset(["", ""]);
@@ -79,7 +130,7 @@ export default function AddSession({ user, navigation, setBarDisabled }) {
       thcValue: thcCbdValue[0],
       cbdValue: thcCbdValue[1],
       chemValueType: thcValueType,
-      thcFamily: thcFamily,
+      cannabisFamily: cannabisFamily,
       method: consumptionMethod,
       dosage: dosage,
       sessionOnset: sessionOnset,
@@ -93,72 +144,6 @@ export default function AddSession({ user, navigation, setBarDisabled }) {
       notes: notes,
     });
   };
-  const thcFamilySelection = [
-    { label: "Indica", value: "Indica" },
-    { label: "Sativa", value: "Sativa" },
-    { label: "Hybrid", value: "Hybrid" },
-    { label: "Unknown", value: "Unknown" },
-  ];
-  const thcValueTypeSelection = [
-    { label: "%", value: "%" },
-    { label: "mg", value: "mg" },
-  ];
-  const consumptionMethodSelection = [
-    { label: "Inhalation (smoke)", value: "Inhalation (smoke)" },
-    { label: "Inhalation (vaporizer)", value: "Inhalation (vaporizer)" },
-    { label: "Sublingual", value: "Sublingual" },
-    { label: "Topical", value: "Topical" },
-    { label: "Edible", value: "Edible" },
-  ];
-  const moodWordsSelection = [
-    { label: "Calm", value: "Calm" },
-    { label: "Relaxed", value: "Relaxed" },
-    { label: "Uplifted", value: "Uplifted" },
-    { label: "Creative", value: "Creative" },
-    { label: "Energetic", value: "Energetic" },
-    { label: "Happy", value: "Happy" },
-    { label: "Euphoric", value: "Euphoric" },
-    { label: "Paranoid", value: "Paranoid" },
-    { label: "Sad", value: "Sad" },
-    { label: "Restless", value: "Restless" },
-    { label: "Anxious", value: "Anxious" },
-  ];
-  const positiveWordsSelection = [
-    { label: "Pain Relief", value: "Pain Relief" },
-    { label: "Energy", value: "Energy" },
-    { label: "Focused", value: "Focused" },
-    { label: "Muscle Relief", value: "Muscle Relief" },
-    { label: "Intestinal Relief", value: "Intestinal Relief" },
-    { label: "Sedative", value: "Sedative" },
-    { label: "Anti-Depressant", value: "Anti-Depressant" },
-    { label: "Reduced Anxiety", value: "Reduced Anxiety" },
-    { label: "Anti-Inflammatory", value: "Anti-Inflammatory" },
-    { label: "Increased Appetite", value: "Increased Appetite" },
-    { label: "Mood Booster", value: "Mood Booster" },
-  ];
-  const negativeWordsSelection = [
-    { label: "Dry Mouth", value: "Dry Mouth" },
-    { label: "Dry Eyes", value: "Dry Eyes" },
-    { label: "Dizziness", value: "Dizziness" },
-    { label: "Nausea", value: "Nausea" },
-    { label: "Drowsy", value: "Drowsy" },
-    { label: "Anxiety", value: "Anxiety" },
-    { label: "Paranoia", value: "Paranoia" },
-    { label: "Headache", value: "Headache" },
-    { label: "Couch Lock", value: "Couch Lock" },
-  ];
-  const wouldTryAgainSelection = [
-    { label: "Yes", value: true },
-    { label: "No", value: false },
-  ];
-  const overallRatingSelection = [
-    { label: "Bad", value: 0 },
-    { label: "Ok", value: 1 },
-    { label: "Good", value: 2 },
-    { label: "Great", value: 3 },
-    { label: "Awesome", value: 4 },
-  ];
-
   const showDatePicker = () => {
     setDatePickerVisibility(true);
   };
@@ -173,20 +158,34 @@ export default function AddSession({ user, navigation, setBarDisabled }) {
     let verified = false;
     if (
       page === 0 &&
-      strainName !== "" &&
-      thcFamily !== "" &&
-      consumptionMethod !== ""
+      (strainName !== "" || !trackingPreference.strain) &&
+      (cannabisFamily !== "" || !trackingPreference.cannabisFamily) &&
+      (consumptionMethod !== "" || !trackingPreference.method)
     ) {
       verified = true;
-    } else if (page === 1 && dosage !== "") {
+    } else if (page === 1 && (dosage !== "" || !trackingPreference.dosage)) {
       verified = true;
-    } else if (page === 2 && overallMood !== "" && moodWords.length > 0) {
+    } else if (
+      page === 2 &&
+      (overallMood !== "" || !trackingPreference.overallMood) &&
+      (moodWords.length > 0 || !trackingPreference.moodWords)
+    ) {
       verified = true;
-    } else if (page === 3 && positiveWords.length > 0) {
+    } else if (
+      page === 3 &&
+      (positiveWords.length > 0 || !trackingPreference.positiveWords)
+    ) {
       verified = true;
-    } else if (page === 4 && negativeWords.length > 0) {
+    } else if (
+      page === 4 &&
+      (negativeWords.length > 0 || !trackingPreference.negativeWords)
+    ) {
       verified = true;
-    } else if (page === 5 && wouldTryAgain !== "" && overallRating !== "") {
+    } else if (
+      page === 5 &&
+      (wouldTryAgain !== "" || !trackingPreference.wouldTryAgain) &&
+      (overallRating !== "" || !trackingPreference.overallRating)
+    ) {
       verified = true;
     }
     setFieldsFilled(verified);
@@ -226,120 +225,203 @@ export default function AddSession({ user, navigation, setBarDisabled }) {
       />
 
       <ScrollPage>
-        <SessionPage highlightText="product" page={0} currPage={page}>
-          <View>
-            <TextField
-              label="Strain"
-              value={strainName}
-              setValue={setStrainName}
+        {pages[0].enabled && (
+          <SessionPage
+            highlightText="product"
+            page={pages[0].pageNum}
+            currPage={page}
+          >
+            {trackingPreference.strain && (
+              <>
+                <View>
+                  <TextField
+                    label="Strain"
+                    value={strainName}
+                    setValue={setStrainName}
+                  />
+                </View>
+                <FormDivider />
+              </>
+            )}
+            {trackingPreference.thcCbdValue && (
+              <>
+                <TwoFieldRow
+                  value={thcCbdValue}
+                  setValue={setThcCbdValue}
+                  label="THC/CBD Contents"
+                  sublabel1="THC"
+                  sublabel2="CBD"
+                />
+                <View style={styles.spacer} />
+                <ButtonSelectionFieldRow
+                  label="Type (Tap One)"
+                  value={thcValueType}
+                  setValue={setThcValueType}
+                  options={thcValueTypeSelection}
+                />
+                <FormDivider />
+              </>
+            )}
+            {trackingPreference.cannabisFamily && (
+              <>
+                <ButtonSelectionFieldRow
+                  label="Family (Tap One)"
+                  value={cannabisFamily}
+                  setValue={setCannabisFamily}
+                  options={cannabisFamilySelection}
+                />
+                <FormDivider />
+              </>
+            )}
+            {trackingPreference.method && (
+              <ButtonSelectionFieldColumn
+                label="Method (Tap One)"
+                value={consumptionMethod}
+                setValue={setConsumptionMethod}
+                options={consumptionMethodSelection}
+              />
+            )}
+          </SessionPage>
+        )}
+        {pages[1].enabled && (
+          <SessionPage
+            highlightText="dosage"
+            page={pages[1].pageNum}
+            currPage={page}
+          >
+            {trackingPreference.dosage && (
+              <>
+                <View>
+                  <TextField
+                    label="Dosage"
+                    value={dosage}
+                    setValue={setDosage}
+                  />
+                </View>
+                <FormDivider />
+              </>
+            )}
+            {trackingPreference.onset && (
+              <>
+                <TwoFieldRow
+                  value={sessionOnset}
+                  setValue={setSessionOnset}
+                  label="Onset of Effect"
+                  sublabel1="Hr"
+                  sublabel2="Min"
+                />
+                <FormDivider />
+              </>
+            )}
+            {trackingPreference.duration && (
+              <>
+                <TwoFieldRow
+                  value={sessionDuration}
+                  setValue={setSessionDuration}
+                  label="Duration of Effect"
+                  sublabel1="Hr"
+                  sublabel2="Min"
+                />
+              </>
+            )}
+          </SessionPage>
+        )}
+        {pages[2].enabled && (
+          <SessionPage
+            highlightText="mood"
+            page={pages[2].pageNum}
+            currPage={page}
+          >
+            {trackingPreference.overallMood && (
+              <>
+                <MoodSelectionField
+                  label="Overall Mood"
+                  value={overallMood}
+                  setValue={setOverallMood}
+                />
+                <FormDivider />
+              </>
+            )}
+            {trackingPreference.moodWords && (
+              <>
+                <MultipleSelectionField
+                  label="Mood Words(Select All That Apply)"
+                  value={moodWords}
+                  setValue={setMoodWords}
+                  options={moodWordsSelection}
+                />
+              </>
+            )}
+          </SessionPage>
+        )}
+        {pages[3].enabled && (
+          <SessionPage
+            highlightText="positive effects"
+            page={pages[3].pageNum}
+            currPage={page}
+          >
+            <MultipleSelectionField
+              label="Positive Effects(Select All That Apply)"
+              value={positiveWords}
+              setValue={setPositiveWords}
+              options={positiveWordsSelection}
             />
-          </View>
-          <FormDivider />
-          <TwoFieldRow
-            value={thcCbdValue}
-            setValue={setThcCbdValue}
-            label="THC/CBD Contents"
-            sublabel1="THC"
-            sublabel2="CBD"
-          />
-          <View style={styles.spacer} />
-          <ButtonSelectionFieldRow
-            label="Type (Tap One)"
-            value={thcValueType}
-            setValue={setThcValueType}
-            options={thcValueTypeSelection}
-          />
-          <FormDivider />
-          <ButtonSelectionFieldRow
-            label="Type (Tap One)"
-            value={thcFamily}
-            setValue={setThcFamily}
-            options={thcFamilySelection}
-          />
-          <FormDivider />
-          <ButtonSelectionFieldColumn
-            label="Method (Tap One)"
-            value={consumptionMethod}
-            setValue={setConsumptionMethod}
-            options={consumptionMethodSelection}
-          />
-        </SessionPage>
-        <SessionPage highlightText="dosage" page={1} currPage={page}>
-          <View>
-            <TextField label="Dosage" value={dosage} setValue={setDosage} />
-          </View>
-          <FormDivider />
-          <TwoFieldRow
-            value={sessionOnset}
-            setValue={setSessionOnset}
-            label="Onset of Effect"
-            sublabel1="Hr"
-            sublabel2="Min"
-          />
-          <FormDivider />
-          <TwoFieldRow
-            value={sessionDuration}
-            setValue={setSessionDuration}
-            label="Duration of Effect"
-            sublabel1="Hr"
-            sublabel2="Min"
-          />
-        </SessionPage>
-        <SessionPage highlightText="mood" page={2} currPage={page}>
-          <MoodSelectionField
-            label="Overall Mood"
-            value={overallMood}
-            setValue={setOverallMood}
-          />
-          <FormDivider />
-          <MultipleSelectionField
-            label="Mood Words(Select All That Apply)"
-            value={moodWords}
-            setValue={setMoodWords}
-            options={moodWordsSelection}
-          />
-        </SessionPage>
-        <SessionPage highlightText="positive effects" page={3} currPage={page}>
-          <MultipleSelectionField
-            label="Positive Effects(Select All That Apply)"
-            value={positiveWords}
-            setValue={setPositiveWords}
-            options={positiveWordsSelection}
-          />
-        </SessionPage>
-        <SessionPage highlightText="negative effects" page={4} currPage={page}>
-          <MultipleSelectionField
-            label="Negative Effects(Select All That Apply)"
-            value={negativeWords}
-            setValue={setNegativeWords}
-            options={negativeWordsSelection}
-          />
-        </SessionPage>
-        <SessionPage highlightText="overall session" page={5} currPage={page}>
-          <RadioButtonSelection
-            label="Would Try Again"
-            value={wouldTryAgain}
-            setValue={setWouldTryAgain}
-            options={wouldTryAgainSelection}
-          />
-          <FormDivider />
-          <RadioButtonSelection
-            label="Overall Rating"
-            value={overallRating}
-            setValue={setOverallRating}
-            options={overallRatingSelection}
-          />
-          <FormDivider />
-          <View>
-            <MultiLineTextField
-              label="notes"
-              lines={5}
-              value={notes}
-              setValue={setNotes}
+          </SessionPage>
+        )}
+        {pages[4].enabled && (
+          <SessionPage
+            highlightText="negative effects"
+            page={pages[4].pageNum}
+            currPage={page}
+          >
+            <MultipleSelectionField
+              label="Negative Effects(Select All That Apply)"
+              value={negativeWords}
+              setValue={setNegativeWords}
+              options={negativeWordsSelection}
             />
-          </View>
-        </SessionPage>
-
+          </SessionPage>
+        )}
+        {pages[5].enabled && (
+          <SessionPage
+            highlightText="overall session"
+            page={pages[5].pageNum}
+            currPage={page}
+          >
+            {trackingPreference.wouldTryAgain && (
+              <>
+                <RadioButtonSelection
+                  label="Would Try Again"
+                  value={wouldTryAgain}
+                  setValue={setWouldTryAgain}
+                  options={wouldTryAgainSelection}
+                />
+                <FormDivider />
+              </>
+            )}
+            {trackingPreference.overallRating && (
+              <>
+                <RadioButtonSelection
+                  label="Overall Rating"
+                  value={overallRating}
+                  setValue={setOverallRating}
+                  options={overallRatingSelection}
+                />
+                <FormDivider />
+              </>
+            )}
+            {trackingPreference.notes && (
+              <View>
+                <MultiLineTextField
+                  label="notes"
+                  lines={5}
+                  value={notes}
+                  setValue={setNotes}
+                />
+              </View>
+            )}
+          </SessionPage>
+        )}
         <View style={styles.paddingWrapper}>
           <View style={styles.errorTextWrapper}>
             {!fieldsFilled && (
