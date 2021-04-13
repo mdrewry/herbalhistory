@@ -30,6 +30,7 @@ export default function AddSession({ user, navigation, setBarDisabled }) {
   const [thcCbdValue, setThcCbdValue] = useState(["", ""]);
   const [thcValueType, setThcValueType] = useState("%");
   const [cannabisFamily, setCannabisFamily] = useState("Unknown");
+  const [dispensary, setDispensary] = useState("");
   const [consumptionMethod, setConsumptionMethod] = useState(
     "Inhalation (smoke)"
   );
@@ -108,6 +109,7 @@ export default function AddSession({ user, navigation, setBarDisabled }) {
     setThcCbdValue(["", ""]);
     setThcValueType("%");
     setCannabisFamily("Sativa");
+    setDispensary("");
     setConsumptionMethod("Inhalation (smoke)");
     setDosage("");
     setSessionOnset(["", ""]);
@@ -131,6 +133,7 @@ export default function AddSession({ user, navigation, setBarDisabled }) {
       cbdValue: thcCbdValue[1],
       chemValueType: thcValueType,
       cannabisFamily: cannabisFamily,
+      dispensary: dispensary,
       method: consumptionMethod,
       dosage: dosage,
       sessionOnset: sessionOnset,
@@ -238,6 +241,14 @@ export default function AddSession({ user, navigation, setBarDisabled }) {
                     label="Strain"
                     value={strainName}
                     setValue={setStrainName}
+                  />
+                </View>
+                <FormDivider />
+                <View>
+                  <TextField
+                    label="Dispensary (optional)"
+                    value={dispensary}
+                    setValue={setDispensary}
                   />
                 </View>
                 <FormDivider />
