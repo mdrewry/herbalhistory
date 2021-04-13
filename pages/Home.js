@@ -246,7 +246,14 @@ export default function Home({ user, navigation }) {
         <View style={styles.infologo}>
           <FunFactInfo />
         </View>
-        <Text style={styles.funFact}>{funFact[randNum]}</Text>
+        {randNum !== 6 ? (
+            <View style={styles.fact}>
+              <Text style={styles.funFact}>{funFact[randNum]}</Text>
+            </View>
+          ) : (
+            <Text style={styles.funFact}>{funFact[randNum]}</Text>
+          )
+        }
       </View>
 
       <Text style={styles.name}>{user.name + "'s"} </Text>
@@ -263,20 +270,27 @@ export default function Home({ user, navigation }) {
             <View style={styles.circle}>
               <Text style={styles.circleNum}>{timesUsed}</Text>
             </View>
-            <Text style={styles.smallText1}>times used</Text>
           </View>
           <View style={styles.circleCaption2}>
             <View style={styles.circle}>
               <Text style={styles.circleNum}>{averageRating}</Text>
             </View>
-            <Text style={styles.smallText1}>average rating</Text>
-            {/* <Text style={styles.smallText1}>rating (out</Text>
-            <Text style={styles.smallText1}>of 5)</Text> */}
           </View>
           <View style={styles.circleCaption2}>
             <View style={styles.circle}>
               <FontAwesome5 style={styles.mood} name={moodArr[averageMood]} />
             </View>
+          </View>
+        </View>
+        <View style={{ flexDirection: "row" }}>
+          <View style={styles.circleCaption2}>
+            <Text style={styles.smallText1}>times used</Text>
+          </View>
+          <View style={styles.circleCaption2}>
+            <Text style={styles.smallText1}>average rating</Text>
+            <Text style={styles.smallText1}>(out of 5)</Text>
+          </View>
+          <View style={styles.circleCaption2}>
             <Text style={styles.smallText1}>average mood</Text>
           </View>
         </View>
@@ -297,20 +311,27 @@ export default function Home({ user, navigation }) {
             <View style={styles.circle}>
               <Text style={styles.circleNum}>{commonTimesUsed}</Text>
             </View>
-            <Text style={styles.smallText1}>times used</Text>
           </View>
           <View style={styles.circleCaption2}>
             <View style={styles.circle}>
               <Text style={styles.circleNum}>{commonAverageRating}</Text>
             </View>
-            <Text style={styles.smallText1}>average rating</Text>
-            {/* <Text style={styles.smallText1}>rating (out</Text>
-            <Text style={styles.smallText1}>of 5)</Text> */}
           </View>
           <View style={styles.circleCaption2}>
             <View style={styles.circle}>
               <FontAwesome5 style={styles.mood} name={moodArr[commonAverageMood]} />
             </View>
+          </View>
+        </View>
+        <View style={{ flexDirection: "row" }}>
+          <View style={styles.circleCaption2}>
+            <Text style={styles.smallText1}>times used</Text>
+          </View>
+          <View style={styles.circleCaption2}>
+            <Text style={styles.smallText1}>average rating</Text>
+            <Text style={styles.smallText1}>(out of 5)</Text>
+          </View>
+          <View style={styles.circleCaption2}>
             <Text style={styles.smallText1}>average mood</Text>
           </View>
         </View>
@@ -365,7 +386,7 @@ const styles = StyleSheet.create({
     marginLeft: 30,
   },
   line: {
-    marginTop: 30,
+    marginTop: 20,
     height: 10,
     alignItems: "center",
   },
@@ -489,5 +510,8 @@ const styles = StyleSheet.create({
   mood: {
     fontSize: 30,
     color: "#183A1D",
+  },
+  fact: {
+    marginTop: 10,
   },
 });
