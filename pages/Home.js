@@ -42,8 +42,6 @@ export default function Home({ user, navigation }) {
       let sessions = {};
       let lastDate = "";
       let strainMap = {};
-      let moodMap = {};
-      let freqMap = {};
       let commonMood = [];
       let commonPos = [];
       let commonNeg = [];
@@ -64,23 +62,15 @@ export default function Home({ user, navigation }) {
           commonPos.push(positivewords[i]);
         for( i=0;i<negativewords.length;i++)
           commonNeg.push(negativewords[i]);
-        if(freqMap[strainStr] !== undefined)
-          freqMap[strainStr] = freqMap[strainStr] + 1;
-        else
-          freqMap[strainStr] = 1;
         if(strainMap[strainStr] !== undefined){
-          const runningAvg = (strainMap[strainStr] + (rating - strainMap[strainStr]) / freqMap[strainStr]);
-          strainMap[strainStr] = Math.round(runningAvg * 100) / 100;
+          const f = strainMap[strainStr]["freq"] + 1;
+          const ratingRunningAvg = (strainMap[strainStr]["rating"] + (rating - strainMap[strainStr]["rating"]) / f);
+          const r = Math.round(ratingRunningAvg * 100) / 100;
+          const moodRunningAvg = (strainMap[strainStr]["mood"] + (mood - strainMap[strainStr]["mood"]) / f);
+          strainMap[strainStr] = {"freq":f,"rating":r,"mood":Math.round(moodRunningAvg)};
         }
         else
-          strainMap[strainStr] = rating;
-        if(moodMap[strainStr] !== undefined){
-          const runningAvg = (moodMap[strainStr] + (mood - moodMap[strainStr]) / freqMap[strainStr]);
-          moodMap[strainStr] = Math.round(runningAvg);
-        }
-        else
-          moodMap[strainStr] = mood;
-
+          strainMap[strainStr] = {"freq":1,"rating":rating,"mood":mood};
         if (sessions[dateKey] === undefined) 
           sessions[dateKey] = [];
         sessions[dateKey].push({ ...data, id });
@@ -88,8 +78,9 @@ export default function Home({ user, navigation }) {
       setSessions(sessions);
       setlastDate(lastDate); 
       setDateTime(sessions, lastDate);
-      favoriteStrain(strainMap, freqMap, moodMap);
-      mostCommonStrain(strainMap, freqMap, moodMap);
+      console.log(strainMap)
+      favoriteStrain(strainMap);
+      mostCommonStrain(strainMap);
       setMood(common(commonMood))
       setPositive(common(commonPos))
       setNegative(common(commonNeg))
@@ -123,34 +114,34 @@ export default function Home({ user, navigation }) {
     setHours(moment(currDay).diff(moment(lastDateHours), 'hours') % 24);
   };
 
-  const favoriteStrain = (strainMap, freqMap, moodMap) => {
+  const favoriteStrain = (strainMap) => {
     var highest = 0;
     var strainStr = "None";
     for (let key in strainMap){
-      if(highest < strainMap[key]){
-        highest = strainMap[key];
+      if(highest < strainMap[key]["rating"]){
+        highest = strainMap[key]["rating"];
         strainStr = key;
       }
     }
     setStrain(strainStr);
-    setTimesUsed(freqMap[strainStr]);
+    setTimesUsed(strainMap[strainStr]["freq"]);
     setAverageRating(highest);
-    setAverageMood(moodMap[strainStr])
+    setAverageMood(strainMap[strainStr]["mood"])
   };
 
-  const mostCommonStrain = (strainMap, freqMap, moodMap) => {
+  const mostCommonStrain = (strainMap) => {
     var highest = 0;
     var strainStr = "None";
-    for (let key in freqMap){
-      if(highest < freqMap[key]){
-        highest = freqMap[key];
+    for (let key in strainMap){
+      if(highest < strainMap[key]["freq"]){
+        highest = strainMap[key]["freq"];
         strainStr = key;
       }
     }
     setCommonStrain(strainStr);
     setCommonTimesUsed(highest);
-    setCommonAverageRating(strainMap[strainStr]);
-    setCommonAverageMood(moodMap[strainStr]);
+    setCommonAverageRating(strainMap[strainStr]["rating"]);
+    setCommonAverageMood(strainMap[strainStr]["mood"]);
   }
 
   const common = (arr) => {

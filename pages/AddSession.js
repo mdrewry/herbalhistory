@@ -34,8 +34,8 @@ export default function AddSession({ user, navigation }) {
     "Inhalation (smoke)"
   );
   const [dosage, setDosage] = useState("");
-  const [sessionOnset, setSessionOnset] = useState(["0", "0"]);
-  const [sessionDuration, setSessionDuration] = useState(["0", "0"]);
+  const [sessionOnset, setSessionOnset] = useState(["", ""]);
+  const [sessionDuration, setSessionDuration] = useState(["", ""]);
   const [overallMood, setOverallMood] = useState(0);
   const [moodWords, setMoodWords] = useState([]);
   const [positiveWords, setPositiveWords] = useState([]);
@@ -53,8 +53,8 @@ export default function AddSession({ user, navigation }) {
     setDispensary("");
     setConsumptionMethod("Inhalation (smoke)");
     setDosage("");
-    setSessionOnset(["0", "0"]);
-    setSessionDuration(["0", "0"]);
+    setSessionOnset(["", ""]);
+    setSessionDuration(["", ""]);
     setOverallMood(0);
     setMoodWords([]);
     setPositiveWords([]);
