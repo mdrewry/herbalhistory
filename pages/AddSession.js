@@ -77,7 +77,8 @@ export default function AddSession({ user, navigation, setBarDisabled }) {
     } = trackingPreference;
     let pages = [
       {
-        enabled: strain || dispensary || thcCbdValue || cannabisFamily || method,
+        enabled:
+          strain || dispensary || thcCbdValue || cannabisFamily || method,
         pageNum: 0,
       },
       { enabled: dosage || duration || onset, pageNum: 0 },
@@ -93,13 +94,11 @@ export default function AddSession({ user, navigation, setBarDisabled }) {
       numPages++;
       return page;
     });
-    console.log(pages);
     return { numPages, pages };
   };
   const { numPages, pages } = calculateEnabledPages();
-
   useEffect(() => {
-    const unsubscribeNavigator = navigation.addListener("tabPress", (e) => {
+    const unsubscribeNavigator = navigation.addListener("tabPress", () => {
       setBarDisabled(true);
     });
     return unsubscribeNavigator;
@@ -164,7 +163,9 @@ export default function AddSession({ user, navigation, setBarDisabled }) {
       page === 0 &&
       (strainName !== "" || !trackingPreference.strain) &&
       (cannabisFamily !== "" || !trackingPreference.cannabisFamily) &&
-      (consumptionMethod !== "" || !trackingPreference.method)
+      (consumptionMethod !== "" || !trackingPreference.method)(
+        dispensary !== "" || !trackingPreference.dispensary
+      )
     ) {
       verified = true;
     } else if (page === 1 && (dosage !== "" || !trackingPreference.dosage)) {
@@ -227,7 +228,6 @@ export default function AddSession({ user, navigation, setBarDisabled }) {
         showDatePicker={showDatePicker}
         handleCancel={handleNavigation}
       />
-
       <ScrollPage>
         {pages[0].enabled && (
           <SessionPage

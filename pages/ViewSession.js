@@ -9,7 +9,6 @@ import OutcomeSlider from "../res/OutcomeSlider";
 import FontAwesome5 from "react-native-vector-icons/FontAwesome5";
 export default function ViewSession({ daySessions, setPage }) {
   const [index, setIndex] = useState(0);
-
   const product = daySessions[index];
   const moodwords = product.moodWords.join(", ");
   const positivewords = product.positiveWords.join(", ");
@@ -25,19 +24,14 @@ export default function ViewSession({ daySessions, setPage }) {
     styles.slider4,
     styles.slider5,
   ];
-
   var dis = product.dispensary;
-  if(dis === undefined)
-    dis = "";
+  if (dis === undefined) dis = "";
   //change later
-
   // console.log(daySessions);
   // console.log(product.date.toDate());
-
   const handleHistory = () => {
     setPage(0);
   };
-
   return (
     <ScrollPage>
       <View style={styles.header}>
@@ -51,7 +45,6 @@ export default function ViewSession({ daySessions, setPage }) {
           </View>
         </View>
       </View>
-
       <View style={styles.calendarButton}>
         <View style={{ alignItems: "center" }}>
           <TouchableOpacity onPress={handleHistory} style={styles.circle}>
@@ -59,7 +52,6 @@ export default function ViewSession({ daySessions, setPage }) {
           </TouchableOpacity>
         </View>
       </View>
-
       <View style={styles.productHeader}>
         <Text style={styles.prodInf}>Product Information</Text>
         <Text style={styles.smallFont}>Strain:</Text>
@@ -78,10 +70,11 @@ export default function ViewSession({ daySessions, setPage }) {
         {dis.length !== 0 ? (
           <View>
             <Text style={styles.smallFont}>Dispensary:</Text>
-            <Text style={styles.normalFont}>{product.dispensary}</Text> 
-          </View> ) :
-          <View></View> 
-        }
+            <Text style={styles.normalFont}>{product.dispensary}</Text>
+          </View>
+        ) : (
+          <View></View>
+        )}
         <Text style={styles.smallFont}>Method:</Text>
         <Text style={styles.normalFont}>{product.method}</Text>
       </View>
@@ -105,11 +98,9 @@ export default function ViewSession({ daySessions, setPage }) {
           <Text style={styles.textStyle}>{product.sessionDuration[1]}</Text>
           <Text style={styles.textStyle}> minutes</Text>
         </View>
-
         <View style={styles.line}>
           <LineLogo />
         </View>
-
         <Text style={styles.smallText}>Overall Mood</Text>
         <View style={{ flexDirection: "row" }}>
           {mood.map((item, key) => {
@@ -130,7 +121,6 @@ export default function ViewSession({ daySessions, setPage }) {
         {/* <View style={styles.line}>
           <LineLogo />
         </View>
-
         <Text style={styles.prodInf}>Custom Section: Anxiety</Text>
         <Text style={styles.smallText}>Anxiety Level Before Intake:</Text>
         <View style={{ flexDirection: "row" }}>
@@ -146,11 +136,9 @@ export default function ViewSession({ daySessions, setPage }) {
           <Text style={styles.smallText}>Good Product for Anxiety</Text>
           <FontAwesome5 style={styles.check} name={"check-circle"} />
         </View>
-
         <View style={styles.line}>
           <LineLogo />
         </View>
-
         <Text style={styles.prodInf}>Custom Section: Sleep</Text>
         <Text style={styles.smallText}>Restlessness/Energy Before Intake:</Text>
         <View style={{ flexDirection: "row" }}>
@@ -175,11 +163,9 @@ export default function ViewSession({ daySessions, setPage }) {
           <Text style={styles.smallText}>Good Product for Sleep</Text>
           <FontAwesome5 style={styles.check} name={"check-circle"} />
         </View> */}
-
         <View style={styles.line}>
           <LineLogo />
         </View>
-
         <View style={{ flexDirection: "row" }}>
           <Text style={styles.smallText}>Would Try Again</Text>
           {product.wouldTryAgain ? (
@@ -194,7 +180,6 @@ export default function ViewSession({ daySessions, setPage }) {
             <FontAwesome5 style={styles.check} name={"check-circle"} />
           )}
         </View>
-
         <View style={styles.outcome}>
           <Text style={styles.smallText}>Overall Outcome:</Text>
           <View style={styles.bar}>
@@ -215,11 +200,9 @@ export default function ViewSession({ daySessions, setPage }) {
             </View>
           </View>
         </View>
-
         <View style={styles.line}>
           <LineLogo />
         </View>
-
         <Text style={styles.smallText}>Notes:</Text>
         <View style={styles.textbox}>
           <TextBox />
