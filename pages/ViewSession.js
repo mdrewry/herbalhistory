@@ -117,7 +117,6 @@ export default function ViewSession({ daySessions, setPage }) {
         <Text style={styles.textStyle}>{positivewords}</Text>
         <Text style={styles.smallText}>Negative Effects</Text>
         <Text style={styles.textStyle}>{negativewords}</Text>
-
         {/* <View style={styles.line}>
           <LineLogo />
         </View>
