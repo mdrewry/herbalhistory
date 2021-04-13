@@ -59,6 +59,7 @@ export default function AddSession({ user, navigation, setBarDisabled }) {
     const {
       method,
       strain,
+      dispensary,
       cannabisFamily,
       thcCbdValue,
       dosage,
@@ -76,7 +77,7 @@ export default function AddSession({ user, navigation, setBarDisabled }) {
     } = trackingPreference;
     let pages = [
       {
-        enabled: strain || thcCbdValue || cannabisFamily || method,
+        enabled: strain || dispensary || thcCbdValue || cannabisFamily || method,
         pageNum: 0,
       },
       { enabled: dosage || duration || onset, pageNum: 0 },
@@ -244,6 +245,10 @@ export default function AddSession({ user, navigation, setBarDisabled }) {
                   />
                 </View>
                 <FormDivider />
+              </>
+            )}
+            {trackingPreference.dispensary && (
+              <>
                 <View>
                   <TextField
                     label="Dispensary (optional)"
