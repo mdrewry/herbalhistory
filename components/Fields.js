@@ -1,6 +1,11 @@
 import React from "react";
 import { StyleSheet, Text, View } from "react-native";
-import { TextInput, DefaultTheme, RadioButton } from "react-native-paper";
+import {
+  TextInput,
+  DefaultTheme,
+  RadioButton,
+  Checkbox,
+} from "react-native-paper";
 import { TextButton, MoodButton, CustomTextLeftButton } from "./Buttons";
 export const ButtonSelectionFieldRow = ({
   label,
@@ -283,6 +288,64 @@ export const LabellessTextField = ({ value, setValue, pos }) => {
     />
   );
 };
+export const UnderlinedNumericalTextField = ({ value, setValue }) => {
+  const theme = {
+    ...DefaultTheme,
+    roundness: 10,
+    colors: {
+      ...DefaultTheme.colors,
+      primary: "#183A1D",
+      secondary: "#F1B779",
+      accent: "#F6C453",
+      background: "#FEFBE9",
+      text: "#183A1D",
+      surface: "#3f37c9",
+    },
+  };
+  const handleChange = (text) => {
+    setValue(text);
+  };
+  return (
+    <TextInput
+      theme={theme}
+      mode="flat"
+      underlineColor="#F1B779"
+      style={styles.labellessTextFieldWrapper}
+      value={value}
+      onChangeText={handleChange}
+      keyboardType="numeric"
+      placeholder="0"
+    />
+  );
+};
+
+export const OutOfTenField = ({ value, setValue, label }) => {
+  return (
+    <View style={styles.textFieldWrapper}>
+      <Text style={styles.text}>{label}</Text>
+      <View style={styles.rowCenter}>
+        <UnderlinedNumericalTextField value={value} setValue={setValue} />
+        <Text style={styles.outOfTenText}>out of 10</Text>
+      </View>
+    </View>
+  );
+};
+
+export const CustomCheckbox = ({ value, setValue, label }) => {
+  const handlePress = () => {
+    setValue(!value);
+  };
+  return (
+    <View style={styles.rowCenter}>
+      <Text style={styles.text}>{label}</Text>
+      <Checkbox
+        status={value ? "checked" : "unchecked"}
+        onPress={handlePress}
+        uncheckedColor="#183A1D"
+      />
+    </View>
+  );
+};
 
 const styles = StyleSheet.create({
   colCenter: {
@@ -307,6 +370,12 @@ const styles = StyleSheet.create({
     fontSize: 15,
     fontFamily: "Karla_400Regular",
     marginBottom: 10,
+  },
+  outOfTenText: {
+    color: "#183A1D",
+    fontSize: 20,
+    fontFamily: "Karla_700Bold",
+    marginLeft: 10,
   },
   textField: {
     width: "100%",

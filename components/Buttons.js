@@ -13,13 +13,14 @@ export const ContainedButton = ({ handlePress, text }) => {
     </TouchableRipple>
   );
 };
-export const FormNavButton = ({ handlePress, text }) => {
+export const FormNavButton = ({ handlePress, text, disabled }) => {
   return (
     <TouchableRipple
       onPress={handlePress}
       borderless={true}
       style={styles.formNavButton}
       rippleColor="rgba(254, 251, 233, .32)"
+      disabled={disabled}
     >
       <Text style={styles.formNavButtonText}>{text}</Text>
     </TouchableRipple>

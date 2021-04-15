@@ -25,30 +25,36 @@ export default function Stepper({
     if (key === page) return "#F6C453";
     return "#FEFBE9";
   };
+  const rightButtonText = page === numPages - 1 ? "Finish" : "Next";
   return (
     <View style={styles.rowCenter}>
       <FormNavButton
         text="Back"
         handlePress={handleBack}
-        disabled={page <= 0}
+        disabled={page === 0}
       />
-      <View style={styles.stepperIconWrapper}>
-        {marks.map((element, key) => (
-          <Surface
-            key={key}
-            style={{
-              backgroundColor: determineStepColor(key),
-              width: 30,
-              height: 30,
-              borderColor: "#183A1D",
-              borderWidth: 2,
-              borderRadius: 15,
-            }}
-          />
-        ))}
-      </View>
+      {numPages > 1 ? (
+        <View style={styles.stepperIconWrapper}>
+          {marks.map((element, key) => (
+            <Surface
+              key={key}
+              style={{
+                backgroundColor: determineStepColor(key),
+                width: 30,
+                height: 30,
+                borderColor: "#183A1D",
+                borderWidth: 2,
+                borderRadius: 15,
+              }}
+            />
+          ))}
+        </View>
+      ) : (
+        <View style={styles.grow} />
+      )}
+
       <FormNavButton
-        text="Next"
+        text={rightButtonText}
         handlePress={handleNext}
         disabled={page >= numPages}
       />
@@ -71,4 +77,5 @@ const styles = StyleSheet.create({
     paddingLeft: 10,
     paddingRight: 10,
   },
+  grow: { flexGrow: 1 },
 });
