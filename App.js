@@ -13,7 +13,7 @@ import Login from "./pages/Login";
 import Signup from "./pages/Signup";
 import ForgotPassword from "./pages/ForgotPassword";
 import Home from "./pages/Home";
-import History from "./pages/History";
+import Calendar from "./pages/History/Calendar";
 import AddSession from "./pages/AddSession";
 import Settings from "./pages/Settings";
 import {
@@ -53,7 +53,7 @@ const theme = {
     accent: "#F6C453",
     background: "#FEFBE9",
     text: "#FEFBE9",
-    surface: "#3f37c9",
+    surface: "#FEFBE9",
   },
 };
 
@@ -160,7 +160,7 @@ export default function App() {
                 ),
               }}
             >
-              {(props) => <History {...props} user={user} />}
+              {(props) => <Calendar {...props} user={user} />}
             </MaterialTab.Screen>
             <MaterialTab.Screen
               name="New Session"

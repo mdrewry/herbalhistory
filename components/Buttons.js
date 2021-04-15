@@ -1,6 +1,6 @@
 import React from "react";
 import { StyleSheet, Text } from "react-native";
-import { Button, IconButton, TouchableRipple } from "react-native-paper";
+import { IconButton, TouchableRipple } from "react-native-paper";
 export const ContainedButton = ({ handlePress, text }) => {
   return (
     <TouchableRipple

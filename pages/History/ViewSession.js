@@ -1,19 +1,17 @@
-import React, { useState } from "react";
+import React from "react";
 import { StyleSheet, Text, View, TouchableOpacity } from "react-native";
-import ScrollPage from "../components/ScrollPage";
+import ScrollPage from "../../components/ScrollPage";
 import moment from "moment";
-import LineLogo from "../res/LineLogo";
-import TextBox from "../res/TextBox";
-import OutcomeBar from "../res/OutcomeBar";
-import OutcomeSlider from "../res/OutcomeSlider";
+import LineLogo from "../../res/LineLogo";
+import TextBox from "../../res/TextBox";
+import OutcomeBar from "../../res/OutcomeBar";
+import OutcomeSlider from "../../res/OutcomeSlider";
 import FontAwesome5 from "react-native-vector-icons/FontAwesome5";
-export default function ViewSession({ daySessions, setPage }) {
-  const [index, setIndex] = useState(0);
-  const product = daySessions[index];
-  const moodwords = product.moodWords.join(", ");
-  const positivewords = product.positiveWords.join(", ");
-  const negativewords = product.negativeWords.join(", ");
-  const displayDate = moment(product.date.toDate())
+export default function ViewSession({ session, setSession }) {
+  const moodwords = session.moodWords.join(", ");
+  const positivewords = session.positiveWords.join(", ");
+  const negativewords = session.negativeWords.join(", ");
+  const displayDate = moment(session.date.toDate())
     .format("MMM DD YYYY h:mm a")
     .split(" ");
   const mood = ["sad-tear", "frown", "meh", "smile", "laugh", "grin-beam"];
@@ -24,13 +22,10 @@ export default function ViewSession({ daySessions, setPage }) {
     styles.slider4,
     styles.slider5,
   ];
-  var dis = product.dispensary;
+  var dis = session.dispensary;
   if (dis === undefined) dis = "";
-  //change later
-  // console.log(daySessions);
-  // console.log(product.date.toDate());
-  const handleHistory = () => {
-    setPage(0);
+  const clearSession = () => {
+    setSession(null);
   };
   return (
     <ScrollPage>
@@ -47,7 +42,7 @@ export default function ViewSession({ daySessions, setPage }) {
       </View>
       <View style={styles.calendarButton}>
         <View style={{ alignItems: "center" }}>
-          <TouchableOpacity onPress={handleHistory} style={styles.circle}>
+          <TouchableOpacity onPress={clearSession} style={styles.circle}>
             <FontAwesome5 style={styles.calendar} name={"calendar-alt"} />
           </TouchableOpacity>
         </View>
@@ -55,47 +50,47 @@ export default function ViewSession({ daySessions, setPage }) {
       <View style={styles.productHeader}>
         <Text style={styles.prodInf}>Product Information</Text>
         <Text style={styles.smallFont}>Strain:</Text>
-        <Text style={styles.normalFont}>{product.strain}</Text>
+        <Text style={styles.normalFont}>{session.strain}</Text>
         <Text style={styles.smallFont}>THC/CBD Ratio:</Text>
         <View style={{ flexDirection: "row" }}>
-          <Text style={styles.highlight}>{product.thcValue}</Text>
-          <Text style={styles.normalFont}>{product.chemValueType}</Text>
+          <Text style={styles.highlight}>{session.thcValue}</Text>
+          <Text style={styles.normalFont}>{session.chemValueType}</Text>
           <Text style={styles.normalFont}> THC; </Text>
-          <Text style={styles.highlight}>{product.cbdValue}</Text>
-          <Text style={styles.normalFont}>{product.chemValueType}</Text>
+          <Text style={styles.highlight}>{session.cbdValue}</Text>
+          <Text style={styles.normalFont}>{session.chemValueType}</Text>
           <Text style={styles.normalFont}> CBD</Text>
         </View>
         <Text style={styles.smallFont}>Type:</Text>
-        <Text style={styles.normalFont}>{product.thcFamily}</Text>
+        <Text style={styles.normalFont}>{session.thcFamily}</Text>
         {dis.length !== 0 ? (
           <View>
             <Text style={styles.smallFont}>Dispensary:</Text>
-            <Text style={styles.normalFont}>{product.dispensary}</Text>
+            <Text style={styles.normalFont}>{session.dispensary}</Text>
           </View>
         ) : (
           <View></View>
         )}
         <Text style={styles.smallFont}>Method:</Text>
-        <Text style={styles.normalFont}>{product.method}</Text>
+        <Text style={styles.normalFont}>{session.method}</Text>
       </View>
 
       <View style={styles.header1}>
         <Text style={styles.smallText}>Dosage:</Text>
-        <Text style={styles.textStyle}>{product.dosage}</Text>
+        <Text style={styles.textStyle}>{session.dosage}</Text>
         <Text style={styles.smallText}>
           Onset of Effect (Time from Intake):
         </Text>
         <View style={{ flexDirection: "row" }}>
-          <Text style={styles.textStyle}>{product.sessionOnset[0]}</Text>
+          <Text style={styles.textStyle}>{session.sessionOnset[0]}</Text>
           <Text style={styles.textStyle}> hours, </Text>
-          <Text style={styles.textStyle}>{product.sessionOnset[1]}</Text>
+          <Text style={styles.textStyle}>{session.sessionOnset[1]}</Text>
           <Text style={styles.textStyle}> minutes</Text>
         </View>
         <Text style={styles.smallText}>Duration of Effect:</Text>
         <View style={{ flexDirection: "row" }}>
-          <Text style={styles.textStyle}>{product.sessionDuration[0]}</Text>
+          <Text style={styles.textStyle}>{session.sessionDuration[0]}</Text>
           <Text style={styles.textStyle}> hours, </Text>
-          <Text style={styles.textStyle}>{product.sessionDuration[1]}</Text>
+          <Text style={styles.textStyle}>{session.sessionDuration[1]}</Text>
           <Text style={styles.textStyle}> minutes</Text>
         </View>
         <View style={styles.line}>
@@ -104,7 +99,7 @@ export default function ViewSession({ daySessions, setPage }) {
         <Text style={styles.smallText}>Overall Mood</Text>
         <View style={{ flexDirection: "row" }}>
           {mood.map((item, key) => {
-            if (product.overallMood == key)
+            if (session.overallMood == key)
               return (
                 <FontAwesome5 key={key} style={styles.mood1} name={item} />
               );
@@ -167,13 +162,13 @@ export default function ViewSession({ daySessions, setPage }) {
         </View>
         <View style={{ flexDirection: "row" }}>
           <Text style={styles.smallText}>Would Try Again</Text>
-          {product.wouldTryAgain ? (
+          {session.wouldTryAgain ? (
             <FontAwesome5 style={styles.check} name={"check-circle"} />
           ) : (
             <FontAwesome5 style={styles.check} name={"circle"} />
           )}
           <Text style={styles.smallText1}>Try Something Else</Text>
-          {product.wouldTryAgain ? (
+          {session.wouldTryAgain ? (
             <FontAwesome5 style={styles.check} name={"circle"} />
           ) : (
             <FontAwesome5 style={styles.check} name={"check-circle"} />
@@ -183,9 +178,9 @@ export default function ViewSession({ daySessions, setPage }) {
           <Text style={styles.smallText}>Overall Outcome:</Text>
           <View style={styles.bar}>
             <OutcomeBar />
-            <View style={sliderStyle[product.overallRating - 1]}>
+            <View style={sliderStyle[session.overallRating - 1]}>
               <OutcomeSlider />
-              <Text style={styles.textStyle2}>{product.overallRating}</Text>
+              <Text style={styles.textStyle2}>{session.overallRating}</Text>
             </View>
           </View>
           <View style={styles.exp}>
@@ -206,7 +201,7 @@ export default function ViewSession({ daySessions, setPage }) {
         <View style={styles.textbox}>
           <TextBox />
           <View style={styles.textboxText}>
-            <Text style={styles.smallText}>{product.notes}</Text>
+            <Text style={styles.smallText}>{session.notes}</Text>
           </View>
         </View>
       </View>

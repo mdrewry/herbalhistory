@@ -146,6 +146,9 @@ export default function AddSession({ user, navigation, setBarDisabled }) {
       wouldTryAgain: wouldTryAgain,
       notes: notes,
     });
+    await user.ref.update({
+      numSessions: user.numSessions++,
+    });
   };
   const showDatePicker = () => {
     setDatePickerVisibility(true);
@@ -163,9 +166,8 @@ export default function AddSession({ user, navigation, setBarDisabled }) {
       page === 0 &&
       (strainName !== "" || !trackingPreference.strain) &&
       (cannabisFamily !== "" || !trackingPreference.cannabisFamily) &&
-      (consumptionMethod !== "" || !trackingPreference.method)(
-        dispensary !== "" || !trackingPreference.dispensary
-      )
+      (consumptionMethod !== "" || !trackingPreference.method) &&
+      (dispensary !== "" || !trackingPreference.dispensary)
     ) {
       verified = true;
     } else if (page === 1 && (dosage !== "" || !trackingPreference.dosage)) {
@@ -207,7 +209,7 @@ export default function AddSession({ user, navigation, setBarDisabled }) {
         <View style={styles.endPage}>
           <Text style={styles.endPagePrompt}>
             You have successfully completed your{" "}
-            <Text style={styles.endPagePromptHighlight}>1st</Text> entry.
+            <Text style={styles.endPagePromptHighlight}>{}st</Text> entry.
           </Text>
           <ContainedButton handlePress={handleNavigation} text="View Entry" />
         </View>
@@ -251,7 +253,7 @@ export default function AddSession({ user, navigation, setBarDisabled }) {
               <>
                 <View>
                   <TextField
-                    label="Dispensary (optional)"
+                    label="Dispensary"
                     value={dispensary}
                     setValue={setDispensary}
                   />
