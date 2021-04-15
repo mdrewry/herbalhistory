@@ -20,10 +20,33 @@ export default function Signup({ navigation }) {
         .createUserWithEmailAndPassword(email, password)
         .then(async (response) => {
           const { user } = response;
-          await firestore.collection("users").doc(user.uid).set({
-            name: name,
-            email: email,
-          });
+          await firestore
+            .collection("users")
+            .doc(user.uid)
+            .set({
+              name: name,
+              email: email,
+              numSessions: 0,
+              trackingPreference: {
+                method: true,
+                strain: true,
+                cannabisFamily: true,
+                thcCbdValue: true,
+                dosage: true,
+                duration: true,
+                onset: true,
+                dispensary: true,
+                moodWords: true,
+                negativeWords: true,
+                positiveWords: true,
+                overallMood: true,
+                overallRating: true,
+                wouldTryAgain: true,
+                notes: true,
+                sleep: false,
+                anxiety: false,
+              },
+            });
         })
         .catch((error) => {
           setErrorText(error.message);
