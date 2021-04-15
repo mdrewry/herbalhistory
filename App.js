@@ -14,7 +14,7 @@ import Signup from "./pages/Signup";
 import ForgotPassword from "./pages/ForgotPassword";
 import Home from "./pages/Home";
 import Calendar from "./pages/History/Calendar";
-import AddSession from "./pages/AddSession";
+import AddSession from "./pages/AddSession/AddSession";
 import Settings from "./pages/Settings";
 import {
   useFonts,

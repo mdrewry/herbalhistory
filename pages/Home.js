@@ -16,7 +16,6 @@ import ScrollLeft from "../res/ScrollLeft";
 import ScrollRight from "../res/ScrollRight";
 import FontAwesome5 from "react-native-vector-icons/FontAwesome5";
 export default function Home({ user, navigation }) {
-  
   const [sessions, setSessions] = useState([]);
   const [lastDate, setlastDate] = useState(moment().format("YYYY-MM-DD"));
   const [day, setDay] = useState(0);
@@ -56,33 +55,37 @@ export default function Home({ user, navigation }) {
         const moodwords = data.moodWords;
         const positivewords = data.positiveWords;
         const negativewords = data.negativeWords;
-        for( i=0;i<moodwords.length;i++)
-          commonMood.push(moodwords[i]);
-        for( i=0;i<positivewords.length;i++)
+        for (i = 0; i < moodwords.length; i++) commonMood.push(moodwords[i]);
+        for (i = 0; i < positivewords.length; i++)
           commonPos.push(positivewords[i]);
-        for( i=0;i<negativewords.length;i++)
+        for (i = 0; i < negativewords.length; i++)
           commonNeg.push(negativewords[i]);
-        if(strainMap[strainStr] !== undefined){
+        if (strainMap[strainStr] !== undefined) {
           const f = strainMap[strainStr]["freq"] + 1;
-          const ratingRunningAvg = (strainMap[strainStr]["rating"] + (rating - strainMap[strainStr]["rating"]) / f);
+          const ratingRunningAvg =
+            strainMap[strainStr]["rating"] +
+            (rating - strainMap[strainStr]["rating"]) / f;
           const r = Math.round(ratingRunningAvg * 100) / 100;
-          const moodRunningAvg = (strainMap[strainStr]["mood"] + (mood - strainMap[strainStr]["mood"]) / f);
-          strainMap[strainStr] = {"freq":f,"rating":r,"mood":Math.round(moodRunningAvg)};
-        }
-        else
-          strainMap[strainStr] = {"freq":1,"rating":rating,"mood":mood};
-        if (sessions[dateKey] === undefined) 
-          sessions[dateKey] = [];
+          const moodRunningAvg =
+            strainMap[strainStr]["mood"] +
+            (mood - strainMap[strainStr]["mood"]) / f;
+          strainMap[strainStr] = {
+            freq: f,
+            rating: r,
+            mood: Math.round(moodRunningAvg),
+          };
+        } else strainMap[strainStr] = { freq: 1, rating: rating, mood: mood };
+        if (sessions[dateKey] === undefined) sessions[dateKey] = [];
         sessions[dateKey].push({ ...data, id });
       });
       setSessions(sessions);
-      setlastDate(lastDate); 
+      setlastDate(lastDate);
       setDateTime(sessions, lastDate);
       favoriteStrain(strainMap);
       mostCommonStrain(strainMap);
-      setMood(common(commonMood))
-      setPositive(common(commonPos))
-      setNegative(common(commonNeg))
+      setMood(common(commonMood));
+      setPositive(common(commonPos));
+      setNegative(common(commonNeg));
     });
     return () => {
       unsubscribeSessions();
@@ -99,25 +102,26 @@ export default function Home({ user, navigation }) {
     "In 2012, Washington and Colorado became the first states to legalize cannabis for recreational use.",
   ];
   const randNum = Math.floor(Math.random() * 7) + 0;
-  const moodArr = ["sad-tear","frown","meh","smile","laugh","grin-beam"];
+  const moodArr = ["sad-tear", "frown", "meh", "smile", "laugh", "grin-beam"];
 
   const handleNewSession = () => {
     navigation.navigate("New Session");
   };
 
   const setDateTime = (sessions, dateKey) => {
-    // console.log(sessions)
     const currDay = moment().format("YYYY-MM-DD hh:mm");
-    const lastDateHours = moment(sessions[dateKey][sessions[dateKey].length - 1].date.toDate()).format("YYYY-MM-DD hh:mm");
-    setDay(moment(currDay).diff(moment(lastDateHours), 'days'));
-    setHours(moment(currDay).diff(moment(lastDateHours), 'hours') % 24);
+    const lastDateHours = moment(
+      sessions[dateKey][sessions[dateKey].length - 1].date.toDate()
+    ).format("YYYY-MM-DD hh:mm");
+    setDay(moment(currDay).diff(moment(lastDateHours), "days"));
+    setHours(moment(currDay).diff(moment(lastDateHours), "hours") % 24);
   };
 
   const favoriteStrain = (strainMap) => {
     var highest = 0;
     var strainStr = "None";
-    for (let key in strainMap){
-      if(highest < strainMap[key]["rating"]){
+    for (let key in strainMap) {
+      if (highest < strainMap[key]["rating"]) {
         highest = strainMap[key]["rating"];
         strainStr = key;
       }
@@ -125,14 +129,14 @@ export default function Home({ user, navigation }) {
     setStrain(strainStr);
     setTimesUsed(strainMap[strainStr]["freq"]);
     setAverageRating(highest);
-    setAverageMood(strainMap[strainStr]["mood"])
+    setAverageMood(strainMap[strainStr]["mood"]);
   };
 
   const mostCommonStrain = (strainMap) => {
     var highest = 0;
     var strainStr = "None";
-    for (let key in strainMap){
-      if(highest < strainMap[key]["freq"]){
+    for (let key in strainMap) {
+      if (highest < strainMap[key]["freq"]) {
         highest = strainMap[key]["freq"];
         strainStr = key;
       }
@@ -141,42 +145,37 @@ export default function Home({ user, navigation }) {
     setCommonTimesUsed(highest);
     setCommonAverageRating(strainMap[strainStr]["rating"]);
     setCommonAverageMood(strainMap[strainStr]["mood"]);
-  }
+  };
 
   const common = (arr) => {
     let commonArr = [];
-    commonArr.push(mostFreq(arr))
-    const second = arr.filter(function(x){
+    commonArr.push(mostFreq(arr));
+    const second = arr.filter(function (x) {
       return x !== mostFreq(arr);
     });
-    console.log()
-    if(second.length !== 0)
-    commonArr.push(mostFreq(second))
-    const third = second.filter(function(x){
+    if (second.length !== 0) commonArr.push(mostFreq(second));
+    const third = second.filter(function (x) {
       return x !== mostFreq(second);
     });
-    if(third.length !== 0)
-      commonArr.push(mostFreq(third))
+    if (third.length !== 0) commonArr.push(mostFreq(third));
     return commonArr;
-  }
+  };
 
   const mostFreq = (arr) => {
     var modeMap = {};
-    var max = arr[0]
+    var max = arr[0];
     var count = 1;
-    for(var i = 0; i < arr.length; i++){
-        var temp = arr[i];
-        if(modeMap[temp] == null)
-          modeMap[temp] = 1;
-        else
-          modeMap[temp]++;  
-        if(modeMap[temp] > count){
-          max = temp;
-          count = modeMap[temp];
-        }
+    for (var i = 0; i < arr.length; i++) {
+      var temp = arr[i];
+      if (modeMap[temp] == null) modeMap[temp] = 1;
+      else modeMap[temp]++;
+      if (modeMap[temp] > count) {
+        max = temp;
+        count = modeMap[temp];
+      }
     }
     return max;
-  }
+  };
 
   return (
     <ScrollPage>
@@ -237,13 +236,12 @@ export default function Home({ user, navigation }) {
           <FunFactInfo />
         </View>
         {randNum !== 6 ? (
-            <View style={styles.fact}>
-              <Text style={styles.funFact}>{funFact[randNum]}</Text>
-            </View>
-          ) : (
+          <View style={styles.fact}>
             <Text style={styles.funFact}>{funFact[randNum]}</Text>
-          )
-        }
+          </View>
+        ) : (
+          <Text style={styles.funFact}>{funFact[randNum]}</Text>
+        )}
       </View>
 
       <Text style={styles.name}>{user.name + "'s"} </Text>
@@ -290,9 +288,7 @@ export default function Home({ user, navigation }) {
         <LineLogo />
       </View>
 
-      <Text style={styles.smallText}>
-        Most Commonly Used Strain:
-      </Text>
+      <Text style={styles.smallText}>Most Commonly Used Strain:</Text>
       <Text style={styles.textStyle1}>{commonStrain}</Text>
 
       <View style={{ alignItems: "center" }}>
@@ -309,7 +305,10 @@ export default function Home({ user, navigation }) {
           </View>
           <View style={styles.circleCaption2}>
             <View style={styles.circle}>
-              <FontAwesome5 style={styles.mood} name={moodArr[commonAverageMood]} />
+              <FontAwesome5
+                style={styles.mood}
+                name={moodArr[commonAverageMood]}
+              />
             </View>
           </View>
         </View>

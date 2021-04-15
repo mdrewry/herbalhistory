@@ -1,7 +1,7 @@
 import React from "react";
 import { StyleSheet, Text, View } from "react-native";
 import moment from "moment";
-import { FormNavButton, TextButton } from "./Buttons";
+import { FormNavButton, TextButton } from "../../components/Buttons";
 export default function FormHeader({ handleCancel, showDatePicker, date }) {
   const displayDate = moment(date).format("MMM DD YYYY h:mm a").split(" ");
   return (
@@ -24,7 +24,7 @@ export default function FormHeader({ handleCancel, showDatePicker, date }) {
       </View>
       <View style={styles.fill} />
       <View>
-        <FormNavButton text="Cancel" handlePress={handleCancel} />
+        <FormNavButton text="Cancel" handlePress={() => handleCancel("Home")} />
       </View>
     </View>
   );

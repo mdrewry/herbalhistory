@@ -12,7 +12,7 @@ export default function SessionSelector({
   setOpen,
 }) {
   const selection = sessionSelection.map((session) => ({
-    label: `${session.strain}${session.strain !== "" && ","} ${moment(
+    label: `${session.strain !== "" ? session.strain : "Unknown"}, ${moment(
       session.date.toDate()
     ).format("h:mm a")}`,
     value: session,
