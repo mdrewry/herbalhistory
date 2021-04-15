@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { StyleSheet, Text, View } from "react-native";
 import { ContainedButton } from "../components/Buttons";
 import { CustomSwitch } from "../components/CustomSwitch";
@@ -6,40 +6,22 @@ import DashLogo from "../res/DashLogo";
 import ScrollPage from "../components/ScrollPage";
 import { auth, firestore } from "../firebase";
 export default function Settings({ user, setSignedIn }) {
-  const handleScript = async () => {
-    const snapshot = await firestore.collection("users").get();
-    await Promise.all(
-      snapshot.docs.map(async (doc) => {
-        await doc.ref.update({
-          trackingPreference: {
-            method: true,
-            strain: true,
-            cannabisFamily: true,
-            thcCbdValue: true,
-            dosage: true,
-            duration: true,
-            onset: true,
-            dispensary: true,
-            moodWords: true,
-            negativeWords: true,
-            positiveWords: true,
-            overallMood: true,
-            overallRating: true,
-            wouldTryAgain: true,
-            notes: true,
-            sleep: true,
-            anxiety: true,
-          },
-        });
-      })
-    );
-  };
+  // const handleScript = async () => {
+  //   const snapshot = await firestore.collection("users").get();
+  //   await Promise.all(
+  //     snapshot.docs.map(async (doc) => {
+  //       await doc.ref.update({
+  //
+  //       });
+  //     })
+  //   );
+  // };
   const handleSignOut = async () => {
     setSignedIn(false);
     auth.signOut();
   };
   const trackingPreference = user.trackingPreference;
-  const toggleFields = [
+  const [toggleFields, setToggleFields] = useState([
     {
       label: "Smoking Method",
       varName: "method",
@@ -125,9 +107,16 @@ export default function Settings({ user, setSignedIn }) {
       varName: "anxiety",
       value: trackingPreference.anxiety,
     },
-  ];
+  ]);
   const toggleSwitch = async (fieldSelected) => {
     let updatedTrackingPreferences = { ...user.trackingPreference };
+    setToggleFields(
+      toggleFields.map((field) =>
+        field.varName === fieldSelected
+          ? { ...field, value: !field.value }
+          : field
+      )
+    );
     updatedTrackingPreferences[fieldSelected] = !updatedTrackingPreferences[
       fieldSelected
     ];
