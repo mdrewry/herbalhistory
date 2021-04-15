@@ -103,7 +103,7 @@ export default function AddSession({ user, navigation, setBarDisabled }) {
     });
     return unsubscribeNavigator;
   }, []);
-  const handleNavigation = () => {
+  const handleNavigation = (screen) => {
     setPage(0);
     setStrainName("");
     setThcCbdValue(["", ""]);
@@ -122,7 +122,7 @@ export default function AddSession({ user, navigation, setBarDisabled }) {
     setWouldTryAgain(true);
     setNotes("");
     setBarDisabled(false);
-    navigation.navigate("Home");
+    navigation.navigate(screen);
   };
   const submitForm = async () => {
     await firestore.collection("sessions").add({
@@ -198,20 +198,42 @@ export default function AddSession({ user, navigation, setBarDisabled }) {
     setFieldsFilled(verified);
     return verified;
   };
+  if (numPages === 0)
+    return (
+      <Page>
+        <Header text1="Enable" text2="Fields!" handleBack={handleNavigation} />
+        <View style={styles.endPage}>
+          <Text style={styles.endPagePrompt}>
+            Enable at least one field to record a session.
+          </Text>
+          <ContainedButton
+            handlePress={() => handleNavigation("Settings")}
+            text="Configure Settings"
+          />
+        </View>
+      </Page>
+    );
   if (page === numPages)
     return (
       <Page>
         <Header
           text1="Session"
           text2="Completed!"
-          handleBack={handleNavigation}
+          handleBack={() => handleNavigation("Home")}
         />
         <View style={styles.endPage}>
           <Text style={styles.endPagePrompt}>
             You have successfully completed your{" "}
-            <Text style={styles.endPagePromptHighlight}>{}st</Text> entry.
+            <Text style={styles.endPagePromptHighlight}>
+              {user.numSessions + 1}st
+            </Text>{" "}
+            entry.
           </Text>
-          <ContainedButton handlePress={handleNavigation} text="View Entry" />
+
+          <ContainedButton
+            handlePress={() => handleNavigation("History")}
+            text="View Entry"
+          />
         </View>
       </Page>
     );
