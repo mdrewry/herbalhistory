@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { StyleSheet, Text, View } from "react-native";
 import { ContainedButton } from "../components/Buttons";
 import { CustomSwitch } from "../components/CustomSwitch";
+import { Divider } from "react-native-paper";
 import DashLogo from "../res/DashLogo";
 import ScrollPage from "../components/ScrollPage";
 import { auth, firestore } from "../firebase";
@@ -23,39 +24,9 @@ export default function Settings({ user, setSignedIn }) {
   const trackingPreference = user.trackingPreference;
   const [toggleFields, setToggleFields] = useState([
     {
-      label: "Smoking Method",
-      varName: "method",
-      value: trackingPreference.method,
-    },
-    {
       label: "Strain",
       varName: "strain",
       value: trackingPreference.strain,
-    },
-    {
-      label: "Cannabis Family",
-      varName: "cannabisFamily",
-      value: trackingPreference.cannabisFamily,
-    },
-    {
-      label: "THC/CBD Amount",
-      varName: "thcCbdValue",
-      value: trackingPreference.thcCbdValue,
-    },
-    {
-      label: "Dosage",
-      varName: "dosage",
-      value: trackingPreference.dosage,
-    },
-    {
-      label: "Session Duration",
-      varName: "duration",
-      value: trackingPreference.duration,
-    },
-    {
-      label: "Session Onset",
-      varName: "onset",
-      value: trackingPreference.onset,
     },
     {
       label: "Dispensary",
@@ -63,19 +34,34 @@ export default function Settings({ user, setSignedIn }) {
       value: trackingPreference.dispensary,
     },
     {
-      label: "Mood Words",
-      varName: "moodWords",
-      value: trackingPreference.moodWords,
+      label: "THC/CBD Amount",
+      varName: "thcCbdValue",
+      value: trackingPreference.thcCbdValue,
     },
     {
-      label: "Negative Words",
-      varName: "negativeWords",
-      value: trackingPreference.negativeWords,
+      label: "Cannabis Family",
+      varName: "cannabisFamily",
+      value: trackingPreference.cannabisFamily,
     },
     {
-      label: "Positive Words",
-      varName: "positiveWords",
-      value: trackingPreference.positiveWords,
+      label: "Smoking Method",
+      varName: "method",
+      value: trackingPreference.method,
+    },
+    {
+      label: "Dosage",
+      varName: "dosage",
+      value: trackingPreference.dosage,
+    },
+    {
+      label: "Session Onset",
+      varName: "onset",
+      value: trackingPreference.onset,
+    },
+    {
+      label: "Session Duration",
+      varName: "duration",
+      value: trackingPreference.duration,
     },
     {
       label: "Overall Mood",
@@ -83,9 +69,19 @@ export default function Settings({ user, setSignedIn }) {
       value: trackingPreference.overallMood,
     },
     {
-      label: "Overall Rating",
-      varName: "overallRating",
-      value: trackingPreference.overallRating,
+      label: "Mood Words",
+      varName: "moodWords",
+      value: trackingPreference.moodWords,
+    },
+    {
+      label: "Positive Words",
+      varName: "positiveWords",
+      value: trackingPreference.positiveWords,
+    },
+    {
+      label: "Negative Words",
+      varName: "negativeWords",
+      value: trackingPreference.negativeWords,
     },
     {
       label: "Would Try Again",
@@ -93,23 +89,27 @@ export default function Settings({ user, setSignedIn }) {
       value: trackingPreference.wouldTryAgain,
     },
     {
+      label: "Overall Rating",
+      varName: "overallRating",
+      value: trackingPreference.overallRating,
+    },
+    {
       label: "Notes",
       varName: "notes",
       value: trackingPreference.notes,
-    },
-    {
-      label: "Sleep Tracking",
-      varName: "sleep",
-      value: trackingPreference.sleep,
     },
     {
       label: "Anxiety Tracking",
       varName: "anxiety",
       value: trackingPreference.anxiety,
     },
+    {
+      label: "Sleep Tracking",
+      varName: "sleep",
+      value: trackingPreference.sleep,
+    },
   ]);
   const toggleSwitch = async (fieldSelected) => {
-    let updatedTrackingPreferences = { ...user.trackingPreference };
     setToggleFields(
       toggleFields.map((field) =>
         field.varName === fieldSelected
@@ -117,9 +117,21 @@ export default function Settings({ user, setSignedIn }) {
           : field
       )
     );
+    let updatedTrackingPreferences = { ...user.trackingPreference };
     updatedTrackingPreferences[fieldSelected] = !updatedTrackingPreferences[
       fieldSelected
     ];
+    await user.ref.update({ trackingPreference: updatedTrackingPreferences });
+  };
+  const handleToggleAll = async () => {
+    const toggleDirection = !toggleFields[0].value;
+    setToggleFields(
+      toggleFields.map((field) => ({ ...field, value: toggleDirection }))
+    );
+    let updatedTrackingPreferences = { ...user.trackingPreference };
+    Object.keys(updatedTrackingPreferences).forEach((key) => {
+      updatedTrackingPreferences[key] = toggleDirection;
+    });
     await user.ref.update({ trackingPreference: updatedTrackingPreferences });
   };
   return (
@@ -135,25 +147,39 @@ export default function Settings({ user, setSignedIn }) {
       </Text>
       <View style={styles.fields}>
         {toggleFields.map((field, index) => (
-          <View style={styles.rowCenter} key={index}>
-            <Text style={styles.fieldText}>{field.label}</Text>
-            <View style={styles.grow} />
-            <CustomSwitch
-              value={field.value}
-              handleToggle={() => toggleSwitch(field.varName)}
+          <View key={index}>
+            <View style={styles.field}>
+              <Text style={styles.fieldText}>{field.label}</Text>
+              <View style={styles.grow} />
+              <CustomSwitch
+                value={field.value}
+                handleToggle={() => toggleSwitch(field.varName)}
+              />
+            </View>
+            <Divider
+              style={{
+                backgroundColor: field.value ? "#F1B779" : "#FEFBE9",
+                height: 2,
+              }}
             />
           </View>
         ))}
       </View>
-      <Text style={styles.moreText}>
-        More Settings and Features Coming Soon!
-      </Text>
+      <View style={styles.buttonWrapper}>
+        <ContainedButton
+          handlePress={handleToggleAll}
+          text="Toggle All Fields"
+        />
+      </View>
+      <View style={styles.spacer} />
       {/* <View style={styles.signOut}>
         <ContainedButton handlePress={handleScript} text="Run Script" />
       </View> */}
-      <View style={styles.signOut}>
+      <View style={styles.spacer} />
+      <View style={styles.buttonWrapper}>
         <ContainedButton handlePress={handleSignOut} text="Sign Out" />
       </View>
+      <View style={styles.spacer} />
     </ScrollPage>
   );
 }
@@ -174,6 +200,7 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontFamily: "Karla_400Regular",
     marginLeft: 30,
+    marginRight: 30,
     color: "#183A1D",
   },
   moreText: {
@@ -189,15 +216,20 @@ const styles = StyleSheet.create({
     margin: 30,
   },
   fields: {
-    margin: 30,
+    padding: 30,
+  },
+  field: {
+    flexDirection: "row",
+    alignItems: "center",
+    marginTop: 15,
   },
   fieldText: {
     fontSize: 25,
     fontFamily: "Karla_400Regular",
     color: "#183A1D",
   },
-  signOut: {
-    margin: 38,
+  buttonWrapper: {
+    alignSelf: "center",
     width: "80%",
     alignItems: "center",
   },
@@ -207,5 +239,8 @@ const styles = StyleSheet.create({
   },
   grow: {
     flexGrow: 1,
+  },
+  spacer: {
+    height: 20,
   },
 });
