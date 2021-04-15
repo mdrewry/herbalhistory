@@ -110,9 +110,12 @@ export default function Home({ user, navigation }) {
 
   const setDateTime = (sessions, dateKey) => {
     const currDay = moment().format("YYYY-MM-DD hh:mm");
-    const lastDateHours = moment(
-      sessions[dateKey][sessions[dateKey].length - 1].date.toDate()
-    ).format("YYYY-MM-DD hh:mm");
+    const lastDateHours =
+      sessions[dateKey] !== undefined
+        ? moment(
+            sessions[dateKey][sessions[dateKey].length - 1].date.toDate()
+          ).format("YYYY-MM-DD hh:mm")
+        : currDay;
     setDay(moment(currDay).diff(moment(lastDateHours), "days"));
     setHours(moment(currDay).diff(moment(lastDateHours), "hours") % 24);
   };
@@ -127,9 +130,13 @@ export default function Home({ user, navigation }) {
       }
     }
     setStrain(strainStr);
-    setTimesUsed(strainMap[strainStr]["freq"]);
+    setTimesUsed(
+      strainMap[strainStr] !== undefined ? strainMap[strainStr]["freq"] : 0
+    );
     setAverageRating(highest);
-    setAverageMood(strainMap[strainStr]["mood"]);
+    setAverageMood(
+      strainMap[strainStr] !== undefined ? strainMap[strainStr]["mood"] : 0
+    );
   };
 
   const mostCommonStrain = (strainMap) => {
@@ -143,8 +150,12 @@ export default function Home({ user, navigation }) {
     }
     setCommonStrain(strainStr);
     setCommonTimesUsed(highest);
-    setCommonAverageRating(strainMap[strainStr]["rating"]);
-    setCommonAverageMood(strainMap[strainStr]["mood"]);
+    setCommonAverageRating(
+      strainMap[strainStr] !== undefined ? strainMap[strainStr]["rating"] : 0
+    );
+    setCommonAverageMood(
+      strainMap[strainStr] !== undefined ? strainMap[strainStr]["mood"] : 0
+    );
   };
 
   const common = (arr) => {
