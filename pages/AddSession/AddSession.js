@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { StyleSheet, Text, View } from "react-native";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import ScrollPage from "../../components/ScrollPage";
@@ -25,7 +25,7 @@ import {
 
 import Stepper from "../../components/Stepper";
 
-export default function AddSession({ user, navigation, setBarDisabled }) {
+export default function AddSession({ user, navigation }) {
   const [page, setPage] = useState(0);
   const [date, setDate] = useState(new Date());
   const [fieldsFilled, setFieldsFilled] = useState(true);
@@ -109,12 +109,6 @@ export default function AddSession({ user, navigation, setBarDisabled }) {
     return { numPages, pages };
   };
   const { numPages, pages } = calculateEnabledPages();
-  useEffect(() => {
-    const unsubscribeNavigator = navigation.addListener("tabPress", () => {
-      setBarDisabled(true);
-    });
-    return unsubscribeNavigator;
-  }, []);
   const handleNavigation = (screen) => {
     setPage(0);
     setStrainName("");
@@ -133,7 +127,6 @@ export default function AddSession({ user, navigation, setBarDisabled }) {
     setOverallRating(4);
     setWouldTryAgain(true);
     setNotes("");
-    setBarDisabled(false);
     setAnxietyBeforeIntake(0);
     setAnxietyAfterIntake(0);
     setGoodForAnxiety(false);

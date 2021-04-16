@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import { LogBox, StyleSheet } from "react-native";
 import AppLoading from "expo-app-loading";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import { createMaterialBottomTabNavigator } from "@react-navigation/material-bottom-tabs";
 import { NavigationContainer } from "@react-navigation/native";
 import { DefaultTheme, Provider as PaperProvider } from "react-native-paper";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
@@ -41,7 +40,6 @@ console.warn = (message) => {
     _console.warn(message);
   }
 };
-const MaterialTab = createMaterialBottomTabNavigator();
 const Tab = createBottomTabNavigator();
 const theme = {
   ...DefaultTheme,
@@ -60,7 +58,7 @@ const theme = {
 export default function App() {
   const [user, setUser] = useState(null);
   const [signedIn, setSignedIn] = useState(false);
-  const [barDisabled, setBarDisabled] = useState(false);
+  const [loading, setLoading] = useState(true);
   let [fontsLoaded] = useFonts({
     Karla_400Regular,
     Karla_400Regular_Italic,
@@ -83,116 +81,83 @@ export default function App() {
           const userData = { ...snapshot.data(), id: user.uid };
           setUser({ ...userData, ref: docRef });
           setSignedIn(true);
+          setLoading(false);
         });
         return () => unsubscribeUser();
       } else {
         setUser(null);
         setSignedIn(false);
+        setLoading(false);
       }
     });
   }, []);
 
-  if (!fontsLoaded) {
-    return <AppLoading />;
-  }
-  const disableTabBar = () => ({
-    tabBarVisible: signedIn,
+  const hideTabBar = () => ({
+    tabBarVisible: false,
   });
+  const showTabBar = () => ({
+    tabBarVisible: true,
+  });
+
+  if (!fontsLoaded || loading) return <AppLoading />;
 
   return (
     <PaperProvider theme={theme}>
       <NavigationContainer>
         {!signedIn ? (
           <Tab.Navigator>
-            <Tab.Screen name="Landing" options={disableTabBar}>
+            <Tab.Screen name="Landing" options={hideTabBar}>
               {(props) => <Landing {...props} />}
             </Tab.Screen>
-            <Tab.Screen name="Login" options={disableTabBar}>
+            <Tab.Screen name="Login" options={hideTabBar}>
               {(props) => <Login {...props} />}
             </Tab.Screen>
-            <Tab.Screen name="Signup" options={disableTabBar}>
+            <Tab.Screen name="Signup" options={hideTabBar}>
               {(props) => <Signup {...props} />}
             </Tab.Screen>
-            <Tab.Screen name="ForgotPassword" options={disableTabBar}>
+            <Tab.Screen name="ForgotPassword" options={hideTabBar}>
               {(props) => <ForgotPassword {...props} />}
             </Tab.Screen>
           </Tab.Navigator>
         ) : (
-          <MaterialTab.Navigator
-            activeColor="#F6C453"
-            inactiveColor="#183A1D"
-            barStyle={{
-              ...styles.bottomNavBar,
-              display: barDisabled ? "none" : "flex",
-            }}
+          <Tab.Navigator
             tabBarOptions={{
-              keyboardHidesTabBar: true,
+              activeBackgroundColor: "#E1EEDD",
+              inactiveBackgroundColor: "#E1EEDD",
+              activeTintColor: "#F1B779",
+              inactiveTintColor: "#183A1D",
             }}
             screenOptions={({ route }) => ({
-              tabBarButton: ["ViewSession"].includes(route.name)
-                ? () => {
-                    return null;
-                  }
-                : undefined,
-            })}
-          >
-            <MaterialTab.Screen
-              name="Home"
-              options={{
-                tabBarLabel: "Home",
-                tabBarIcon: ({ color }) => (
-                  <MaterialCommunityIcons name="home" color={color} size={26} />
-                ),
-              }}
-            >
-              {(props) => <Home {...props} user={user} />}
-            </MaterialTab.Screen>
-            <MaterialTab.Screen
-              name="History"
-              options={{
-                tabBarLabel: "History",
-                tabBarIcon: ({ color }) => (
+              tabBarIcon: ({ color }) => {
+                let iconName = "home";
+                if (route.name === "History") iconName = "book-multiple";
+                else if (route.name === "New Session") iconName = "plus";
+                else if (route.name === "Settings") iconName = "cog";
+                return (
                   <MaterialCommunityIcons
-                    name="book-multiple"
+                    name={iconName}
                     color={color}
                     size={26}
                   />
-                ),
-              }}
-            >
+                );
+              },
+            })}
+          >
+            <Tab.Screen name="Home" options={showTabBar}>
+              {(props) => <Home {...props} user={user} />}
+            </Tab.Screen>
+            <Tab.Screen name="History" options={showTabBar}>
               {(props) => <Calendar {...props} user={user} />}
-            </MaterialTab.Screen>
-            <MaterialTab.Screen
-              name="New Session"
-              options={{
-                tabBarLabel: "New Session",
-                tabBarIcon: ({ color }) => (
-                  <MaterialCommunityIcons name="plus" color={color} size={26} />
-                ),
-              }}
-            >
-              {(props) => (
-                <AddSession
-                  {...props}
-                  user={user}
-                  setBarDisabled={setBarDisabled}
-                />
-              )}
-            </MaterialTab.Screen>
-            <MaterialTab.Screen
-              name="Settings"
-              options={{
-                tabBarLabel: "Settings",
-                tabBarIcon: ({ color }) => (
-                  <MaterialCommunityIcons name="cog" color={color} size={26} />
-                ),
-              }}
-            >
+            </Tab.Screen>
+            <Tab.Screen name="New Session" options={hideTabBar}>
+              {(props) => <AddSession {...props} user={user} />}
+            </Tab.Screen>
+            <Tab.Screen name="Settings" options={showTabBar}>
               {(props) => (
                 <Settings {...props} user={user} setSignedIn={setSignedIn} />
               )}
-            </MaterialTab.Screen>
-          </MaterialTab.Navigator>
+            </Tab.Screen>
+          </Tab.Navigator>
         )}
       </NavigationContainer>
     </PaperProvider>
