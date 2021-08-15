@@ -1,0 +1,17 @@
+https://console.firebase.google.com/u/0/project/herbalhistory-de543/firestore/data~2Fusers~2FRrFmiJFJuHeyAcg4fqc1q9liJxb2
+https://www.figma.com/file/bbmscDcv0iOSKV7G34JG2e/Herbal-History?node-id=0%3A1
+https://www.figma.com/proto/bbmscDcv0iOSKV7G34JG2e/Herbal-History?node-id=1%3A6&scaling=scale-down
+
+Things to do - Rohan
+
+home page:
+implement calendar
+
+viewsession:
+textbox stroke-width not working?
+outcomeslider stroke-width not working
+moodwords text color
+
+new entry to form submission takes you to home page
+
+https://www.npmjs.com/package/react-native-paper-tabs
